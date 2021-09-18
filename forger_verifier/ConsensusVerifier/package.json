@@ -1,0 +1,20 @@
+{
+  "name": "consensusverifier",
+  "version": "2.0.0",
+  "description": "Verifiy synchronization of Lisk node and then set one to be a forger",
+  "main": "verifier.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Lisk",
+    "consensus",
+    "forge"
+  ],
+  "author": "Davi L Alves",
+  "license": "ISC",
+  "dependencies": {
+    "lisk-elements": "^5.1.4",
+    "xmlhttprequest": "^1.8.0"
+  }
+}

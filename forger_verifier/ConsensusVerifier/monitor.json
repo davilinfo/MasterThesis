@@ -1,0 +1,30 @@
+{ 
+    "time": 60000,   
+    "timeToWait": 15000, 
+    "hosts": [            
+        {
+            "host" : "3.138.197.144",
+            "port" : "8080",
+            "nodeHeight":0,
+            "height": 0,
+            "maxHeightPrevoted": 0,
+            "maxHeightPreviouslyForged": 0,
+            "address": "382d9ce8a767e2c711d021c6ddec5c6ea946c46a",
+            "forging": false,
+            "online": false,
+            "gatewayport": 10000
+        },
+        {
+            "host" : "204.48.25.12",
+            "port" : "8080",
+            "nodeHeight":0,
+            "height": 0,
+            "maxHeightPrevoted": 0,
+            "maxHeightPreviouslyForged": 0,
+            "address": "382d9ce8a767e2c711d021c6ddec5c6ea946c46a",
+            "forging": false,
+            "online": false,
+            "gatewayport": 10000
+        }        
+    ]
+}
