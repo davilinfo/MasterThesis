@@ -31,7 +31,7 @@ class ProfileAsset extends BaseAsset {
     } 
 
     get sidechainAddress () {
-        const address = cryptography.getAddressFromBase32Address('lsk3z33t62zbfsaq9mwa2bwfd2befeymrrhsdbhdc');
+        const address = cryptography.getAddressFromBase32Address('lskfn3cm9jmph2cftqpzvevwxwyz864jh63yg784b');
         return address;
     }
 
