@@ -146,8 +146,8 @@ function setForging(server, accountInfo){
                 maxHeightPreviouslyForged: server.maxHeightPreviouslyForged,
                 override: true
             }).then(function (data){
-                console.log("Server ", server.host, updateResult);
-                return updateResult
+                console.log("Server ", server.host, data);
+                return data;
             });        
     }).catch(async function(error){
         console.log("Server ", server.host, error.message);        

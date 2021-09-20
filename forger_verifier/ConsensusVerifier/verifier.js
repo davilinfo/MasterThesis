@@ -136,15 +136,12 @@ function updateServerForgerData(server, actualForger){
         && server.maxHeightPreviouslyForged === actualForger.maxHeightPreviouslyForged){
             console.log("Data already updated on ", server.host);
         }else{
-            var objTimeout = setTimeout(() => {
-                importForgerDb(server, actualForger);
-
-                server.height = actualForger.height;
-                server.maxHeightPrevoted = actualForger.maxHeightPrevoted;
-                server.maxHeightPreviouslyForged = actualForger.maxHeightPreviouslyForged;
-                console.log("Updated server forger info", server.host, server.height, server.maxHeightPrevoted, server.maxHeightPreviouslyForged);
-            }, timeToWait);
-            objTimeout.ref();
+            
+            importForgerDb(server, actualForger);
+            server.height = actualForger.height;
+            server.maxHeightPrevoted = actualForger.maxHeightPrevoted;
+            server.maxHeightPreviouslyForged = actualForger.maxHeightPreviouslyForged;
+            console.log("Updated server forger info", server.host, server.height, server.maxHeightPrevoted, server.maxHeightPreviouslyForged);        
         }    
 }
 /* request on monitored node forger lisk api to import most recent forger data*/
@@ -178,7 +175,7 @@ function exportForgerDb(server){
     var url = "http://".concat(server.host).concat(":").concat(server.gatewayPort).concat("/api/export");
 
     forgingRequest.onload = function(){
-        console.log("Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat(" ").concat(forgingRequest.responseText));
+        console.log("Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))));
         if (forgingRequest.status === 200){
             console.log("export on Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat("completed"));
         }
@@ -241,22 +238,7 @@ function updateServerProperties(forgingIn){
     }, timeInterval);
 }
 /* disable forging on actual forger */
-function disableForgingActualForger(){
-    /*apiClient.createWSClient("ws://".concat(actualForger.host).concat(":").concat(actualForger.port).concat("/ws")  )
-    .then(async function(client){                
-        var updateResult = await client.invoke('app:updateForgingStatus', 
-            {   address: actualForger.address, 
-                password: "lisk10", 
-                forging: false,
-                height: actualForger.height,
-                maxHeightPrevoted: actualForger.maxHeightPrevoted,
-                maxHeightPreviouslyForged: actualForger.maxHeightPreviouslyForged,
-                override: true
-            });
-
-        console.log("server ", actualForger.host, updateResult);
-        
-    });    */
+function disableForgingActualForger(){    
     var updateResult = false;
     
     var objTimeout = setTimeout(() => {
@@ -278,35 +260,16 @@ function disableForgingActualForger(){
     return actualForger;
 }
 /* request forger lisk to update forging status on server */
-function setForging(server){
-                          
-    console.log("set forging: ", server);
-
-    /*apiClient.createWSClient("ws://".concat(server.host).concat(":").concat(server.port).concat("/ws")  )
-    .then(async function(client){        
-        
-        var updateResult = await client.invoke('app:updateForgingStatus', 
-            {   address: server.address, 
-                password: "password", 
-                forging: server.forging,
-                height: server.height,
-                maxHeightPrevoted: server.maxHeightPrevoted,
-                maxHeightPreviouslyForged: server.maxHeightPreviouslyForged,
-                override: true
-            });
-
-        console.log("server ", server.host, updateResult);
-    }).catch(async function(error){
-        console.log("Server ", server.host, error.message);
-    });*/
+function setForging(server){                          
+    console.log("set forging: ", server);    
 
     var forgingRequest = new http.XMLHttpRequest();
     var url = "http://".concat(server.host).concat(":").concat(server.gatewayPort).concat("/api/forging");
 
     forgingRequest.onload = function(){
-        console.log("Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat(" ").concat(forgingRequest.responseText));
+        console.log("Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))));
         if (forgingRequest.status === 200){
-            console.log("set forging on Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat("completed"));
+            console.log("set forging on Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat(" completed"));
         }
     }
 
