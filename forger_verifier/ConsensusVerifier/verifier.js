@@ -128,9 +128,7 @@ async function verifyConsensus(){
                         betterConsensusServer = server;
                     }
                 }
-            });            
-
-            betterConsensusServer = servers[1];
+            });                        
 
             console.log("Better server:".concat(betterConsensusServer.host));
             await updateServerProperties(forgingIn);
@@ -186,10 +184,14 @@ async function updateServerProperties(forgingIn){
                     if (serveraux.online === true){
                         if (betterConsensusServer.host === serveraux.host){
                             serveraux.forging = true;
+                        }else{
+                            serveraux.forging = false;
                         }
                         await setForging(serveraux);
                     }else{
                         console.log("Server: ". serveraux.host, " not accessible");
+                        serveraux.forging = false;
+                        await setForging(serveraux);
                     }                    
                 });
             }
@@ -198,10 +200,14 @@ async function updateServerProperties(forgingIn){
                 if (serveraux.online === true){
                     if (betterConsensusServer.host === serveraux.host){
                         serveraux.forging = true;
+                    }else{
+                        serveraux.forging = false;
                     }
                     await setForging(serveraux);
                 }else{
                     console.log("Server: ". serveraux.host, " not accessible");
+                    serveraux.forging = false;
+                    await setForging(serveraux);
                 }                    
             });
         } 
