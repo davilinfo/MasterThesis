@@ -1,6 +1,7 @@
 { 
     "time": 60000,   
-    "timeToWait": 15000, 
+    "timeToWait": 10000, 
+    "minutesToForge": 3,
     "hosts": [            
         {
             "host" : "3.138.197.144",
@@ -10,9 +11,9 @@
             "maxHeightPrevoted": 0,
             "maxHeightPreviouslyForged": 0,
             "address": "382d9ce8a767e2c711d021c6ddec5c6ea946c46a",
-            "forging": false,
+            "forging": true,
             "online": false,
-            "gatewayport": 10000
+            "gatewayPort": 10001
         },
         {
             "host" : "204.48.25.12",
@@ -24,7 +25,7 @@
             "address": "382d9ce8a767e2c711d021c6ddec5c6ea946c46a",
             "forging": false,
             "online": false,
-            "gatewayport": 10000
+            "gatewayPort": 10001
         }        
     ]
 }
