@@ -4,12 +4,14 @@ const { apiClient, codec } = require('lisk-elements');
 
 var http = require('./node_modules/xmlhttprequest/lib/XMLHttpRequest');
 var monitorServers = require('fs');
+const { exit } = require('process');
 
 var servers = [];
 var betterConsensusServer = null;
 var actualForger = null;
-var timeInterval = null;
-var timeToWait = null;
+var timeInterval = 60000;
+var timeToWait = 10000;
+var minutesToForge = 1;
 
 console.log('initiating');
 initialization();
@@ -18,15 +20,27 @@ function initialization(){
     initiate().then(function(response){
         var config = JSON.parse(response);    
         if (config.hosts.length === 0){
-            throw new Error("0 servers");
+            throw new Error("0 servers, at least 1 server should be specified");
+        }
+
+        if (config.minutesToForge === undefined || config.minutesToForge < minutesToForge ){
+            console.error("minutesToForge property is a integer and must be higher than 0");
+        }
+
+        if (config.timeToWait === undefined || config.timeToWait < timeToWait ){
+            console.error("timeToWait property is a integer represented in miliseconds and must be higher than 9999");
+        }
+
+        if (config.time === undefined || config.time < timeInterval ){
+            console.error("time property is a integer represented in miliseconds and must be higher than 59999");
         }
         
         servers = config.hosts;
         betterConsensusServer = servers[0];
-        actualForger = betterConsensusServer;
-        actualForger.forging = false;
+        actualForger = betterConsensusServer;        
         timeInterval = config.time;
         timeToWait = config.timeToWait;
+        minutesToForge = config.minutesToForge;
         
         verifyConsensus();
     });
@@ -68,9 +82,15 @@ function verifyConsensus(){
 
                     console.log("node: ".concat(server.host))
                     console.log("   forging status:", JSON.stringify(nodeForgingStatus));
-                    console.log("   blockchain forging height ", server.height);
+                    console.log("   blockchain last forging height ", server.height);
                     console.log("   blockchain node height ", nodeInfo.height);
                     console.log("   blockchain node last block id ", nodeInfo.lastBlockID);  
+                }else{
+                    server.online = false;
+                    if (server.host === actualForger.host){
+                        console.warn("actual Forger is offline");
+                        //send request to halt actual forger                        
+                    }
                 }
 
                 if (forgers !== undefined){                    
@@ -94,24 +114,29 @@ function verifyConsensus(){
                         console.log("updating ...");
                         updateServerForgerData(server, actualForger);
                     }
+                }else{
+                    console.log("Something is wrong. You must specify at least one forger node on monitor.json. The forger node must be the one with highest height");
+                    exit();
                 }
             });
         }, timeToWait);
 
         objTimeout.ref();
                                     
-        var objTimeout = setTimeout(() => {
+        var objTimeout = setTimeout(async () => {
             servers.forEach(server=>{                       
-                if (server.maxHeightPreviouslyForged == actualForger.maxHeightPreviouslyForged){         
+                if (server.maxHeightPreviouslyForged === actualForger.maxHeightPreviouslyForged){         
                     if (server.nodeHeight > betterConsensusServer.nodeHeight){
                         betterConsensusServer = server;
                     }
                 }
-            });
+            });            
+
+            betterConsensusServer = servers[0];
 
             console.log("Better server:".concat(betterConsensusServer.host));
-            updateServerProperties(forgingIn);          
-        }, timeToWait + 2000);
+            await updateServerProperties(forgingIn);
+        }, timeToWait);
 
       objTimeout.ref();
 
@@ -144,6 +169,32 @@ function updateServerForgerData(server, actualForger){
             console.log("Updated server forger info", server.host, server.height, server.maxHeightPrevoted, server.maxHeightPreviouslyForged);        
         }    
 }
+
+/* request on monitored node and actual forger to update forger data*/
+function exportForgerDb(server){
+    console.warn("exporting forger data");
+    var forgingRequest = new http.XMLHttpRequest();
+    var url = "http://".concat(server.host).concat(":").concat(server.gatewayPort).concat("/api/export");
+
+    forgingRequest.onload = function(){
+        console.log("Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))));
+        if (forgingRequest.status === 200){
+            console.log("export on Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat(" completed"));
+        }
+    }
+
+    forgingRequest.handleError = function(e){
+        console.log("error export on Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat(" didn't answer or was in error"));
+        return;        
+    }
+
+    forgingRequest.open("POST", url);
+    forgingRequest.setRequestHeader("Cache-Control", "no-cache");
+    forgingRequest.setRequestHeader("Content-Type", "application/json");
+    forgingRequest.setRequestHeader("server-host", JSON.stringify(server.host));
+    forgingRequest.send(JSON.stringify(server));
+}
+
 /* request on monitored node forger lisk api to import most recent forger data*/
 function importForgerDb(server, actualServerForging){
     console.warn("importing forger data");
@@ -158,7 +209,7 @@ function importForgerDb(server, actualServerForging){
     }
 
     forgingRequest.handleError = function(e){
-        console.log("import on Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat(" didn't answer or was in error"));
+        console.log("error import on Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat(" didn't answer or was in error"));
         return;        
     }
 
@@ -168,37 +219,14 @@ function importForgerDb(server, actualServerForging){
     forgingRequest.setRequestHeader("server-host", JSON.stringify(server.host));
     forgingRequest.send(JSON.stringify(actualServerForging));
 }
-/* request on monitored node and actual forger to update forger data*/
-function exportForgerDb(server){
-    console.warn("exporting forger data");
-    var forgingRequest = new http.XMLHttpRequest();
-    var url = "http://".concat(server.host).concat(":").concat(server.gatewayPort).concat("/api/export");
 
-    forgingRequest.onload = function(){
-        console.log("Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))));
-        if (forgingRequest.status === 200){
-            console.log("export on Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat("completed"));
-        }
-    }
-
-    forgingRequest.handleError = function(e){
-        console.log("export on Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat(" didn't answer or was in error"));
-        return;        
-    }
-
-    forgingRequest.open("POST", url);
-    forgingRequest.setRequestHeader("Cache-Control", "no-cache");
-    forgingRequest.setRequestHeader("Content-Type", "application/json");
-    forgingRequest.setRequestHeader("server-host", JSON.stringify(server.host));
-    forgingRequest.send(JSON.stringify(server));
-}
 /* udapte forging information */
-function updateServerProperties(forgingIn){
+async function updateServerProperties(forgingIn){
     //only update forging information if at least 3 minutes to forge
     if (forgingIn.getMinutes() >= 3){
         console.log("Update server properties: ");
         if (betterConsensusServer.host !== actualForger.host){
-            var result = disableForgingActualForger();
+            var result = await disableForgingActualForger();
             var objTimeout = setTimeout(() => {
                 if (result.forging === false){
                     servers.forEach(serveraux =>{                        
@@ -212,8 +240,8 @@ function updateServerProperties(forgingIn){
                             console.log("Server ".concat(serveraux.host).concat(" not accessible"));
                         }
                     });
-                } 
-            },timeToWait);
+                }    
+            }, timeToWait);
             objTimeout.ref();
         }else{
             console.log("Server still forging ", betterConsensusServer);
@@ -238,25 +266,30 @@ function updateServerProperties(forgingIn){
     }, timeInterval);
 }
 /* disable forging on actual forger */
-function disableForgingActualForger(){    
-    var updateResult = false;
+async function disableForgingActualForger(){    
     
-    var objTimeout = setTimeout(() => {
+    console.log("disabling server forger ", actualForger.host);
 
-        updateResult = setForging({   
-            address: actualForger.address,         
-            forging: false,
-            height: actualForger.height,
-            maxHeightPrevoted: actualForger.maxHeightPrevoted,
-            maxHeightPreviouslyForged: actualForger.maxHeightPreviouslyForged,
-            override: true
-        });
-    }, timeToWait/2);
-    objTimeout.ref();
+    setForging({   
+        host: actualForger.host,
+        address: actualForger.address,  
+        port: '8080',       
+        forging: false,
+        height: actualForger.height,
+        maxHeightPrevoted: actualForger.maxHeightPrevoted,
+        maxHeightPreviouslyForged: actualForger.maxHeightPreviouslyForged,
+        override: true,
+        gatewayPort: actualForger.gatewayPort
+    });    
 
-    actualForger.forging = updateResult ? updateResult.forging : actualForger.forging;
+    await apiClient.createWSClient("ws://".concat(actualForger.host).concat(":").concat(actualForger.port).concat("/ws")  )
+        .then(async function(client){
+            var nodeForgingStatus = await client.invoke('app:getForgingStatus', {});
 
-    console.log("disabling server forging");
+            actualForger.forging = nodeForgingStatus !== undefined ? nodeForgingStatus[0].forging : actualForger.forging;
+
+            console.log("disabled actual server forging completed, forging status: ", actualForger.forging);
+        });        
     return actualForger;
 }
 /* request forger lisk to update forging status on server */
@@ -268,13 +301,14 @@ function setForging(server){
 
     forgingRequest.onload = function(){
         console.log("Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))));
-        if (forgingRequest.status === 200){
+        if (forgingRequest.status === 200 || forgingRequest.status === 400){
             console.log("set forging on Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat(" completed"));
+            console.log(JSON.parse(forgingRequest.responseText));            
         }
     }
 
     forgingRequest.handleError = function(e){
-        console.log("set forging on Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat(" didn't answer or was in error"));
+        console.log("error set forging on Host: ".concat(JSON.parse(forgingRequest.getRequestHeader("server-host"))).concat(" didn't answer or was in error"));
         return;        
     }
 

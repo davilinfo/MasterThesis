@@ -42,7 +42,11 @@ initiate().then(function(response){
                 log.info('API', '/api/forging');
 
                 //set forging status true or false with updated data
-                res.status(200).json({ result: setForging(req.body, accountInfo) });                
+                setForging(req.body, accountInfo).then(function(data){
+                    res.status(200).json(data);                      
+                }).catch((e)=>{
+                    res.status(400).json({forging: false});
+                });
             });
 
             app.listen(port, function(){
@@ -121,36 +125,33 @@ function exportForgerDb(){
 }
 
 /*responsible to set new forging status*/
-function setForging(server, accountInfo){
-    
+async function setForging(server, accountInfo){
+    console.log("set forging: ", server);   
+
     if (accountInfo.address !== server.address){
         log.info("Different account");
 
         log.warn(invalidDelegate);
         
         return JSON.parse( { "message": invalidDelegate} );
-    }
+    }    
 
-    /*adicionar lógica para atualizar status de forjamento*/
-    console.log("set forging: ", server);
-
-    apiClient.createWSClient("ws://localhost".concat(":").concat(server.port).concat("/ws")  )
-    .then(async function(client){        
+    var client = await apiClient.createWSClient("ws://localhost".concat(":").concat(server.port).concat("/ws")  );
+                 
+    var data = await client.invoke('app:updateForgingStatus', 
+        {   address: server.address, 
+            password: accountInfo.password, 
+            forging: server.forging,
+            height: server.height,
+            maxHeightPrevoted: server.maxHeightPrevoted,
+            maxHeightPreviouslyForged: server.maxHeightPreviouslyForged,
+            override: true
+        });
         
-        client.invoke('app:updateForgingStatus', 
-            {   address: server.address, 
-                password: accountInfo.password, 
-                forging: server.forging,
-                height: server.height,
-                maxHeightPrevoted: server.maxHeightPrevoted,
-                maxHeightPreviouslyForged: server.maxHeightPreviouslyForged,
-                override: true
-            }).then(function (data){
-                console.log("Server ", server.host, data);
-                return data;
-            });        
-    }).catch(async function(error){
-        console.log("Server ", server.host, error.message);        
-        return false;
-    });        
+    console.log("Server ", server.host, data);  
+    
+    return data;                
+           
+    
+ 
 }
