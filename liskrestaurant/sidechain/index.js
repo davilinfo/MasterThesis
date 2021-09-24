@@ -6,7 +6,7 @@ const {
 	utils,
 } = require('lisk-sdk');
 
-const RestaurantModule = require('./modules/RestaurantModule');
+const RestaurantModule = require('../../chainsOfFoods/src/app/modules/RestaurantModule');
 
 /*genesisBlockDevnet.header.timestamp = 1605699440;
 genesisBlockDevnet.header.asset.accounts = genesisBlockDevnet.header.asset.accounts.map(
