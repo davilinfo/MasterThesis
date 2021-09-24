@@ -43,8 +43,7 @@ export class ProfileAsset extends BaseAsset {
         return ProfileAssetId;
     }      
     
-    validate({asset}){
-        const errors = [];                                            
+    validate({asset}){                                             
 
         if (!asset.name || typeof asset.name !== 'string' || asset.name.length > 200){            
             throw new Error(

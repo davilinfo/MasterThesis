@@ -6,8 +6,8 @@ import
   AfterGenesisBlockApplyContext } from "lisk-sdk";
 
 const FoodAsset = require("../transactions/FoodAsset");
-const MenuAsset = require("../transactions/menuAsset");
-const ProfileAsset = require("../transactions/profileAsset");
+const MenuAsset = require("../transactions/MenuAsset");
+const ProfileAsset = require("../transactions/ProfileAsset");
 
 export class RestaurantModule extends BaseModule{
     name = "restaurant";
