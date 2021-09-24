@@ -1,9 +1,9 @@
-const { BaseAsset } = require('lisk-sdk');
-const { cryptography } = require('@liskhq/lisk-client');
+import { BaseAsset } from 'lisk-sdk';
+import { cryptography } from '@liskhq/lisk-client';
 
 const FoodAssetId = 1040;
 
-class FoodAsset extends BaseAsset {
+export class FoodAsset extends BaseAsset {
     name = 'FoodAsset';
     id = FoodAssetId;
     schema = {
@@ -50,21 +50,20 @@ class FoodAsset extends BaseAsset {
         }
     } 
 
-    get sidechainAddress () {
+    sidechainAddress () {
         const address = cryptography.getAddressFromBase32Address('lskfn3cm9jmph2cftqpzvevwxwyz864jh63yg784b');
         return address;
     }
 
-    get sidechainFee () {
+    sidechainFee () {
         return BigInt('50000000');
     }
 
-    static get TYPE() {
+    static TYPE() {
         return FoodAssetId;
     }      
     
-    validate({asset}){
-        const errors = [];                                            
+    validate({asset}){                                                    
 
         if (!asset.name || typeof asset.name !== 'string' || asset.name.length > 200){            
             throw new Error(
@@ -97,8 +96,7 @@ class FoodAsset extends BaseAsset {
         }             
     }
 
-    async apply({asset, stateStore, reducerHandler, transaction}){               
-        const errors = [];
+    async apply({asset, stateStore, reducerHandler, transaction}){        
         
         // Get sender account details
         const senderAddress = transaction.senderAddress;
@@ -118,7 +116,7 @@ class FoodAsset extends BaseAsset {
 
         const restaurantAddress = asset.recipientAddress;
         const restaurantAccount = await stateStore.account.get(asset.recipientAddress);
-        const restaurantPaymentSubSidechainFee = asset.price - this.sidechainFee;
+        const restaurantPaymentSubSidechainFee = asset.price - this.sidechainFee();
 
         await reducerHandler.invoke("token:credit", {
             address: restaurantAddress,
@@ -138,5 +136,3 @@ class FoodAsset extends BaseAsset {
     }
     
 }
-
-module.exports = FoodAsset;

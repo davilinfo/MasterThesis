@@ -1,9 +1,9 @@
-const { BaseAsset } = require('lisk-sdk');
-const { cryptography } = require('@liskhq/lisk-client');
+import { BaseAsset } from 'lisk-sdk';
+import { cryptography } from '@liskhq/lisk-client';
 
 const ProfileAssetId = 1020;
 
-class ProfileAsset extends BaseAsset {
+export class ProfileAsset extends BaseAsset {
     name = 'ProfileAsset';
     id = ProfileAssetId;
     schema = {
@@ -30,16 +30,16 @@ class ProfileAsset extends BaseAsset {
         }
     } 
 
-    get sidechainAddress () {
+    sidechainAddress () {
         const address = cryptography.getAddressFromBase32Address('lskfn3cm9jmph2cftqpzvevwxwyz864jh63yg784b');
         return address;
     }
 
-    get sidechainFee () {
+    sidechainFee () {
         return BigInt('0');
     }
 
-    static get TYPE() {
+    static TYPE() {
         return ProfileAssetId;
     }      
     
@@ -62,8 +62,7 @@ class ProfileAsset extends BaseAsset {
         }             
     }
 
-    async apply({asset, stateStore, reducerHandler, transaction}){               
-        const errors = [];
+    async apply({asset, stateStore, reducerHandler, transaction}){
         
         // Get sender account details
         const senderAddress = transaction.senderAddress;
@@ -86,6 +85,8 @@ class ProfileAsset extends BaseAsset {
             throw new Error(
                 'Invalid "sender" "recipient", should be the same');
         }
+        
+        const sidechainAccount = await stateStore.account.get(this.sidechainAddress());
 
         await stateStore.account.set(senderAddress, senderAccount);        
         await stateStore.account.set(recipientAddress, recipientAccount);                
@@ -93,5 +94,3 @@ class ProfileAsset extends BaseAsset {
     }
     
 }
-
-module.exports = ProfileAsset;
