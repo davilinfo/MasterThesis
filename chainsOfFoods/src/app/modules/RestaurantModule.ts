@@ -11,23 +11,7 @@ const ProfileAsset = require("../transactions/ProfileAsset");
 
 class RestaurantModule extends BaseModule{
     name = "restaurant";
-    id = 1000;    
-    accountSchema = {
-      type: "object",
-      required: ["foodRequests"],
-      properties: {
-          foodRequests: {
-          type: "array",
-          fieldNumber: 4,
-          items: {
-            dataType: "bytes",
-          },
-        },
-      },
-      default: {
-          foodRequests: [],
-      },
-    };
+    id = 2000;        
 
     transactionAssets = [new FoodAsset(), new MenuAsset(), new ProfileAsset()];
       
