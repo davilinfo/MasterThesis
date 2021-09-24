@@ -126,7 +126,7 @@ class ApiHelper{
 }
 
 function initiateTest(){
-    var client = new ApiHelper('ws://204.48.25.12:8080/ws');
+    var client = new ApiHelper('ws://127.0.0.1:8080/ws');
 
     client.getTransactionsFromPool().then(function(data){
         console.log(data);
@@ -140,7 +140,7 @@ function initiateTest(){
         console.log(data);
     });
 
-    client.getBlockByHeight(14609043).then(function(data){
+    client.getBlockByHeight(249).then(function(data){
         console.log(data);
     });
 

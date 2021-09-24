@@ -1,0 +1,9 @@
+[
+ {
+  "passphrase": "rabbit logic scrap relief leg cheap region latin coffee walnut drum quality",
+  "privateKey": "7eb388c747827f47521f24b996652a06996972bda395375a1527968d85a43fa816e9e0e42056b9623d96a9ac414f184b9e154fb76a7ca9696f436e990ca4a75c",
+  "publicKey": "16e9e0e42056b9623d96a9ac414f184b9e154fb76a7ca9696f436e990ca4a75c",
+  "binaryAddress": "ac6df241082d630bb60b834f091d210d0a529343",
+  "address": "lskqyegpu33mqyuw9u5u9nurn4xxkmmmpdc8fhk5j"
+ }
+]
