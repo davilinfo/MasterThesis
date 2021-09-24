@@ -84,7 +84,7 @@ export class MenuAsset extends BaseAsset {
         }                
     }
 
-    async apply({ asset, stateStore, reducerHandler, transaction }) {                    
+    async apply({ stateStore, reducerHandler, transaction }) {                    
         if (transaction.senderAddress !== transaction.recipientAddress){
             throw new Error(
                     'Invalid "recipient" defined on transaction. Only the restaurant can define its own food menu.'                

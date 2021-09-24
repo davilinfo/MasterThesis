@@ -61,7 +61,7 @@ class ProfileAsset extends BaseAsset {
         }             
     }
 
-    async apply({asset, stateStore, reducerHandler, transaction}){
+    async apply({asset, stateStore, transaction}){
         
         // Get sender account details
         const senderAddress = transaction.senderAddress;
