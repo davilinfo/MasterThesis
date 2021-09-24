@@ -89,7 +89,7 @@ class ProfileAsset extends BaseAsset {
 
         await stateStore.account.set(senderAddress, senderAccount);        
         await stateStore.account.set(recipientAddress, recipientAccount);                
-        await stateStore.account.set(this.sidechainAddress, sidechainAccount);                                
+        await stateStore.account.set(this.sidechainAddress(), sidechainAccount);                                
     }
     
 }

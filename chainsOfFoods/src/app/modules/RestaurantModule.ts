@@ -9,7 +9,7 @@ const FoodAsset = require("../transactions/FoodAsset");
 const MenuAsset = require("../transactions/MenuAsset");
 const ProfileAsset = require("../transactions/ProfileAsset");
 
-export class RestaurantModule extends BaseModule{
+class RestaurantModule extends BaseModule{
     name = "restaurant";
     id = 1000;
     transactionAssets = [new FoodAsset(), new MenuAsset(), new ProfileAsset()];
@@ -58,3 +58,5 @@ export class RestaurantModule extends BaseModule{
         // const genesisAccoounts = genesisBlock.header.asset.accounts;
     }
 }
+
+module.exports = { RestaurantModule };
