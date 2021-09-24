@@ -11,25 +11,25 @@ const ProfileAsset = require("../transactions/ProfileAsset");
 
 class RestaurantModule extends BaseModule{
     name = "restaurant";
-    id = 1000;
-    transactionAssets = [new FoodAsset(), new MenuAsset(), new ProfileAsset()];
-
+    id = 1000;    
     accountSchema = {
-        type: "object",
-        required: ["foodRequests"],
-        properties: {
-            foodRequests: {
-            type: "array",
-            fieldNumber: 4,
-            items: {
-              dataType: "bytes",
-            },
+      type: "object",
+      required: ["foodRequests"],
+      properties: {
+          foodRequests: {
+          type: "array",
+          fieldNumber: 4,
+          items: {
+            dataType: "bytes",
           },
         },
-        default: {
-            foodRequests: [],
-        },
-      };
+      },
+      default: {
+          foodRequests: [],
+      },
+    };
+
+    transactionAssets = [new FoodAsset(), new MenuAsset(), new ProfileAsset()];
       
     public async beforeBlockApply(_input: BeforeBlockApplyContext) {
         // Get any data from stateStore using block info, below is an example getting a generator

@@ -9,7 +9,7 @@ export const getApplication = (
 	const app = Application.defaultApplication(genesisBlock, config);
 
 	registerModules(app);
-	registerPlugins(app);
+	registerPlugins(app);	
 
 	return app;
 };
