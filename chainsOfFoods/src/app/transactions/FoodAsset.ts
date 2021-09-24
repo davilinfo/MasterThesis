@@ -3,7 +3,7 @@ import { cryptography } from '@liskhq/lisk-client';
 
 const FoodAssetId = 1040;
 
-export class FoodAsset extends BaseAsset {
+class FoodAsset extends BaseAsset {
     name = 'FoodAsset';
     id = FoodAssetId;
     schema = {
@@ -136,3 +136,5 @@ export class FoodAsset extends BaseAsset {
     }
     
 }
+
+module.exports = FoodAsset;
