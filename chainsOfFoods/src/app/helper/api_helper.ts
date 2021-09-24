@@ -1,17 +1,18 @@
-const { apiClient, codec } = require('lisk-elements');
+const { apiClient, codec } = require( '@liskhq/lisk-client');
 
 class ApiHelper{
-         
-    RPC_ENDPOINT = null;
+             
+    RPC_ENDPOINT;
     constructor (RPC_ENDPOINT){
         this.RPC_ENDPOINT = RPC_ENDPOINT;
     }
 
-    static clientCache = null;
+    static clientCache;
     async getClient () {
-        if (!ApiHelper.clientCache) {
+        if (!ApiHelper.clientCache) {            
             ApiHelper.clientCache = await apiClient.createWSClient(this.RPC_ENDPOINT);
-        }
+        }        
+        
         return ApiHelper.clientCache;
     };
 
@@ -26,7 +27,7 @@ class ApiHelper{
     };
 
     async getAccountNonce (address) {
-        const account = await this.getAccount(address);
+        var account = await this.getAccount(address);        
         const sequence = account.sequence;
         return Number(sequence.nonce);
     };
@@ -86,7 +87,7 @@ class ApiHelper{
         const client = await this.getClient();
         const schema = await client.invoke('app:getSchema');
         const transactions = await client.invoke('app:getTransactionsFromPool');
-        var transactionsDecoded = [];
+        var transactionsDecoded;
 
         transactions.forEach(transaction => {
             
@@ -132,6 +133,10 @@ function initiateTest(){
     });
 
     client.getAccount("382d9ce8a767e2c711d021c6ddec5c6ea946c46a").then(function(data){
+        console.log(data);
+    });
+
+    client.getAccountNonce("382d9ce8a767e2c711d021c6ddec5c6ea946c46a").then(function(data){
         console.log(data);
     });
 
