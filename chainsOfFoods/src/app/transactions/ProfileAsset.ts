@@ -3,7 +3,7 @@ import { cryptography } from '@liskhq/lisk-client';
 
 const ProfileAssetId = 1020;
 
-export class ProfileAsset extends BaseAsset {
+class ProfileAsset extends BaseAsset {
     name = 'ProfileAsset';
     id = ProfileAssetId;
     schema = {
@@ -93,3 +93,5 @@ export class ProfileAsset extends BaseAsset {
     }
     
 }
+
+module.exports = ProfileAsset;
