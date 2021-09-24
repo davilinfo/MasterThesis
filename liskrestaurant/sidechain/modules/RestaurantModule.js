@@ -1,8 +1,8 @@
 const { BaseModule } = require("lisk-sdk");
 
-const FoodAsset = require("../transactions/FoodAsset");
-const MenuAsset = require("../transactions/MenuAsset");
-const ProfileAsset = require("../transactions/ProfileAsset");
+const FoodAsset = require("../transactions/foodAsset");
+const MenuAsset = require("../transactions/menuAsset");
+const ProfileAsset = require("../transactions/profileAsset");
 
 class RestaurantModule extends BaseModule{
     name = "restaurant";

@@ -205,7 +205,7 @@ async function updateServerProperties(forgingIn){
                     }
                     await setForging(serveraux);
                 }else{
-                    console.log("Server: ". serveraux.host, " not accessible");
+                    console.log("Server: ", serveraux.host, " not accessible");
                     serveraux.forging = false;
                     await setForging(serveraux);
                 }                    
