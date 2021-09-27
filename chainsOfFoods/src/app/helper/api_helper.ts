@@ -126,7 +126,7 @@ class ApiHelper{
 }
 
 function initiateTest(){
-    var client = new ApiHelper('ws://127.0.0.1:8080/ws');
+    var client = new ApiHelper('ws://localhost:8080/ws');
 
     client.getTransactionsFromPool().then(function(data){
         console.log(data);
