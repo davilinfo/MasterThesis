@@ -140,7 +140,7 @@ function initiateTest(){
         console.log(data);
     });
 
-    client.getBlockByHeight(249).then(function(data){
+    client.getBlockByHeight(50).then(function(data){
         console.log(data);
     });
 

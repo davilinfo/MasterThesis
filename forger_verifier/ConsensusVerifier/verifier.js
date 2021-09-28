@@ -108,6 +108,8 @@ async function verifyConsensus(){
                         }                    
                     });
                 }
+            }).catch(function(){
+                console.warn("server seems to be offline:", server.host);
             });
         });      
 
@@ -123,7 +125,7 @@ async function verifyConsensus(){
         var objTimeout = setTimeout(async () => {
             servers.forEach(server=>{                       
                 if (server.maxHeightPreviouslyForged === actualForger.maxHeightPreviouslyForged){         
-                    if (server.nodeHeight > betterConsensusServer.nodeHeight){
+                    if (server.height >= betterConsensusServer.height && server.nodeHeight > betterConsensusServer.nodeHeight){
                         betterConsensusServer = server;
                     }
                 }
@@ -231,7 +233,7 @@ async function updateServerProperties(forgingIn){
         });
 
         betterConsensusServer = servers[0];        
-        console.log("verifying setinterval");
+        
         verifyConsensus().then(function(){
             console.log("starting to verify nodes");
         }).catch(async function(){
