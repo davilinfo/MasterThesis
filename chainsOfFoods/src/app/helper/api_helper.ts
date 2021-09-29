@@ -340,7 +340,7 @@ function initiateTest(){
 
     var profileRequest = { username: "user1", name: "User test", deliveryAddress: "Delivery address", phone: "Phone number" };
 
-    /*client.createProfileAssetAndSign(profileRequest, credential).then(function(response){
+    client.createProfileAssetAndSign(profileRequest, credential).then(function(response){
 
         console.log("profile transaction created", response);
 
@@ -351,7 +351,7 @@ function initiateTest(){
         });        
     }).catch(function(e){
         console.log("Error creating profile transaction", e);
-    });*/
+    });
 
     var orderRequest = { username: "user1", name: "Black Pasta", deliveryAddress: "Delivery address", phone: "Phone number"
         , description: "delicious black pasta", foodType: 1, quantity: 1, price: 5};
