@@ -80,7 +80,7 @@ class ProfileAsset extends BaseAsset {
                     'Invalid "recipient", please verify your passpahrase and address');            
         }
 
-        if (senderAddress != recipientAddress){            
+        if (senderAddress.toString() != recipientAddress.toString()){            
             throw new Error(
                 'Invalid "sender" "recipient", should be the same. sender: '.concat(senderAddress.toString()).concat(' recipient:').concat(recipientAddress.toString()));
         }
