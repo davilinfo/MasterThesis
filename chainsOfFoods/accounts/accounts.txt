@@ -1,3 +1,4 @@
+//cliente
 [
  {
   "passphrase": "rabbit logic scrap relief leg cheap region latin coffee walnut drum quality",
@@ -5,5 +6,27 @@
   "publicKey": "16e9e0e42056b9623d96a9ac414f184b9e154fb76a7ca9696f436e990ca4a75c",
   "binaryAddress": "ac6df241082d630bb60b834f091d210d0a529343",
   "address": "lskqyegpu33mqyuw9u5u9nurn4xxkmmmpdc8fhk5j"
+ }
+]
+
+//restaurante
+[
+ {
+  "passphrase": "enact lawn focus marriage rhythm icon squeeze depth stand keen frame custom",
+  "privateKey": "d6a15b1975591a57bb8c897879127351fb6ef2166264a62b9a43efb309ca7a8fb55330dba795cb79a00281b6aee7a2b68e4130101d0ce03b372b68c0e3f6b3f7",
+  "publicKey": "b55330dba795cb79a00281b6aee7a2b68e4130101d0ce03b372b68c0e3f6b3f7",
+  "binaryAddress": "2fdfda9d6837bbfa1c410e322e4a4fbaa4230568",
+  "address": "lskmg8hqn53bfhgknvxx2avjrr8w6rvbx539x8x64"
+ }
+]
+
+//sidechain owner
+[
+ {
+  "passphrase": "scorpion abstract adapt fish goddess cage seed must benefit same witness property",
+  "privateKey": "d801c542178303f6ad9ea65e9d801871ef1436ee0fc34df35f100005118066cd248e8cbd593f375d38b1b19d670116cbb13a5be7c107a0c6e164e57de7d0efb4",
+  "publicKey": "248e8cbd593f375d38b1b19d670116cbb13a5be7c107a0c6e164e57de7d0efb4",
+  "binaryAddress": "7028f454dc39d59368e040b1fa7b018d8d14f894",
+  "address": "lsk7zk83qbjnn6abdnz3v2gkf2xyeby4fpk7kod9r"
  }
 ]

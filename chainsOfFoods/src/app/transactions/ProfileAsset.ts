@@ -7,7 +7,7 @@ class ProfileAsset extends BaseAsset {
     name = 'ProfileAsset';
     id = ProfileAssetId;
     schema = {
-        $id: 'lisk/food/transaction',
+        $id: 'lisk/profile/transaction',
         type: 'object',
         required: ["name", "clientData", "clientNonce"],
         properties: {
