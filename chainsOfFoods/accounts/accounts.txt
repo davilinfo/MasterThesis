@@ -9,7 +9,7 @@
  }
 ]
 
-//restaurante
+//restaurante 1
 [
  {
   "passphrase": "enact lawn focus marriage rhythm icon squeeze depth stand keen frame custom",
@@ -20,7 +20,7 @@
  }
 ]
 
-//sidechain owner
+//restaurante 2
 [
  {
   "passphrase": "scorpion abstract adapt fish goddess cage seed must benefit same witness property",
