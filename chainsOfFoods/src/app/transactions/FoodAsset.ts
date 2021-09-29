@@ -125,13 +125,13 @@ class FoodAsset extends BaseAsset {
 
         await stateStore.account.set(restaurantAddress, restaurantAccount);
 
-        const sidechainAccount = await stateStore.account.get(this.sidechainAddress);        
+        const sidechainAccount = await stateStore.account.get(this.sidechainAddress());        
         await reducerHandler.invoke("token:credit", {
-            address: this.sidechainAddress,
-            amount: this.sidechainFee,
+            address: this.sidechainAddress(),
+            amount: this.sidechainFee(),
         });
         
-        await stateStore.account.set(this.sidechainAddress, sidechainAccount);
+        await stateStore.account.set(this.sidechainAddress(), sidechainAccount);
                                 
     }
     
