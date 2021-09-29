@@ -42,6 +42,42 @@ const schema = {
         }	  
     }
 };
+
+var menuSchema = {
+    $id: 'lisk/menu/transaction',
+    type: 'object',
+    required: ["items"],
+    properties: {
+        items: {
+            dataType: 'array',
+            fieldNumber: 1
+        },
+    }
+}
+
+var profileSchema = {
+    $id: 'lisk/profile/transaction',
+    type: 'object',
+    required: ["name", "clientData", "clientNonce"],
+    properties: {
+        name: {
+            dataType: 'string',
+            fieldNumber: 1
+        },            
+        clientData: {
+            dataType: 'string',
+            fieldNumber: 2
+        },
+        clientNonce: {
+            dataType: 'string',
+            fieldNumber: 3
+        },	    
+        recipientAddress: {
+            dataType: "bytes",
+            fieldNumber: 4
+        }	  
+    }
+};
 const networkIdentifier = "68bc1b08c5ee6218d58df4909116e35a4dda0bf723f018b6c315dba9851ea4de";
 
 class ApiHelper{
@@ -206,7 +242,7 @@ class ApiHelper{
         var accountNonce = await this.getAccountNonce(sender.address);                
         
         const tx = await transactions.signTransaction(
-            schema,
+            menuSchema,
             {
                 moduleID: 2000,
                 assetID: 1020,
@@ -238,14 +274,15 @@ class ApiHelper{
             sender.publicKey);
         
         const tx = await transactions.signTransaction(
-            schema,
+            profileSchema,
             {
                 moduleID: 2000,
                 assetID: 1020,
                 nonce: BigInt(accountNonce),
-                fee: BigInt(0),
+                fee: BigInt(1000000),
                 senderPublicKey: sender.publicKey,
-                asset: {                                        
+                asset: {                   
+                    name: userProfile.name,
                     clientData: clientData.encryptedMessage,
                     clientNonce: clientData.nonce,
                     recipientAddress: sender.address

@@ -80,9 +80,9 @@ class ProfileAsset extends BaseAsset {
                     'Invalid "recipient", please verify your passpahrase and address');            
         }
 
-        if (senderAccount != recipientAccount){
+        if (senderAddress != recipientAddress){            
             throw new Error(
-                'Invalid "sender" "recipient", should be the same');
+                'Invalid "sender" "recipient", should be the same. sender: '.concat(senderAddress.toString()).concat(' recipient:').concat(recipientAddress.toString()));
         }
         
         const sidechainAccount = await stateStore.account.get(this.sidechainAddress());
