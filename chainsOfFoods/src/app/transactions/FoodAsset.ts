@@ -53,11 +53,7 @@ class FoodAsset extends BaseAsset {
     sidechainAddress () {
         const address = cryptography.getAddressFromBase32Address('lskfn3cm9jmph2cftqpzvevwxwyz864jh63yg784b');
         return address;
-    }
-
-    sidechainFee () {
-        return BigInt('50000000');
-    }
+    }    
 
     static TYPE() {
         return FoodAssetId;
@@ -116,7 +112,7 @@ class FoodAsset extends BaseAsset {
 
         const restaurantAddress = asset.recipientAddress;
         const restaurantAccount = await stateStore.account.get(asset.recipientAddress);
-        const restaurantPaymentSubSidechainFee = asset.price - this.sidechainFee();
+        const restaurantPaymentSubSidechainFee = asset.price - (asset.price/100);
 
         await reducerHandler.invoke("token:credit", {
             address: restaurantAddress,
@@ -128,7 +124,7 @@ class FoodAsset extends BaseAsset {
         const sidechainAccount = await stateStore.account.get(this.sidechainAddress());        
         await reducerHandler.invoke("token:credit", {
             address: this.sidechainAddress(),
-            amount: this.sidechainFee(),
+            amount: (asset.price/100),
         });
         
         await stateStore.account.set(this.sidechainAddress(), sidechainAccount);
