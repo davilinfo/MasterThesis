@@ -8,12 +8,14 @@ import
 const FoodAsset = require("../transactions/FoodAsset");
 const MenuAsset = require("../transactions/MenuAsset");
 const ProfileAsset = require("../transactions/ProfileAsset");
+const NewsAsset = require("../transactions/NewsAsset");
+const ConfirmAsset = require("../transactions/ConfirmAsset");
 
 class RestaurantModule extends BaseModule{
     name = "restaurant";
     id = 2000;        
 
-    transactionAssets = [new FoodAsset(), new MenuAsset(), new ProfileAsset()];
+    transactionAssets = [new FoodAsset(), new MenuAsset(), new ProfileAsset(), new NewsAsset(), new ConfirmAsset()];
       
     public async beforeBlockApply(_input: BeforeBlockApplyContext) {
         // Get any data from stateStore using block info, below is an example getting a generator
