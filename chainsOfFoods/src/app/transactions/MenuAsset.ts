@@ -84,20 +84,21 @@ export class MenuAsset extends BaseAsset {
         }                
     }
 
-    async apply({ asset, stateStore, reducerHandler, transaction }) {                    
-        if (transaction.senderAddress !== transaction.recipientAddress){
+    async apply({asset, stateStore, reducerHandler, transaction }) {       
+        const senderAddress = transaction.senderAddress;
+
+        const restaurantAddress = asset.recipientAddress;
+        const restaurantAccount = await stateStore.account.get(asset.recipientAddress);        
+        
+        if (senderAddress.toString() != restaurantAddress.toString()){            
             throw new Error(
-                    'Invalid "recipient" defined on transaction. Only the restaurant can define its own food menu.'                
-            );
+                'Invalid "sender" "recipient", should be the same. sender: '.concat(senderAddress.toString()).concat(' recipient:').concat(restaurantAddress.toString()));
         }
 
-        const restaurantAddress = transaction.senderAddress;
-        const restaurantAccount = await stateStore.account.get(transaction.senderAddress);        
-        
         await stateStore.account.set(restaurantAddress, restaurantAccount);
         await reducerHandler.invoke("token:debit", {
             address: restaurantAddress,
-            amount: MenuAsset.FEE
+            amount: MenuAsset.FEE()
         });
 
         const sidechainAddress = this.sidechainAddress();
@@ -106,7 +107,7 @@ export class MenuAsset extends BaseAsset {
         await stateStore.account.set(sidechainAddress, sidechainOwnerAccount);
         await reducerHandler.invoke("token:credit", {
             address: sidechainAddress,
-            amount: MenuAsset.FEE
+            amount: MenuAsset.FEE()
         });        
     }    
 }

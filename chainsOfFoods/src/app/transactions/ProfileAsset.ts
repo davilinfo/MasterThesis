@@ -7,7 +7,7 @@ class ProfileAsset extends BaseAsset {
     name = 'ProfileAsset';
     id = ProfileAssetId;
     schema = {
-        $id: 'lisk/food/transaction',
+        $id: 'lisk/profile/transaction',
         type: 'object',
         required: ["name", "clientData", "clientNonce"],
         properties: {
@@ -61,7 +61,7 @@ class ProfileAsset extends BaseAsset {
         }             
     }
 
-    async apply({asset, stateStore, reducerHandler, transaction}){
+    async apply({asset, stateStore, transaction}){
         
         // Get sender account details
         const senderAddress = transaction.senderAddress;
@@ -80,9 +80,9 @@ class ProfileAsset extends BaseAsset {
                     'Invalid "recipient", please verify your passpahrase and address');            
         }
 
-        if (senderAccount != recipientAccount){
+        if (senderAddress.toString() != recipientAddress.toString()){            
             throw new Error(
-                'Invalid "sender" "recipient", should be the same');
+                'Invalid "sender" "recipient", should be the same. sender: '.concat(senderAddress.toString()).concat(' recipient:').concat(recipientAddress.toString()));
         }
         
         const sidechainAccount = await stateStore.account.get(this.sidechainAddress());

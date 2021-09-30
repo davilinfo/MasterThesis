@@ -14,7 +14,7 @@ var timeToWait = 10000;
 var minutesToForge = 1;        
 
 start().then(function(){
-    
+    console.log('initiating');
 });
 
 async function initiate(){
@@ -24,8 +24,7 @@ async function initiate(){
     return response;
 }
 
-async function start(){
-    console.log('initiating');
+async function start(){    
     var response = await initiate();
     
     var config = JSON.parse(response);    
@@ -109,6 +108,8 @@ async function verifyConsensus(){
                         }                    
                     });
                 }
+            }).catch(function(){
+                console.warn("server seems to be offline:", server.host);
             });
         });      
 
@@ -124,7 +125,7 @@ async function verifyConsensus(){
         var objTimeout = setTimeout(async () => {
             servers.forEach(server=>{                       
                 if (server.maxHeightPreviouslyForged === actualForger.maxHeightPreviouslyForged){         
-                    if (server.nodeHeight > betterConsensusServer.nodeHeight){
+                    if (server.height >= betterConsensusServer.height && server.nodeHeight > betterConsensusServer.nodeHeight){
                         betterConsensusServer = server;
                     }
                 }
@@ -137,7 +138,12 @@ async function verifyConsensus(){
     objTimeout.ref();
 
     }catch(e){
-    verifyConsensus();
+        console.error("something wrong while verifying nodes attempting again soon...");
+        
+        var interval = setInterval(async function (){
+            clearInterval(interval);
+            await verifyConsensus();
+        }, timeInterval);
     }    
 }
 /* update monitored node with node local information */
@@ -172,14 +178,31 @@ async function updateServerForgerData(server, actualForger){
 
 /* udapte forging information */
 async function updateServerProperties(forgingIn){
-    //only update forging information if at least 3 minutes to forge
-    if (forgingIn.getMinutes() >= 3){
-        console.log("Update server properties: ");
-        if (betterConsensusServer.host !== actualForger.host){
-            var result = await disableForgingInActualForger();
-            
-            if (result.forging === false){
+    try{
+        //only update forging information if at least 3 minutes to forge
+        if (forgingIn.getMinutes() >= 3){
+            console.log("Update server properties: ");
+            if (betterConsensusServer.host !== actualForger.host){
+                var result = await disableForgingInActualForger();
                 
+                if (result.forging === false){
+                    
+                    servers.forEach(async (serveraux) =>{
+                        if (serveraux.online === true){
+                            if (betterConsensusServer.host === serveraux.host){
+                                serveraux.forging = true;
+                            }else{
+                                serveraux.forging = false;
+                            }
+                            await setForging(serveraux);
+                        }else{
+                            console.log("Server: ". serveraux.host, " not accessible");
+                            serveraux.forging = false;
+                            await setForging(serveraux);
+                        }                    
+                    });
+                }
+            }else{
                 servers.forEach(async (serveraux) =>{
                     if (serveraux.online === true){
                         if (betterConsensusServer.host === serveraux.host){
@@ -189,33 +212,19 @@ async function updateServerProperties(forgingIn){
                         }
                         await setForging(serveraux);
                     }else{
-                        console.log("Server: ". serveraux.host, " not accessible");
+                        console.log("Server: ", serveraux.host, " not accessible");
                         serveraux.forging = false;
                         await setForging(serveraux);
                     }                    
                 });
-            }
+            } 
         }else{
-            servers.forEach(async (serveraux) =>{
-                if (serveraux.online === true){
-                    if (betterConsensusServer.host === serveraux.host){
-                        serveraux.forging = true;
-                    }else{
-                        serveraux.forging = false;
-                    }
-                    await setForging(serveraux);
-                }else{
-                    console.log("Server: ", serveraux.host, " not accessible");
-                    serveraux.forging = false;
-                    await setForging(serveraux);
-                }                    
-            });
-        } 
-    }else{
-        console.log("Less than 3 minutes to forge, forgers information will not be updated");
-    }       
-
-    var interval = setInterval(function (){
+            console.warn("Less than 3 minutes to forge, forgers information will not be updated");
+        }   
+    }catch(e){
+        console.error("Error ocurred while updating server properties, attempting to continue...", e);
+    }finally{
+        var interval = setInterval(function (){
         clearInterval(interval);
 
         servers.forEach(serveraux =>{
@@ -224,11 +233,16 @@ async function updateServerProperties(forgingIn){
         });
 
         betterConsensusServer = servers[0];        
+        
         verifyConsensus().then(function(){
             console.log("starting to verify nodes");
+        }).catch(async function(){
+            console.error("something wrong while verifying nodes attempting again soon...");
+            await verifyConsensus();                     
         });
-    
-    }, timeInterval);
+        
+        }, timeInterval);
+    }    
 }
 /* disable forging on actual forger */
 async function disableForgingInActualForger(){    
