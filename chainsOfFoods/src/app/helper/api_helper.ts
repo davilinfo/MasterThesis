@@ -216,7 +216,7 @@ class ApiHelper{
                 moduleID: 2000,
                 assetID: 1040,
                 nonce: BigInt(accountNonce),
-                fee: BigInt(1000000),
+                fee: BigInt(5000000),
                 senderPublicKey: sender.publicKey,
                 asset: {
                     name: orderRequest.name,
