@@ -45,23 +45,24 @@ class FoodAsset extends BaseAsset {
     
     validate({asset}){                                                    
 
-        for (var index=0; index < asset.items.length; index ++){
-            if (!asset.items[index].name || typeof asset.items[index].name !== 'string' || asset.items[index].name.length > 200){            
+        var items = JSON.parse(asset.items);
+        for (var index=0; index < items.length; index ++){
+            if (!items[index].name || typeof items[index].name !== 'string' || items[index].name.length > 200){            
                 throw new Error(
                         'Invalid "asset.items[index].name" defined on transaction:A string value no longer than 200 characters. index: '.concat(index.toString()).concat(' ').concat(asset.items[index].name));
             }
 
-            if (!asset.items[index].foodType || asset.items[index].foodType <= 0){
+            if (!items[index].foodType || items[index].foodType <= 0){
                 throw new Error(
                         'Invalid "asset.items[index].foodType" defined on transaction: A value bigger than 0. index: '.concat(index.toString()).concat(' ').concat(asset.items[index].foodType));
             }
 
-            if (!asset.items[index].quantity || asset.items[index].quantity < 0){
+            if (!items[index].quantity || items[index].quantity < 0){
                 throw new Error(
                         'Invalid "asset.items[index].quantity" defined on transaction: A value bigger than 0. index: '.concat(index.toString()).concat(' ').concat(asset.items[index].quantity));
             }
 
-            if (!asset.items[index].price || asset.items[index].price < 0){
+            if (!items[index].price || items[index].price < 0){
                 throw new Error(
                         'Invalid "asset.items[index].price" defined on transaction: A value bigger than 0. index: '.concat(index.toString()).concat(' ').concat(asset.items[index].price));
             }
