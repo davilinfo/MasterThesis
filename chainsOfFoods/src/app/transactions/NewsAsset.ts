@@ -12,7 +12,7 @@ export class NewsAsset extends BaseAsset {
         required: ["items"],
         properties: {
             items: {
-                dataType: 'array',
+                dataType: 'string',
                 fieldNumber: 1
             },
         }

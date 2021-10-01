@@ -9,43 +9,27 @@ class FoodAsset extends BaseAsset {
     schema = {
         $id: 'lisk/food/transaction',
         type: 'object',
-        required: ["name", "description", "foodType", "price", "quantity", "restaurantData", "restaurantNonce"],
-        properties: {
-            name: {
+        required: ["items", "price", "restaurantData", "restaurantNonce", "recipientAddress"],
+        properties: {            
+            items: {
                 dataType: 'string',
                 fieldNumber: 1
             },
-            description: {
-                dataType: 'string',
-                fieldNumber: 2
-            },
-            foodType: {
-                dataType: 'uint32',
-                fieldNumber: 3
-            },
             price:{
                 dataType: 'uint64',
-                fieldNumber: 4
-            },            
-            quantity: {
-                dataType: 'uint32',
-                fieldNumber: 5
+                fieldNumber: 2
             },
             restaurantData: {
                 dataType: 'string',
-                fieldNumber: 6
+                fieldNumber: 3
             },
             restaurantNonce: {
                 dataType: 'string',
-                fieldNumber: 7
-            },
-	        observation: {
-		        dataType: 'string',
-		        fieldNumber: 8
+                fieldNumber: 4
             },
             recipientAddress: {
                 dataType: "bytes",
-                fieldNumber: 9
+                fieldNumber: 5
             }	  
         }
     } 
@@ -61,25 +45,27 @@ class FoodAsset extends BaseAsset {
     
     validate({asset}){                                                    
 
-        if (!asset.name || typeof asset.name !== 'string' || asset.name.length > 200){            
-            throw new Error(
-                    'Invalid "asset.name" defined on transaction:A string value no longer than 200 characters');            
-        }
+        for (var index=0; index < asset.items.length; index ++){
+            if (!asset.items[index].name || typeof asset.items[index].name !== 'string' || asset.items[index].name.length > 200){            
+                throw new Error(
+                        'Invalid "asset.items[index].name" defined on transaction:A string value no longer than 200 characters. index: '.concat(index.toString()).concat(' ').concat(asset.items[index].name));
+            }
 
-        if (!asset.description || typeof asset.description !== 'string' || asset.description.length > 1500){
-            throw new Error(
-                    'Invalid "asset.description" defined on transaction: A string value no longer than 1500 characters');
-        }
+            if (!asset.items[index].foodType || asset.items[index].foodType <= 0){
+                throw new Error(
+                        'Invalid "asset.items[index].foodType" defined on transaction: A value bigger than 0. index: '.concat(index.toString()).concat(' ').concat(asset.items[index].foodType));
+            }
 
-        if (!asset.foodType || asset.foodType <= 0){
-            throw new Error(
-                    'Invalid "asset.foodType" defined on transaction: A value bigger than 0');
-        }        
-        
-        if (!asset.price || asset.price <= 0){
-            throw new Error(
-                    'Invalid "asset.price" defined on transaction: A value bigger than 0');
-        }
+            if (!asset.items[index].quantity || asset.items[index].quantity < 0){
+                throw new Error(
+                        'Invalid "asset.items[index].quantity" defined on transaction: A value bigger than 0. index: '.concat(index.toString()).concat(' ').concat(asset.items[index].quantity));
+            }
+
+            if (!asset.items[index].price || asset.items[index].price < 0){
+                throw new Error(
+                        'Invalid "asset.items[index].price" defined on transaction: A value bigger than 0. index: '.concat(index.toString()).concat(' ').concat(asset.items[index].price));
+            }
+        }           
 
         if (!asset.restaurantData || asset.restaurantData.length === 0){
             throw new Error(
@@ -89,7 +75,7 @@ class FoodAsset extends BaseAsset {
         if (!asset.restaurantNonce || asset.restaurantNonce.length === 0){
             throw new Error(
                     'Invalid "restaurantNonce" defined on transaction: Not empty');
-        }             
+        }
     }
 
     async apply({asset, stateStore, reducerHandler, transaction}){        

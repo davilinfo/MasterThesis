@@ -2,43 +2,27 @@ const { apiClient, codec, cryptography, transactions } = require( '@liskhq/lisk-
 const schema = {
     $id: 'lisk/food/transaction',
     type: 'object',
-    required: ["name", "description", "foodType", "price", "quantity", "restaurantData", "restaurantNonce"],
-    properties: {
-        name: {
+    required: ["items", "price", "restaurantData", "restaurantNonce", "recipientAddress"],
+    properties: {            
+        items: {
             dataType: 'string',
             fieldNumber: 1
         },
-        description: {
-            dataType: 'string',
-            fieldNumber: 2
-        },
-        foodType: {
-            dataType: 'uint32',
-            fieldNumber: 3
-        },
         price:{
             dataType: 'uint64',
-            fieldNumber: 4
-        },            
-        quantity: {
-            dataType: 'uint32',
-            fieldNumber: 5
+            fieldNumber: 2
         },
         restaurantData: {
             dataType: 'string',
-            fieldNumber: 6
+            fieldNumber: 3
         },
         restaurantNonce: {
             dataType: 'string',
-            fieldNumber: 7
-        },
-        observation: {
-            dataType: 'string',
-            fieldNumber: 8
+            fieldNumber: 4
         },
         recipientAddress: {
             dataType: "bytes",
-            fieldNumber: 9
+            fieldNumber: 5
         }	  
     }
 };
@@ -200,9 +184,19 @@ class ApiHelper{
         
         var accountNonce = await this.getAccountNonce(sender.address);        
 
+        var orderPrice = 0;
+        
+        var items = orderRequest.items;
+        console.log("items :", typeof []);
+        
+        items.forEach(item =>{            
+            orderPrice += (item.price * item.quantity);
+        });        
+
+        console.log("price", orderPrice);
+
         var restaurantData = cryptography.encryptMessageWithPassphrase(
-            orderRequest.name.concat(' ***Field*** ')
-            .concat(orderRequest.deliveryAddress)
+            orderRequest.deliveryAddress
             .concat(' ***Field*** ')
             .concat(orderRequest.phone)
             .concat(' ***Field*** ')
@@ -219,12 +213,8 @@ class ApiHelper{
                 fee: BigInt(5000000),
                 senderPublicKey: sender.publicKey,
                 asset: {
-                    name: orderRequest.name,
-                    description: orderRequest.description,
-                    foodType: orderRequest.foodType,
-                    price: BigInt(transactions.convertLSKToBeddows(orderRequest.price.toString())),
-                    observation: orderRequest.observation,
-                    quantity: orderRequest.quantity,
+                    items: JSON.stringify(orderRequest.items),
+                    price: BigInt(transactions.convertLSKToBeddows(orderPrice.toString())),                    
                     restaurantData: restaurantData.encryptedMessage,
                     restaurantNonce: restaurantData.nonce,
                     recipientAddress: recipientAddress
@@ -353,8 +343,10 @@ function initiateTest(){
         console.log("Error creating profile transaction", e);
     });
 
-    var orderRequest = { username: "user1", name: "Black Pasta", deliveryAddress: "Delivery address", phone: "Phone number"
-        , description: "delicious black pasta", foodType: 1, quantity: 1, price: 5};
+    var food1 = {name: "Black Pasta", foodType: 1, quantity: 1, price:5, observation: ""};
+    var food2 = {name: "Black Pasta", foodType: 1, quantity: 1, price:5, observation: ""};
+    var orderRequest = { items:[food1, food2], 
+        username: "user1", deliveryAddress: "Delivery address", phone: "Phone number"};
     
     var restaurant = {publicKey: "248e8cbd593f375d38b1b19d670116cbb13a5be7c107a0c6e164e57de7d0efb4",
         address:"lsk7zk83qbjnn6abdnz3v2gkf2xyeby4fpk7kod9r"}

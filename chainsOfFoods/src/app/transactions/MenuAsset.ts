@@ -12,7 +12,7 @@ export class MenuAsset extends BaseAsset {
         required: ["items"],
         properties: {
             items: {
-                dataType: 'array',
+                dataType: 'string',
                 fieldNumber: 1
             },
         }
