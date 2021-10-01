@@ -192,9 +192,9 @@ class ApiHelper{
         return result;
     }
 
-    async createFoodAssetAndSign(orderRequest, credential, restaurantPublicKey, restaurantAddress){
+    async createFoodAssetAndSign(orderRequest, credential, restaurant){
         /*incluir validação de tipo de pedido através de consulta à menu asset (por definir)*/
-        var recipientAddress = cryptography.getAddressFromBase32Address(restaurantAddress);
+        var recipientAddress = cryptography.getAddressFromBase32Address(restaurant.address);
 
         const sender = cryptography.getAddressAndPublicKeyFromPassphrase(credential.passphrase);
         
@@ -208,7 +208,7 @@ class ApiHelper{
             .concat(' ***Field*** ')
             .concat(orderRequest.username),
             credential.passphrase,
-            restaurantPublicKey);
+            restaurant.publicKey);
         
         const tx = await transactions.signTransaction(
             schema,
@@ -320,7 +320,7 @@ function initiateTest(){
         console.log(data);
     });
     
-    client.getAccountFromAddress("ac6df241082d630bb60b834f091d210d0a529343").then(function(data){
+    client.getAccountFromAddress("7028f454dc39d59368e040b1fa7b018d8d14f894").then(function(data){
         console.log(data);
     });
 
@@ -356,9 +356,9 @@ function initiateTest(){
     var orderRequest = { username: "user1", name: "Black Pasta", deliveryAddress: "Delivery address", phone: "Phone number"
         , description: "delicious black pasta", foodType: 1, quantity: 1, price: 5};
     
-    var restaurant = {publicKey: "458082e559d62d0e498b83828220144fdfcd481bdb8abdfb7a8773ff79c538be",
-        address:"lskfn3cm9jmph2cftqpzvevwxwyz864jh63yg784b"}
-    client.createFoodAssetAndSign(orderRequest, credential, restaurant.publicKey, restaurant.address).then(function(response){
+    var restaurant = {publicKey: "248e8cbd593f375d38b1b19d670116cbb13a5be7c107a0c6e164e57de7d0efb4",
+        address:"lsk7zk83qbjnn6abdnz3v2gkf2xyeby4fpk7kod9r"}
+    client.createFoodAssetAndSign(orderRequest, credential, restaurant).then(function(response){
         console.log("transaction created", response);
 
         client.sendTransaction(response).then(function(tx){
