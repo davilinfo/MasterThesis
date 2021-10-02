@@ -6812,12 +6812,12 @@ html.tablet .ui-to-top {
 
 .rd-navbar,
 .rd-navbar.rd-navbar--is-clone {
-	
+	display: none;
 }
 
 .rd-navbar.rd-navbar-fixed + .rd-navbar.rd-navbar--is-clone,
 .rd-navbar.rd-navbar-sidebar + .rd-navbar.rd-navbar--is-clone {
-	
+	display: none;
 }
 
 .rd-navbar-padding{
@@ -6825,7 +6825,7 @@ html.tablet .ui-to-top {
 }
 
 .rd-navbar {
-	
+	display: none;
 	background: #444141;
 }
 
