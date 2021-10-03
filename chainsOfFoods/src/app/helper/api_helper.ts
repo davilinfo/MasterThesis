@@ -151,7 +151,7 @@ class ApiHelper{
         const nodeInfo = await client.invoke('app:getNodeInfo', {});
 
         return nodeInfo;
-    } 
+    }     
 
     async getTransactionsFromPool(){
         const client = await this.getClient();
@@ -328,7 +328,7 @@ function initiateTest(){
     
     var credential = {passphrase: "rabbit logic scrap relief leg cheap region latin coffee walnut drum quality"};
 
-    var profileRequest = { username: "user1", name: "User test", deliveryAddress: "Delivery address", phone: "Phone number" };
+    var profileRequest = { username: "user1", name: "User test", deliveryAddress: "Delivery address", phone: "Phone number" };    
 
     client.createProfileAssetAndSign(profileRequest, credential).then(function(response){
 
