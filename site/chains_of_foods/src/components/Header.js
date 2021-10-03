@@ -15,7 +15,8 @@ function Header() {
                     <div className="rd-navbar-brand"><a href="/"><img className="brand-logo-light" src="images/logo-default1-140x57.png" alt="" width="140" height="57" srcset="images/logo-default-280x113.png 2x"/></a></div>
                     </div>
                     <div className="rd-navbar-main-element">
-                    <div className="rd-navbar-nav-wrap">                    
+                    <div className="rd-navbar-nav-wrap">  
+                    {/*                 
                         <ul className="rd-navbar-nav">
                         <li className="rd-nav-item"><a className="rd-nav-link" href="/">Home</a>
                         </li>
@@ -24,6 +25,7 @@ function Header() {
                         <li className="rd-nav-item"><a className="rd-nav-link" href="/Contact">Contacts</a>
                         </li>
                         </ul><a className="button button-white button-sm" href="#">order now</a>
+                    */}
                     </div>
                     </div><a className="button button-white button-sm" href="#">order now</a>
                 </div>
