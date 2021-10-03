@@ -7075,6 +7075,7 @@ html.tablet .ui-to-top {
 	font-weight: 500;
 	text-transform: uppercase;
 	transition: .25s;
+	padding-right:10px;
 }
 
 .rd-navbar-static .rd-nav-link:hover {
