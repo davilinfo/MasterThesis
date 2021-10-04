@@ -138,6 +138,11 @@ class ApiHelper{
         return nodeInfo;
     }
 
+    async getTransactions(){
+        const client = await this.getClient();
+        return await await client.invoke('app:getRegisteredActions');
+    }
+
     async getGenericTransactionByid(transactionId){
         const client = await this.getClient();
         const schema = await client.invoke('app:getSchema');
@@ -167,7 +172,15 @@ class ApiHelper{
         })
 
         return transactionsDecoded;
-    }               
+    }    
+    
+    async getTransactionsSchemas(){
+        const client = await this.getClient();
+        const schema = await client.invoke('app:getSchema');
+        const result = await schema.transactionsAssets;
+
+        return result;
+    }
 
     async sendTransaction(transaction){
         const client = await this.getClient();        
@@ -308,6 +321,10 @@ function initiateTest(){
 
     client.getTransactionsFromPool().then(function(data){
         console.log(data);
+    });
+
+    client.getTransactions().then(function(data){
+        console.log("getTransactions", data);
     });
     
     client.getAccountFromAddress("7028f454dc39d59368e040b1fa7b018d8d14f894").then(function(data){

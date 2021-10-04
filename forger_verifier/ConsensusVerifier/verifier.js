@@ -91,7 +91,7 @@ async function verifyConsensus(){
                 }else{
                     server.online = false;                    
                     if (server.host === actualForger.host){
-                        console.warn("Actual Forger seems to be offline:", actualForger.host);
+                        console.log("Actual Forger seems to be offline:", actualForger.host);
                         //send request to halt actual forger
                     }
                 }
@@ -138,7 +138,7 @@ async function verifyConsensus(){
     objTimeout.ref();
 
     }catch(e){
-        console.error("something wrong while verifying nodes attempting again soon...");
+        console.warn("something wrong while verifying nodes attempting again soon...");
         
         var interval = setInterval(async function (){
             clearInterval(interval);
@@ -219,10 +219,10 @@ async function updateServerProperties(forgingIn){
                 });
             } 
         }else{
-            console.warn("Less than 3 minutes to forge, forgers information will not be updated");
+            console.log("Less than 3 minutes to forge, forgers information will not be updated");
         }   
     }catch(e){
-        console.error("Error ocurred while updating server properties, attempting to continue...", e);
+        console.warn("Error ocurred while updating server properties, attempting to continue...", e);
     }finally{
         var interval = setInterval(function (){
         clearInterval(interval);
@@ -237,7 +237,7 @@ async function updateServerProperties(forgingIn){
         verifyConsensus().then(function(){
             console.log("starting to verify nodes");
         }).catch(async function(){
-            console.error("something wrong while verifying nodes attempting again soon...");
+            console.warn("something wrong while verifying nodes attempting again soon...");
             await verifyConsensus();                     
         });
         
@@ -268,7 +268,7 @@ async function disableForgingInActualForger(){
 
 /* request on monitored node and actual forger to update forger data*/
 async function exportForgerDb(server){
-    console.warn("exporting forger data");
+    console.log("exporting forger data");
     var exportCompleted = false;
     var url = "http://".concat(server.host).concat(":").concat(server.gatewayPort).concat("/api/export");
 
@@ -287,7 +287,7 @@ async function exportForgerDb(server){
         console.log("export on Host: ", server.host, " completed");
         exportCompleted = true;
     }else{
-        console.error("error export on Host: ", server.host);
+        console.log("error to export on Host: ", server.host);
         exportCompleted = false
     }    
 
@@ -296,7 +296,7 @@ async function exportForgerDb(server){
 
 /* request on monitored node forger lisk api to import most recent forger data*/
 async function importForgerDb(server, actualServerForging){
-    console.warn("importing forger data");
+    console.log("importing forger data");
     
     var url = "http://".concat(server.host).concat(":").concat(server.gatewayPort).concat("/api/import");
 
