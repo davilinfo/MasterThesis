@@ -161,7 +161,7 @@ async function monitorNewBlockFromActualForger(server, forgingIn){
                 client.subscribe('app:block:new', async ( block ) => {     
                     console.log("Start monitoring new block arrival from actual forger"); 
                     const schema = await client.invoke('app:getSchema');                 
-                    block.accounts.forEach(account => {                    
+                    block.accounts.forEach(async account => {                    
                         var accountDecoded = codec.codec.decodeJSON(schema.account, Buffer.from(account, 'hex'));
                                
                         monitoringBlock = false;
