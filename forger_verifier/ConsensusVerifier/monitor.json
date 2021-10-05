@@ -13,7 +13,8 @@
             "address": "382d9ce8a767e2c711d021c6ddec5c6ea946c46a",
             "forging": true,
             "online": false,
-            "gatewayPort": 10001
+            "gatewayPort": 10001,
+            "consecutiveMissedBlocks": 0
         },
         {
             "host" : "204.48.25.12",
@@ -25,7 +26,8 @@
             "address": "382d9ce8a767e2c711d021c6ddec5c6ea946c46a",
             "forging": false,
             "online": false,
-            "gatewayPort": 10001
+            "gatewayPort": 10001,
+            "consecutiveMissedBlocks": 0
         }        
     ]
 }

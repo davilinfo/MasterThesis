@@ -2,7 +2,7 @@
 
 //only can be utilized fetch v2. Do not utilize fetch v3
 const fetch = require('node-fetch').default;
-const { apiClient } = require ('lisk-elements');
+const { apiClient, codec } = require ('lisk-elements');
 const {exit} = require ('process');
 const fs = require('fs');
 
@@ -11,7 +11,8 @@ var betterConsensusServer = null;
 var actualForger = null;
 var timeInterval = 60000;
 var timeToWait = 10000;
-var minutesToForge = 1;        
+var minutesToForge = 1; 
+var monitoringBlock = false;       
 
 start().then(function(){
     console.log('initiating');
@@ -50,7 +51,7 @@ async function start(){
     timeInterval = config.time;
     timeToWait = config.timeToWait;
     minutesToForge = config.minutesToForge;
-    
+        
     verifyConsensus().then(function(){
         console.log("starting to verify nodes");
     });
@@ -125,8 +126,10 @@ async function verifyConsensus(){
         var objTimeout = setTimeout(async () => {
             servers.forEach(server=>{                       
                 if (server.maxHeightPreviouslyForged === actualForger.maxHeightPreviouslyForged){         
-                    if (server.height >= betterConsensusServer.height && server.nodeHeight > betterConsensusServer.nodeHeight){
-                        betterConsensusServer = server;
+                    if (server.height >= betterConsensusServer.height 
+                        && server.nodeHeight >= betterConsensusServer.nodeHeight 
+                        && (betterConsensusServer.online === false || server.consecutiveMissedBlocks < betterConsensusServer.consecutiveMissedBlocks)){
+                            betterConsensusServer = server;
                     }
                 }
             });                        
@@ -146,6 +149,41 @@ async function verifyConsensus(){
         }, timeInterval);
     }    
 }
+
+/* initiates event that retrieves new block information*/ 
+async function monitorNewBlockFromActualForger(server, forgingIn){
+                    
+    if (monitoringBlock === false){
+        apiClient.createWSClient("ws://".concat(server.host).concat(":").concat(server.port).concat("/ws"))
+        .then(async function(client){
+            monitoringBlock = true; 
+            setInterval(function(){
+                client.subscribe('app:block:new', async ( block ) => {     
+                    console.log("Start monitoring new block arrival from actual forger"); 
+                    const schema = await client.invoke('app:getSchema');                 
+                    block.accounts.forEach(account => {                    
+                        var accountDecoded = codec.codec.decodeJSON(schema.account, Buffer.from(account, 'hex'))                        
+                        monitoringBlock = true; 
+                                                                
+                        if (accountDecoded.address === server.address){
+                            client.disconnect().then(function(){                        
+                                monitoringBlock = false;
+                                console.log("Forged a block.");
+                                server.consecutiveMissedBlocks = 0;
+                            });
+                        }else{       
+                            console.log("Missed a block.");                     
+                            server.consecutiveMissedBlocks += 1;
+                        }
+                    });                    
+                });                                
+            }, (forgingIn.getMinutes() * 60 + forgingIn.getSeconds()) * 1000 - 2000 );                    
+        }).catch(function(error){
+            console.warn("error connection on node")
+        });    
+    }
+}
+
 /* update monitored node with node local information */
 async function updateMonitoredNodeWithNodeInformation(server, nodeForgingStatus){    
     server.height = nodeForgingStatus[0].height || server.height;
@@ -220,6 +258,7 @@ async function updateServerProperties(forgingIn){
             } 
         }else{
             console.log("Less than 3 minutes to forge, forgers information will not be updated");
+            monitorNewBlockFromActualForger(betterConsensusServer);
         }   
     }catch(e){
         console.warn("Error ocurred while updating server properties, attempting to continue...", e);
