@@ -157,7 +157,8 @@ async function monitorNewBlockFromActualForger(server, forgingIn){
         apiClient.createWSClient("ws://".concat(server.host).concat(":").concat(server.port).concat("/ws"))
         .then(async function(client){
             monitoringBlock = true; 
-            setInterval(function(){
+            var interval = setInterval(function(){
+                clearInterval(interval);
                 client.subscribe('app:block:new', async ( block ) => {     
                     console.log("Start monitoring new block arrival from actual forger"); 
                     const schema = await client.invoke('app:getSchema');                 
@@ -172,10 +173,11 @@ async function monitorNewBlockFromActualForger(server, forgingIn){
                         }else{                                   
                             console.log("Missed a block.");                     
                             server.consecutiveMissedBlocks += 1;
+                            await client.disconnect();
                         }
                     });                    
                 });                                
-            }, (forgingIn.getMinutes() * 60 * 1000 + forgingIn.getSeconds()) - 2000 );                    
+            }, (forgingIn.getMinutes() * 60 * 1000 + forgingIn.getSeconds()) - 3000 );                    
         }).catch(function(error){
             console.warn("error connection on node", error);
         });    
