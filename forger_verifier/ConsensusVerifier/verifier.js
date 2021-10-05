@@ -185,6 +185,9 @@ async function monitorNewBlockFromActualForger(server){
                                 }
                             });                    
                         });
+                    }else if (forgingIn.getMinutes() * 60 + forgingIn.getSeconds() > 180){
+                        clearInterval(interval);
+                        inMonitor = 0;
                     }
                 }, 1000);                                                             
             }
