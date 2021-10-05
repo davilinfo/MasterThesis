@@ -166,7 +166,7 @@ async function monitorNewBlockFromActualForger(server){
                     var interval = setInterval(function(){
                         var forgingIn = new Date(forger.nextForgingTime * 1000 - Date.now());
                         console.log("Forging in:", forgingIn.getMinutes() * 60 + forgingIn.getSeconds(), "s");
-                        if (forgingIn.getMinutes() * 60 + forgingIn.getSeconds() <= 9){
+                        if (forgingIn.getMinutes() * 60 + forgingIn.getSeconds() <= 5){
                             clearInterval(interval);
                             client.subscribe('app:block:new', async ( block ) => {     
                                 console.log("Start monitoring new block arrival from actual forger"); 
