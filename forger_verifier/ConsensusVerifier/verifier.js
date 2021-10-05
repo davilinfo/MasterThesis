@@ -167,6 +167,7 @@ async function monitorNewBlockFromActualForger(server){
                         var forgingIn = new Date(forger.nextForgingTime * 1000 - Date.now());
                         console.log("Forging in:", forgingIn.getMinutes() * 60 + forgingIn.getSeconds(), "s");
                         if (forgingIn.getMinutes() * 60 + forgingIn.getSeconds() <= 5){
+                            
                             clearInterval(interval);
                             client.subscribe('app:block:new', async ( block ) => {     
                                 console.log("Start monitoring new block arrival from actual forger"); 
@@ -174,8 +175,7 @@ async function monitorNewBlockFromActualForger(server){
                                 await client.disconnect();                
                                 block.accounts.forEach(account => {                    
                                     var accountDecoded = codec.codec.decodeJSON(schema.account, Buffer.from(account, 'hex'));
-                                                                                
-                                    monitoringBlock = false;
+                                                                                                                    
                                     if (accountDecoded.address === server.address){
                                         console.log("Forged a block.");                        
                                         server.consecutiveMissedBlocks = 0;                        
