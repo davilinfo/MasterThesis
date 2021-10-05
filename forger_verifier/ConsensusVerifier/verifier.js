@@ -12,7 +12,8 @@ var actualForger = null;
 var timeInterval = 60000;
 var timeToWait = 10000;
 var minutesToForge = 1; 
-var monitoringBlock = false;       
+var monitoringBlock = false;  
+var lastForgingIn;     
 
 start().then(function(){
     console.log('initiating');
@@ -105,7 +106,7 @@ async function verifyConsensus(){
                             forgingIn = new Date(forger.nextForgingTime * 1000 - Date.now());
                             console.log("   nextForgingTime %d:%d:%d", date.getHours(), date.getMinutes(), date.getSeconds());                            
                             console.log("   currentTime %d:%d:%d", currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
-                            console.log("   forging in %d:%d", forgingIn.getMinutes() < 10 ? "0" + forgingIn.getMinutes() : forgingIn.getMinutes(), forgingIn.getSeconds() < 10 ? "0" + forgingIn.getSeconds() : forgingIn.getSeconds());
+                            console.log("   forging in %d:%d", forgingIn.getMinutes() < 10 ? "0" + forgingIn.getMinutes() : forgingIn.getMinutes(), forgingIn.getSeconds() < 10 ? "0" + forgingIn.getSeconds() : forgingIn.getSeconds());                            
                         }                    
                     });
                 }
@@ -150,36 +151,49 @@ async function verifyConsensus(){
     }    
 }
 
-/* initiates event that retrieves new block information*/ 
-async function monitorNewBlockFromActualForger(server, forgingIn){
+/* initiates event that retrieves new block information and verifies if actual forger forged or missed a block*/ 
+async function monitorNewBlockFromActualForger(server){
                     
     if (monitoringBlock === false){
+        monitoringBlock = true;
+        
         apiClient.createWSClient("ws://".concat(server.host).concat(":").concat(server.port).concat("/ws"))
-        .then(async function(client){
-            monitoringBlock = true; 
-            var interval = setInterval(function(){
-                clearInterval(interval);
-                client.subscribe('app:block:new', async ( block ) => {     
-                    console.log("Start monitoring new block arrival from actual forger"); 
-                    const schema = await client.invoke('app:getSchema');                 
-                    block.accounts.forEach(async account => {                    
-                        var accountDecoded = codec.codec.decodeJSON(schema.account, Buffer.from(account, 'hex'));
-                               
-                        monitoringBlock = false;
-                        if (accountDecoded.address === server.address){
-                            console.log("Forged a block.");
-                            server.consecutiveMissedBlocks = 0;
-                            await client.disconnect();
-                        }else{                                   
-                            console.log("Missed a block.");                     
-                            server.consecutiveMissedBlocks += 1;
-                            await client.disconnect();
+        .then(async function(client){             
+            
+            var forgers = await client.invoke('app:getForgers', {});            
+            forgers.forEach(forger => {
+                if (forger.address === server.address){
+                    var interval = setInterval(function(){
+                        var forgingIn = new Date(forger.nextForgingTime * 1000 - Date.now());
+                        console.log("Forging in:", forgingIn.getMinutes() * 60 + forgingIn.getSeconds(), "s");
+                        if (forgingIn.getMinutes() * 60 + forgingIn.getSeconds() <= 9){
+                            clearInterval(interval);
+                            client.subscribe('app:block:new', async ( block ) => {     
+                                console.log("Start monitoring new block arrival from actual forger"); 
+                                const schema = await client.invoke('app:getSchema'); 
+                                await client.disconnect();                
+                                block.accounts.forEach(account => {                    
+                                    var accountDecoded = codec.codec.decodeJSON(schema.account, Buffer.from(account, 'hex'));
+                                                                                
+                                    monitoringBlock = false;
+                                    if (accountDecoded.address === server.address){
+                                        console.log("Forged a block.");                        
+                                        server.consecutiveMissedBlocks = 0;                        
+                                    }else{
+                                        console.log("Missed a block.");                        
+                                        server.consecutiveMissedBlocks += 1;
+                                    }
+                                });                    
+                            }); 
                         }
-                    });                    
-                });                                
-            }, (forgingIn.getMinutes() * 60 * 1000 + forgingIn.getSeconds()) - 3000 );                    
-        }).catch(function(error){
-            console.warn("error connection on node", error);
+                    }, 1000);                    
+                }
+            })                                     
+                                
+        }).catch(function(error){            
+            console.warn("error to establish connection on node", error);
+        }).finally(function(){
+            monitoringBlock = false;
         });    
     }
 }
@@ -218,7 +232,7 @@ async function updateServerForgerData(server, actualForger){
 async function updateServerProperties(forgingIn){
     try{
         //only update forging information if at least 3 minutes to forge
-        if (forgingIn.getMinutes() >= 3){
+        if (forgingIn.getMinutes() >= 3){            
             console.log("Update server properties: ");
             if (betterConsensusServer.host !== actualForger.host){
                 var result = await disableForgingInActualForger();
@@ -258,7 +272,8 @@ async function updateServerProperties(forgingIn){
             } 
         }else{
             console.log("Less than 3 minutes to forge, forgers information will not be updated");
-            monitorNewBlockFromActualForger(betterConsensusServer, forgingIn);
+            lastForgingIn = forgingIn;
+            monitorNewBlockFromActualForger(betterConsensusServer);
         }   
     }catch(e){
         console.warn("Error ocurred while updating server properties, attempting to continue...", e);
