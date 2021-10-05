@@ -12,7 +12,7 @@ var actualForger = null;
 var timeInterval = 60000;
 var timeToWait = 10000;
 var minutesToForge = 1; 
-var monitoringBlock = false;
+var inMonitor = null;
 
 start().then(function(){
     console.log('initiating');
@@ -51,6 +51,7 @@ async function start(){
     timeInterval = config.time;
     timeToWait = config.timeToWait;
     minutesToForge = config.minutesToForge;
+    inMonitor = 0;
         
     verifyConsensus().then(function(){
         console.log("starting to verify nodes");
@@ -153,20 +154,21 @@ async function verifyConsensus(){
 /* initiates event that retrieves new block information and verifies if actual forger forged or missed a block*/ 
 async function monitorNewBlockFromActualForger(server){
                         
-    monitoringBlock = true;
-    
+    console.log("monitorNewBlockFromActualForger", inMonitor);
+            
     apiClient.createWSClient("ws://".concat(server.host).concat(":").concat(server.port).concat("/ws"))
     .then(async function(client){             
         
         var forgers = await client.invoke('app:getForgers', {});            
         forgers.forEach(forger => {
             if (forger.address === server.address){
-                var interval = setInterval(function(){
+                var interval = setInterval(function(){                        
                     var forgingIn = new Date(forger.nextForgingTime * 1000 - Date.now());
                     console.log("Forging in:", forgingIn.getMinutes() * 60 + forgingIn.getSeconds(), "s");
                     if (forgingIn.getMinutes() * 60 + forgingIn.getSeconds() <= 5){
-                        
                         clearInterval(interval);
+                        inMonitor = 0;
+                        console.log("preparing to monitor new block");
                         client.subscribe('app:block:new', async ( block ) => {     
                             console.log("Start monitoring new block arrival from actual forger"); 
                             const schema = await client.invoke('app:getSchema'); 
@@ -182,18 +184,16 @@ async function monitorNewBlockFromActualForger(server){
                                     server.consecutiveMissedBlocks += 1;
                                 }
                             });                    
-                        }); 
+                        });
                     }
-                }, 1000);                    
+                }, 1000);                                                             
             }
         })                                     
                             
     }).catch(function(error){            
         console.warn("error to establish connection on node", error);
-    }).finally(function(){
-        monitoringBlock = false;
     });    
-
+    
 }
 
 /* update monitored node with node local information */
@@ -229,6 +229,8 @@ async function updateServerForgerData(server, actualForger){
 /* udapte forging information */
 async function updateServerProperties(forgingIn){
     try{
+        console.log("monitoring", inMonitor);
+        
         //only update forging information if at least 3 minutes to forge
         if (forgingIn.getMinutes() >= 3){            
             console.log("Update server properties: ");
@@ -270,7 +272,8 @@ async function updateServerProperties(forgingIn){
             } 
         }else{
             console.log("Less than 3 minutes to forge, forgers information will not be updated"); 
-            if (monitoringBlock == false){           
+            if (inMonitor === 0){    
+                inMonitor += 1;       
                 monitorNewBlockFromActualForger(betterConsensusServer);
             }
         }   
@@ -278,21 +281,21 @@ async function updateServerProperties(forgingIn){
         console.warn("Error ocurred while updating server properties, attempting to continue...", e);
     }finally{
         var interval = setInterval(function (){
-        clearInterval(interval);
+            clearInterval(interval);
 
-        servers.forEach(serveraux =>{
-            serveraux.online = false;            
-            serveraux.forging = false;
-        });
+            servers.forEach(serveraux =>{
+                serveraux.online = false;            
+                serveraux.forging = false;
+            });
 
-        betterConsensusServer = servers[0];        
-        
-        verifyConsensus().then(function(){
-            console.log("starting to verify nodes");
-        }).catch(async function(){
-            console.warn("something wrong while verifying nodes attempting again soon...");
-            await verifyConsensus();                     
-        });
+            betterConsensusServer = servers[0];        
+            
+            verifyConsensus().then(function(){
+                console.log("starting to verify nodes");
+            }).catch(async function(){
+                console.warn("something wrong while verifying nodes attempting again soon...");
+                await verifyConsensus();                     
+            });
         
         }, timeInterval);
     }    
