@@ -68,7 +68,7 @@ function importForgerDb(server){
     try{        
         log.info("starting to download forger.db");
         
-        const importDb = exec('wget http://'.concat(server.host).concat(":").concat('10000').concat('/forger.db.tar.gz -N'), function (error, stdout, stderr) {
+        const importDb = exec('wget http://'.concat(server.host).concat(":").concat('10000').concat('/forger.db.tar.gz -N -O /home/lisk/forger.db.tar.gz'), function (error, stdout, stderr) {
             if (error) {
               console.log(error.stack);
               console.log('Error code: '+error.code);
@@ -80,7 +80,7 @@ function importForgerDb(server){
 
             log.info("starting to import forger.db");
 
-            var importResult = exec('lisk-core forger-info:import forger.db.tar.gz --force', function(importerror, importstdout, stderr){
+            var importResult = exec('lisk-core forger-info:import /home/lisk/forger.db.tar.gz --force', function(importerror, importstdout, stderr){
                 if (importerror){
                     console.log(importerror.stack);
                     console.log('Error code: '+importerror.code);
