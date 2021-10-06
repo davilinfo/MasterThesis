@@ -68,7 +68,7 @@ function importForgerDb(server){
     try{        
         log.info("starting to download forger.db");
         
-        const importDb = exec('wget http://'.concat(server.host).concat(":").concat('10000').concat('/forger.db.tar.gz -N -O /home/lisk/forger.db.tar.gz'), function (error, stdout, stderr) {
+        const importDb = exec('wget http://'.concat(server.host).concat(":").concat('10000').concat('/forger.db.tar.gz -N --output-file=/home/lisk/forger.db.tar.gz'), function (error, stdout, stderr) {
             if (error) {
               console.log(error.stack);
               console.log('Error code: '+error.code);
