@@ -287,7 +287,7 @@ async function updateServerProperties(forgingIn){
             } 
         }else{
             console.log("Less than 3 minutes to forge, forgers information will not be updated"); 
-            if (inMonitor === 0){    
+            if (inMonitor === 0 && forgingIn.getMinutes() > 0){    
                 inMonitor += 1;       
                 monitorNewBlockFromActualForger(betterConsensusServer);
             }
