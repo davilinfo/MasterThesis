@@ -184,6 +184,16 @@ async function monitorNewBlockFromActualForger(server){
                                     if (accountDecoded.address === server.address){
                                         console.log("Forged a block.");                        
                                         server.consecutiveMissedBlocks = 0;
+                                        servers.forEach(auxServer =>{
+                                            if (auxServer.host !==server.host){
+                                                updateServerForgerData(auxServer, server).then(function(){
+                                                    console.log("succeeded to immediately update forger data on:", auxServer.host);
+                                                }).catch(function(error){
+                                                    console.log("attempted to immediately update forger data after forge a block but error on:",
+                                                        auxServer.host);
+                                                });
+                                            }
+                                        });                                        
                                         return;                        
                                     }else{                                                                
                                         server.consecutiveMissedBlocks += 1;
@@ -249,6 +259,7 @@ async function updateServerProperties(forgingIn){
         //only update forging information if at least 3 minutes to forge
         if (forgingIn.getMinutes() >= 3){            
             console.log("Update server properties: ");
+            inMonitor = 0;
             if (betterConsensusServer.host !== actualForger.host){
                 var result = await disableForgingInActualForger();
                 
