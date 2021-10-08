@@ -250,8 +250,8 @@ async function monitorNewBlockFromActualForger(server){
                                         servers.forEach(auxServer =>{
                                             if (auxServer.host !==server.host){
                                                 auxServer.height = lastForgerInfo.height;
-                                                auxServer.maxHeightPreviouslyForged = lastForgerInfo.asset.maxHeightPreviouslyForged;
-                                                auxServer.maxHeightPrevoted = lastForgerInfo.asset.maxHeightPrevoted;
+                                                auxServer.maxHeightPreviouslyForged = lastForgerInfo.maxHeightPreviouslyForged;
+                                                auxServer.maxHeightPrevoted = lastForgerInfo.maxHeightPrevoted;
                                                 auxServer.forging = false;                                                
                                             }
                                         });                                        
