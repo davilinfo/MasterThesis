@@ -74,7 +74,7 @@ async function verifyConsensus(){
                 var forgers = await client.invoke('app:getForgers', {});       
                 if (nodeForgingStatus !== undefined && nodeInfo !== undefined){
                     server.nodeHeight = nodeInfo.height;                    
-                    server.online = true;
+                    
                     await updateMonitoredNodeWithNodeInformation(server, nodeForgingStatus);
                     
                     if (nodeForgingStatus[0].forging === true){
@@ -96,7 +96,7 @@ async function verifyConsensus(){
                         console.log("Actual Forger seems to be offline:", actualForger.host);
                         //send request to halt actual forger
                     }
-                }
+                }                
 
                 if (forgers !== undefined){                    
                     forgers.forEach(forger => {                    
@@ -113,7 +113,23 @@ async function verifyConsensus(){
             }).catch(function(){
                 console.warn("server seems to be offline:", server.host);
             });
-        });      
+        });    
+        
+        var anyServerForging = false;
+        serverHostWithMaxHeightPreviouslyForged;        
+        servers.forEach(server => {
+            if (server.forging === true){
+                anyServerForging = true;
+            }
+        });
+        
+        if (anyServerForging === false){
+            servers.forEach(server => {
+                if (server.online === true && !isNaN(server.height)){
+                    actualForger = server;
+                }
+            });
+        }
 
         var objTimeout = setTimeout( () => {
             servers.forEach(async server=>{                       
@@ -222,10 +238,16 @@ async function monitorNewBlockFromActualForger(server){
 }
 
 /* update monitored node with node local information */
-async function updateMonitoredNodeWithNodeInformation(server, nodeForgingStatus){    
-    server.height = nodeForgingStatus[0].height || server.height;
-    server.maxHeightPrevoted = nodeForgingStatus[0].maxHeightPrevoted || server.maxHeightPrevoted;
-    server.maxHeightPreviouslyForged = nodeForgingStatus[0].maxHeightPreviouslyForged || server.maxHeightPreviouslyForged;    
+async function updateMonitoredNodeWithNodeInformation(server, nodeForgingStatus){   
+    server.forging = nodeForgingStatus[0].forging; 
+    if (isNaN(nodeForgingStatus[0].height)){
+        server.online=false;
+    }else{
+        server.online=true;
+    }
+    server.height = nodeForgingStatus[0].height;
+    server.maxHeightPrevoted = nodeForgingStatus[0].maxHeightPrevoted;
+    server.maxHeightPreviouslyForged = nodeForgingStatus[0].maxHeightPreviouslyForged;    
 }
 /* update monitored node based on most updated forger data */
 async function updateServerForgerData(server, actualForger){    
