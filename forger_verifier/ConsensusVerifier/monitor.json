@@ -28,6 +28,6 @@
             "online": false,
             "gatewayPort": 10001,
             "consecutiveMissedBlocks": 0
-        }        
+        }     
     ]
 }
