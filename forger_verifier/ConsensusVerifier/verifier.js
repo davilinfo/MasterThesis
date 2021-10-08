@@ -243,7 +243,7 @@ async function monitorNewBlockFromActualForger(server){
                                         console.log("block,", newBlock);
                                         server.consecutiveMissedBlocks = 0;
                                         
-                                        lastForgerInfo.height = newBlock.height;
+                                        lastForgerInfo.height = newBlock.header.height;
                                         lastForgerInfo.maxHeightPreviouslyForged = newBlock.header.asset.maxHeightPreviouslyForged;
                                         lastForgerInfo.maxHeightPrevoted = newBlock.header.asset.maxHeightPrevoted;                                    
                                         console.log("lastForgerInfo", lastForgerInfo);
