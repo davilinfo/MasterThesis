@@ -7,6 +7,7 @@ const {exit} = require ('process');
 const fs = require('fs');
 
 var servers = [];
+var lastForgerInfo = {};
 var betterConsensusServer = null;
 var actualForger = null;
 var timeInterval = 60000;
@@ -45,13 +46,19 @@ async function start(){
         console.error("time property is a integer represented in miliseconds and must be higher than 59999");
     }
     
-    servers = config.hosts;
-    betterConsensusServer = servers[0];
-    actualForger = betterConsensusServer;        
+    servers = config.hosts;    
     timeInterval = config.time;
     timeToWait = config.timeToWait;
     minutesToForge = config.minutesToForge;
     inMonitor = 0;
+
+    servers.forEach(server=>{
+        if (server.forging === true){            
+            lastForgerInfo.height = server.height;
+            lastForgerInfo.maxHeightPreviouslyForged = server.maxHeightPreviouslyForged;
+            lastForgerInfo.maxHeightPrevoted = server.maxHeightPrevoted;
+        }
+    });
         
     verifyConsensus().then(function(){
         console.log("starting to verify nodes");
@@ -61,84 +68,89 @@ async function start(){
 
 /* verify consensus and if necessary establish new server to forge */
 async function verifyConsensus(){
-    var forgingIn = 0;    
-
+    var forgingIn = 0;
+    betterConsensusServer = null;
+    actualForger = null;
     try{
         
         console.log("Get monitored servers: ");
-        servers.forEach(server => {            
-            apiClient.createWSClient("ws://".concat(server.host).concat(":").concat(server.port).concat("/ws")  )
-            .then(async function(client){
-                var nodeForgingStatus = await client.invoke('app:getForgingStatus', {});
-                var nodeInfo = await client.invoke('app:getNodeInfo', {});         
-                var forgers = await client.invoke('app:getForgers', {});       
-                if (nodeForgingStatus !== undefined && nodeInfo !== undefined){
-                    server.nodeHeight = nodeInfo.height;                    
-                    
-                    await updateMonitoredNodeWithNodeInformation(server, nodeForgingStatus);
-                    
-                    if (nodeForgingStatus[0].forging === true){
-                        actualForger = server;
-                        actualForger.forging = true;
-                        actualForger.height = nodeForgingStatus[0].height;   
-                        actualForger.maxHeightPrevoted  = nodeForgingStatus[0].maxHeightPrevoted;
-                        actualForger.maxHeightPreviouslyForged  = nodeForgingStatus[0].maxHeightPreviouslyForged;
-                        console.log("Actual forger: ", actualForger.host);
+        var objTimeout = setTimeout( () => {
+            servers.forEach(server => {            
+                apiClient.createWSClient("ws://".concat(server.host).concat(":").concat(server.port).concat("/ws")  )
+                .then(async function(client){     
+                                        
+                    client.invoke('app:getForgingStatus', {}).then(function(response){
+                        if (response !== undefined && response !== undefined){
+                            server.online=true;
+                            updateMonitoredNodeWithNodeInformation(server, response);
+                            console.log("   forging status:", JSON.stringify(response)); 
+    
+                            client.invoke('app:getNodeInfo', {}).then(function(responseNode){
+                                console.log("node: ", server.host);
+                                server.nodeHeight = responseNode.height;                                                   
+                                console.log("   blockchain node height: ", responseNode.height, ", blockchain node last block id:", responseNode.lastBlockID);
+    
+                            }).catch(function(responseNodeError){
+                                server.online=false;
+                                server.nodeHeight = 0;
+                                console.log("Error while retrieving node information on:", server.host, responseNodeError);
+                            });
+    
+                            if (server.forging === true){
+                                updateActualForgerInformation(server);                                 
+                                console.log("Actual forger: ", actualForger.host);
+                                betterConsensusServer = actualForger;
+                            }
+                            
+                            client.invoke('app:getForgers', {}).then(function(responseForgers){
+                                if (responseForgers !== undefined){                                
+                                    responseForgers.forEach(forger => {
+                                        if (forger.address === server.address){                    
+                                            forgingIn = updateForgingInTimeInformation(forger, server);
+                                        }
+                                    });
+                                }
+                            }).catch(function(errorResponseForgers){
+                                server.online=false;
+                                console.log("Error while retrieving forgers on:", server.host, errorResponseForgers);
+                            });                        
+                        }else{
+                            server.online=false;
+                        }
+                    }).catch(function(responseError){
+                        server.online=false;
+                        console.log("Error while retrieving forgingStatus on:", server.host, responseError);
+                    });
+                                    
+                }).catch(function(){
+                    server.online=false;
+                    console.info("server seems to be offline:", server.host);
+                });
+            });
+        }, timeToWait/5);
+
+        objTimeout.ref();
+                            
+        var objTimeout = setTimeout( () => {
+            var anyServerForging = false;               
+            servers.forEach(server => {
+                if (server.forging === true){
+                    anyServerForging = true;
+                }
+            });
+            
+            if (anyServerForging === false){
+                actualForger = null;
+                servers.forEach(server => {
+                    if (server.online === true && server.height!==undefined){
+                        actualForger = actualForger !== null && actualForger.height > server.height ? actualForger : server;
                         betterConsensusServer = actualForger;
                     }
-
-                    console.log("node: ", server.host);
-                    console.log("   forging status:", JSON.stringify(nodeForgingStatus));                    
-                    console.log("   blockchain node height: ", nodeInfo.height, ", blockchain node last block id:", nodeInfo.lastBlockID);                    
-                }else{
-                    server.online = false;                    
-                    if (server.host === actualForger.host){
-                        console.log("Actual Forger seems to be offline:", actualForger.host);
-                        //send request to halt actual forger
-                    }
-                }                
-
-                if (forgers !== undefined){                    
-                    forgers.forEach(forger => {                    
-                        if (forger.address === server.address){
-                            let date = new Date(forger.nextForgingTime * 1000);
-                            let currentDate = new Date(Date.now());
-                            forgingIn = new Date(forger.nextForgingTime * 1000 - Date.now());
-                            console.log("   nextForgingTime %d:%d:%d", date.getHours(), date.getMinutes(), date.getSeconds());                            
-                            console.log("   currentTime %d:%d:%d", currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
-                            console.log("   forging in %d:%d", forgingIn.getMinutes() < 10 ? "0" + forgingIn.getMinutes() : forgingIn.getMinutes(), forgingIn.getSeconds() < 10 ? "0" + forgingIn.getSeconds() : forgingIn.getSeconds());                                                        
-                        }                                            
-                    });
-                }
-            }).catch(function(){
-                console.warn("server seems to be offline:", server.host);
-            });
-        });    
-        
-        var anyServerForging = false;
-        serverHostWithMaxHeightPreviouslyForged;        
-        servers.forEach(server => {
-            if (server.forging === true){
-                anyServerForging = true;
-            }
-        });
-        
-        if (anyServerForging === false){
-            servers.forEach(server => {
-                if (server.online === true && !isNaN(server.height)){
-                    actualForger = server;
-                }
-            });
-        }
-
-        var objTimeout = setTimeout( () => {
-            servers.forEach(async server=>{                       
-                if (server.maxHeightPreviouslyForged !== actualForger.maxHeightPreviouslyForged){
-                    console.log("updating server with forger values...");
-                    await updateServerForgerData(server, actualForger);
-                }
-            });                        
+                });
+            }                                    
         }, timeToWait/2);
+
+        objTimeout.ref();
                                                     
         var objTimeout = setTimeout(async () => {
             servers.forEach(server=>{                       
@@ -149,7 +161,7 @@ async function verifyConsensus(){
                             betterConsensusServer = server;
                     }
                 }
-            });                        
+            });
 
             console.log("Better server:".concat(betterConsensusServer.host));
             
@@ -160,10 +172,10 @@ async function verifyConsensus(){
             }
         }, timeToWait);
 
-    objTimeout.ref();
+        objTimeout.ref();
 
     }catch(e){
-        console.warn("something wrong while verifying nodes attempting again soon...");
+        console.log("something wrong while verifying nodes attempting again soon...", e);
         
         var interval = setInterval(async function (){
             clearInterval(interval);
@@ -172,10 +184,33 @@ async function verifyConsensus(){
     }    
 }
 
+function updateActualForgerInformation(server){
+    actualForger = server;
+    actualForger.forging = true;
+    actualForger.height = server.height;   
+    actualForger.maxHeightPrevoted  = server.maxHeightPrevoted;
+    actualForger.maxHeightPreviouslyForged  = server.maxHeightPreviouslyForged;
+
+    lastForgerInfo.height = actualForger.height;
+    lastForgerInfo.maxHeightPrevoted = actualForger.maxHeightPrevoted;
+    lastForgerInfo.maxHeightPreviouslyForged = actualForger.maxHeightPreviouslyForged;
+}
+
+function updateForgingInTimeInformation(forger, server){    
+    let date = new Date(forger.nextForgingTime * 1000);
+    let currentDate = new Date(Date.now());
+    var forgingIn = new Date(forger.nextForgingTime * 1000 - Date.now());
+    console.log("   nextForgingTime %d:%d:%d", date.getHours(), date.getMinutes(), date.getSeconds());                            
+    console.log("   currentTime %d:%d:%d", currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
+    console.log("   forging in %d:%d", forgingIn.getMinutes() < 10 ? "0" + forgingIn.getMinutes() : forgingIn.getMinutes(), forgingIn.getSeconds() < 10 ? "0" + forgingIn.getSeconds() : forgingIn.getSeconds());    
+
+    return forgingIn;
+}
+
 /* initiates event that retrieves new block information and verifies if actual forger forged or missed a block*/ 
 async function monitorNewBlockFromActualForger(server){
                         
-    console.log("monitorNewBlockFromActualForger", inMonitor);
+    console.log("monitorNewBlockFromActualForger", inMonitor);    
             
     apiClient.createWSClient("ws://".concat(server.host).concat(":").concat(server.port).concat("/ws"))
     .then(async function(client){             
@@ -192,22 +227,32 @@ async function monitorNewBlockFromActualForger(server){
                             console.log("preparing to monitor new block");
                             client.subscribe('app:block:new', async ( block ) => {     
                                 console.log("Start monitoring new block arrival from actual forger"); 
-                                const schema = await client.invoke('app:getSchema'); 
+                                const schemas = client.schemas;
+                                var blockBuf = codec.codec.decodeJSON(schemas.block, Buffer.from(block.block, 'hex'));
+                                console.log(blockBuf);
+                                var header = codec.codec.decodeJSON(schemas.blockHeader, Buffer.from(blockBuf.header, 'hex'));
+                                console.log(header);
+                                var newBlock = await client.block.getByHeight(header.height);
+                                    
                                 await client.disconnect();                
                                 block.accounts.forEach(account => {                    
-                                    var accountDecoded = codec.codec.decodeJSON(schema.account, Buffer.from(account, 'hex'));
-                                                                                                                    
-                                    if (accountDecoded.address === server.address){
-                                        console.log("Forged a block.");                        
+                                    var accountDecoded = codec.codec.decodeJSON(schemas.account, Buffer.from(account, 'hex'));
+                                        
+                                    if (accountDecoded.address === server.address){                                        
+                                        console.log("Forged a block.");                                        
+                                        console.log("block,", newBlock);
                                         server.consecutiveMissedBlocks = 0;
+                                        
+                                        lastForgerInfo.height = newBlock.height;
+                                        lastForgerInfo.maxHeightPreviouslyForged = newBlock.asset.maxHeightPreviouslyForged;
+                                        lastForgerInfo.maxHeightPrevoted = newBlock.asset.maxHeightPrevoted;                                    
+                                        console.log("lastForgerInfo", lastForgerInfo);
                                         servers.forEach(auxServer =>{
                                             if (auxServer.host !==server.host){
-                                                updateServerForgerData(auxServer, server).then(function(){
-                                                    console.log("succeeded to immediately update forger data on:", auxServer.host);
-                                                }).catch(function(error){
-                                                    console.log("attempted to immediately update forger data after forge a block but error on:",
-                                                        auxServer.host);
-                                                });
+                                                auxServer.height = lastForgerInfo.height;
+                                                auxServer.maxHeightPreviouslyForged = lastForgerInfo.asset.maxHeightPreviouslyForged;
+                                                auxServer.maxHeightPrevoted = lastForgerInfo.asset.maxHeightPrevoted;
+                                                auxServer.forging = false;                                                
                                             }
                                         });                                        
                                         return;                        
@@ -238,16 +283,17 @@ async function monitorNewBlockFromActualForger(server){
 }
 
 /* update monitored node with node local information */
-async function updateMonitoredNodeWithNodeInformation(server, nodeForgingStatus){   
-    server.forging = nodeForgingStatus[0].forging; 
-    if (isNaN(nodeForgingStatus[0].height)){
-        server.online=false;
+function updateMonitoredNodeWithNodeInformation(server, nodeForgingStatus){
+    server.forging = nodeForgingStatus[0].forging;             
+    if (lastForgerInfo.height < nodeForgingStatus[0].height){
+        server.height = nodeForgingStatus[0].height;
+        server.maxHeightPrevoted = nodeForgingStatus[0].maxHeightPrevoted;
+        server.maxHeightPreviouslyForged = nodeForgingStatus[0].maxHeightPreviouslyForged;
     }else{
-        server.online=true;
+        server.height = lastForgerInfo.height;
+        server.maxHeightPrevoted = lastForgerInfo.maxHeightPrevoted;
+        server.maxHeightPreviouslyForged = lastForgerInfo.maxHeightPreviouslyForged;
     }
-    server.height = nodeForgingStatus[0].height;
-    server.maxHeightPrevoted = nodeForgingStatus[0].maxHeightPrevoted;
-    server.maxHeightPreviouslyForged = nodeForgingStatus[0].maxHeightPreviouslyForged;    
 }
 /* update monitored node based on most updated forger data */
 async function updateServerForgerData(server, actualForger){    
