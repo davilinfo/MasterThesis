@@ -2,43 +2,27 @@ const { apiClient, codec, cryptography, transactions } = require( '@liskhq/lisk-
 const schema = {
     $id: 'lisk/food/transaction',
     type: 'object',
-    required: ["name", "description", "foodType", "price", "quantity", "restaurantData", "restaurantNonce"],
-    properties: {
-        name: {
+    required: ["items", "price", "restaurantData", "restaurantNonce", "recipientAddress"],
+    properties: {            
+        items: {
             dataType: 'string',
             fieldNumber: 1
         },
-        description: {
-            dataType: 'string',
-            fieldNumber: 2
-        },
-        foodType: {
-            dataType: 'uint32',
-            fieldNumber: 3
-        },
         price:{
             dataType: 'uint64',
-            fieldNumber: 4
-        },            
-        quantity: {
-            dataType: 'uint32',
-            fieldNumber: 5
+            fieldNumber: 2
         },
         restaurantData: {
             dataType: 'string',
-            fieldNumber: 6
+            fieldNumber: 3
         },
         restaurantNonce: {
             dataType: 'string',
-            fieldNumber: 7
-        },
-        observation: {
-            dataType: 'string',
-            fieldNumber: 8
+            fieldNumber: 4
         },
         recipientAddress: {
             dataType: "bytes",
-            fieldNumber: 9
+            fieldNumber: 5
         }	  
     }
 };
@@ -154,6 +138,11 @@ class ApiHelper{
         return nodeInfo;
     }
 
+    async getTransactions(){
+        const client = await this.getClient();
+        return await await client.invoke('app:getRegisteredActions');
+    }
+
     async getGenericTransactionByid(transactionId){
         const client = await this.getClient();
         const schema = await client.invoke('app:getSchema');
@@ -167,7 +156,7 @@ class ApiHelper{
         const nodeInfo = await client.invoke('app:getNodeInfo', {});
 
         return nodeInfo;
-    } 
+    }     
 
     async getTransactionsFromPool(){
         const client = await this.getClient();
@@ -183,7 +172,15 @@ class ApiHelper{
         })
 
         return transactionsDecoded;
-    }               
+    }    
+    
+    async getTransactionsSchemas(){
+        const client = await this.getClient();
+        const schema = await client.invoke('app:getSchema');
+        const result = await schema.transactionsAssets;
+
+        return result;
+    }
 
     async sendTransaction(transaction){
         const client = await this.getClient();        
@@ -192,23 +189,33 @@ class ApiHelper{
         return result;
     }
 
-    async createFoodAssetAndSign(orderRequest, credential, restaurantPublicKey, restaurantAddress){
+    async createFoodAssetAndSign(orderRequest, credential, restaurant){
         /*incluir validação de tipo de pedido através de consulta à menu asset (por definir)*/
-        var recipientAddress = cryptography.getAddressFromBase32Address(restaurantAddress);
+        var recipientAddress = cryptography.getAddressFromBase32Address(restaurant.address);
 
         const sender = cryptography.getAddressAndPublicKeyFromPassphrase(credential.passphrase);
         
         var accountNonce = await this.getAccountNonce(sender.address);        
 
+        var orderPrice = 0;
+        
+        var items = orderRequest.items;
+        console.log("items :", typeof []);
+        
+        items.forEach(item =>{            
+            orderPrice += (item.price * item.quantity);
+        });        
+
+        console.log("price", orderPrice);
+
         var restaurantData = cryptography.encryptMessageWithPassphrase(
-            orderRequest.name.concat(' ***Field*** ')
-            .concat(orderRequest.deliveryAddress)
+            orderRequest.deliveryAddress
             .concat(' ***Field*** ')
             .concat(orderRequest.phone)
             .concat(' ***Field*** ')
             .concat(orderRequest.username),
             credential.passphrase,
-            restaurantPublicKey);
+            restaurant.publicKey);
         
         const tx = await transactions.signTransaction(
             schema,
@@ -216,15 +223,11 @@ class ApiHelper{
                 moduleID: 2000,
                 assetID: 1040,
                 nonce: BigInt(accountNonce),
-                fee: BigInt(1000000),
+                fee: BigInt(5000000),
                 senderPublicKey: sender.publicKey,
                 asset: {
-                    name: orderRequest.name,
-                    description: orderRequest.description,
-                    foodType: orderRequest.foodType,
-                    price: BigInt(transactions.convertLSKToBeddows(orderRequest.price.toString())),
-                    observation: orderRequest.observation,
-                    quantity: orderRequest.quantity,
+                    items: JSON.stringify(orderRequest.items),
+                    price: BigInt(transactions.convertLSKToBeddows(orderPrice.toString())),                    
                     restaurantData: restaurantData.encryptedMessage,
                     restaurantNonce: restaurantData.nonce,
                     recipientAddress: recipientAddress
@@ -319,8 +322,12 @@ function initiateTest(){
     client.getTransactionsFromPool().then(function(data){
         console.log(data);
     });
+
+    client.getTransactions().then(function(data){
+        console.log("getTransactions", data);
+    });
     
-    client.getAccountFromAddress("ac6df241082d630bb60b834f091d210d0a529343").then(function(data){
+    client.getAccountFromAddress("7028f454dc39d59368e040b1fa7b018d8d14f894").then(function(data){
         console.log(data);
     });
 
@@ -338,7 +345,7 @@ function initiateTest(){
     
     var credential = {passphrase: "rabbit logic scrap relief leg cheap region latin coffee walnut drum quality"};
 
-    var profileRequest = { username: "user1", name: "User test", deliveryAddress: "Delivery address", phone: "Phone number" };
+    var profileRequest = { username: "user1", name: "User test", deliveryAddress: "Delivery address", phone: "Phone number" };    
 
     client.createProfileAssetAndSign(profileRequest, credential).then(function(response){
 
@@ -353,12 +360,14 @@ function initiateTest(){
         console.log("Error creating profile transaction", e);
     });
 
-    var orderRequest = { username: "user1", name: "Black Pasta", deliveryAddress: "Delivery address", phone: "Phone number"
-        , description: "delicious black pasta", foodType: 1, quantity: 1, price: 5};
+    var food1 = {name: "Black Pasta", foodType: 1, quantity: 1, price:5, observation: ""};
+    var food2 = {name: "Black Pasta", foodType: 1, quantity: 1, price:5, observation: ""};
+    var orderRequest = { items:[food1, food2], 
+        username: "user1", deliveryAddress: "Delivery address", phone: "Phone number"};
     
-    var restaurant = {publicKey: "458082e559d62d0e498b83828220144fdfcd481bdb8abdfb7a8773ff79c538be",
-        address:"lskfn3cm9jmph2cftqpzvevwxwyz864jh63yg784b"}
-    client.createFoodAssetAndSign(orderRequest, credential, restaurant.publicKey, restaurant.address).then(function(response){
+    var restaurant = {publicKey: "248e8cbd593f375d38b1b19d670116cbb13a5be7c107a0c6e164e57de7d0efb4",
+        address:"lsk7zk83qbjnn6abdnz3v2gkf2xyeby4fpk7kod9r"}
+    client.createFoodAssetAndSign(orderRequest, credential, restaurant).then(function(response){
         console.log("transaction created", response);
 
         client.sendTransaction(response).then(function(tx){

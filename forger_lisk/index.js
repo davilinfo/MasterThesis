@@ -80,7 +80,7 @@ function importForgerDb(server){
 
             log.info("starting to import forger.db");
 
-            var importResult = exec('lisk-core forger-info:import forger.db.tar.gz --force', function(importerror, importstdout, stderr){
+            exec('lisk-core forger-info:import forger.db.tar.gz --force', function(importerror, importstdout, stderr){
                 if (importerror){
                     console.log(importerror.stack);
                     console.log('Error code: '+importerror.code);
@@ -88,7 +88,7 @@ function importForgerDb(server){
                 }
                 log.info("forger.db imported".concat(" result:").concat(importstdout));
 
-                var restart = exec('pm2 restart lisk-core', function(restarterror, restartstdout, restarterr){
+                exec('pm2 restart lisk-core', function(restarterror, restartstdout, restarterr){
                     if (!restarterror){
                         log.info("lisk-core restarted".concat(restartstdout));
                         return true;
@@ -136,22 +136,40 @@ async function setForging(server, accountInfo){
         return JSON.parse( { "message": invalidDelegate} );
     }    
 
+    if (server.forging === true){        
+        exec('lisk-core forging:enable '.concat(server.address)
+            .concat(' ').concat(server.height.toString())
+            .concat(' ').concat(server.maxHeightPreviouslyForged.toString())
+            .concat(' ').concat(server.maxHeightPrevoted.toString())
+            .concat(' --password ').concat(accountInfo.password)
+            .concat(' --overwrite'), 
+        function(err, stdout, stderr){
+            if (!err){                
+                var result = JSON.parse(stdout.replace("Forging status:", ""));                
+                return result;              
+            }else{
+                console.log(err.stack);
+                console.log('Error code: '+err.code);
+                throw err;
+            }            
+        });        
+    }else{        
+        exec('lisk-core forging:disable '.concat(server.address)
+        .concat(' --password ').concat(accountInfo.password), 
+        function(err, stdout, stderr){
+            if (!err){                
+                var result = JSON.parse(stdout.replace("Forging status:", ""));                
+                return result;
+            }else{
+                console.log(err.stack);
+                console.log('Error code: '+err.code);
+                throw err;
+            }            
+        });        
+    }      
+    
     var client = await apiClient.createWSClient("ws://localhost".concat(":").concat(server.port).concat("/ws")  );
-                 
-    var data = await client.invoke('app:updateForgingStatus', 
-        {   address: server.address, 
-            password: accountInfo.password, 
-            forging: server.forging,
-            height: server.height,
-            maxHeightPrevoted: server.maxHeightPrevoted,
-            maxHeightPreviouslyForged: server.maxHeightPreviouslyForged,
-            override: true
-        });
-        
-    console.log("Server ", server.host, data);  
-    
-    return data;                
-           
-    
- 
+
+    var data = await client.invoke('app:getForgingStatus',{});        
+    return data !==undefined ? data[0] : {"address": server.address, "forging": false};    
 }
