@@ -154,7 +154,7 @@ async function verifyConsensus(){
                                                     
         var objTimeout = setTimeout(async () => {
             servers.forEach(server=>{                       
-                if (server.maxHeightPreviouslyForged === actualForger.maxHeightPreviouslyForged){         
+                if (server != null && server.maxHeightPreviouslyForged !== null && server.maxHeightPreviouslyForged === actualForger.maxHeightPreviouslyForged){         
                     if (server.height >= betterConsensusServer.height 
                         && server.nodeHeight >= betterConsensusServer.nodeHeight 
                         && (betterConsensusServer.online === false || server.consecutiveMissedBlocks < betterConsensusServer.consecutiveMissedBlocks)){
