@@ -154,7 +154,7 @@ async function verifyConsensus(){
                                                     
         var objTimeout = setTimeout(async () => {
             servers.forEach(server=>{                       
-                if (server.maxHeightPreviouslyForged === actualForger.maxHeightPreviouslyForged){         
+                if (server !== null && actualForger !== null && server.maxHeightPreviouslyForged !== null && server.maxHeightPreviouslyForged === actualForger.maxHeightPreviouslyForged){         
                     if (server.height >= betterConsensusServer.height 
                         && server.nodeHeight >= betterConsensusServer.nodeHeight 
                         && (betterConsensusServer.online === false || server.consecutiveMissedBlocks < betterConsensusServer.consecutiveMissedBlocks)){
@@ -163,12 +163,15 @@ async function verifyConsensus(){
                 }
             });
 
-            console.log("Better server:".concat(betterConsensusServer.host));
-            
-            if (forgingIn != undefined){
+            if (betterConsensusServer !== null){
+                console.log("Better server:".concat(betterConsensusServer.host));
+            }
+                        
+            if (forgingIn !== undefined && typeof forgingIn !== 'number'){
                 await updateServerProperties(forgingIn);
             }else{
-                console.log("It is necessary to retrieve forgingIn value again. Attempting soon ...")
+                console.log("It is necessary to retrieve forgingIn value again.")
+                await verifyConsensus();
             }
         }, timeToWait);
 
