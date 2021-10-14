@@ -360,8 +360,8 @@ function initiateTest(){
         console.log("Error creating profile transaction", e);
     });
 
-    var food1 = {name: "Black Pasta", foodType: 1, quantity: 1, price:5, observation: ""};
-    var food2 = {name: "Black Pasta", foodType: 1, quantity: 1, price:5, observation: ""};
+    var food1 = {name: "Black Pasta", foodType: 1, quantity: 1, price:0.1, observation: ""};
+    var food2 = {name: "Black Pasta", foodType: 1, quantity: 1, price:0.1, observation: ""};
     var orderRequest = { items:[food1, food2], 
         username: "user1", deliveryAddress: "Delivery address", phone: "Phone number"};
     
@@ -384,6 +384,6 @@ function initiateTest(){
     client.setNewTransactionEventSubscriber();
 }
 
-initiateTest();
+//initiateTest();
 
 module.exports = ApiHelper;
