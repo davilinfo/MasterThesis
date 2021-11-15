@@ -7,7 +7,7 @@ const accounts = {
     }
 };
 
-var accountFee = 0.002;
+var accountFee = 0.0021;
 var totalAccount = 64;
 let listCredentials = Array(0);
 var count = 0;
@@ -29,7 +29,7 @@ class SpamTest{
             fee: BigInt(transactions.convertLSKToBeddows(accountFee.toString())),
             nonce: BigInt(nonce),
             asset: {
-                amount: BigInt(115000000),
+                amount: BigInt(120000000),
                 recipientAddress: address,
                 data: 'ok',
             },
@@ -70,7 +70,7 @@ class SpamTest{
         console.log("accounts: ".concat(listCredentials.length.toString()));
         
         while (listCredentials.length-1 >= 0){
-            var transactionFee = 0.01;
+            var transactionFee = 0.015;
             var actualCredential = listCredentials.pop();
             console.log(actualCredential);
             console.log("executed accounts:".concat(countAccounts.toString()));
