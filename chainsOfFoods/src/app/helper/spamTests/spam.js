@@ -77,7 +77,7 @@ class SpamTest{
 
             var food1 = {name: "Black Pasta", foodType: 1, quantity: 1, price:0.1, observation: ""};    
             var orderRequest = { items:[food1], 
-            username: "davi", deliveryAddress: "Avenue Sete de Setembro, 2002, Appartament 1401, cep 40080-008", phone: "71997035287"};
+            username: "davi", deliveryAddress: "Avenue Sete de Setembro, 2022, Appartament 1401, cep 40080-004", phone: "71997035287"};
             var restaurant = {publicKey: "248e8cbd593f375d38b1b19d670116cbb13a5be7c107a0c6e164e57de7d0efb4",
             address:"lsk7zk83qbjnn6abdnz3v2gkf2xyeby4fpk7kod9r"}
 
