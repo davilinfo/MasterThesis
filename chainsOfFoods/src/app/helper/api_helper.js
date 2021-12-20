@@ -356,7 +356,7 @@ function initiateTest(){
     });
     
     var credential = {passphrase: "rabbit logic scrap relief leg cheap region latin coffee walnut drum quality"};
-/*
+
     var profileRequest = { username: "user1", name: "User test", deliveryAddress: "Delivery address", phone: "Phone number" };    
 
     client.createProfileAssetAndSign(profileRequest, credential).then(function(response){
@@ -390,7 +390,7 @@ function initiateTest(){
     }).catch(function(e){
         console.log("Error creating food transaction", e);
     });
-    */
+    
     var menu = [{
         "img": "images/ostras-in-natura.jpg",
         "name": "oysters entrance",
