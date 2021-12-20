@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"forceConsistentCasingInFileNames": true,
 		"target": "es2019",
-		"module": "commonjs",
+		"module": "CommonJS",
 		"moduleResolution": "node",
 		"newLine": "lf",
 		"importHelpers": true,
@@ -21,5 +21,11 @@
 		"rootDir": "./src",
 		"outDir": "./dist"
 	},
-	"include": ["./src/**/*.ts", "./src/**/*.json", "src/app/helper/api_helper.js"]
+	"include": [
+		"./src/**/*.ts",
+		"./src/**/*.json",
+		"src/app/helper/api_helper.js",
+		"src/app/helper/spamTests/spam.js",
+		"src/app/helper/create_account_helper.js"
+	]
 }

@@ -33,7 +33,19 @@ var menuSchema = {
     required: ["items"],
     properties: {
         items: {
-            dataType: 'array',
+            dataType: 'string',
+            fieldNumber: 1
+        },
+    }
+}
+
+var newsSchema = {
+    $id: 'lisk/news/transaction',
+    type: 'object',
+    required: ["items"],
+    properties: {
+        items: {
+            dataType: 'string',
             fieldNumber: 1
         },
     }
@@ -241,19 +253,19 @@ class ApiHelper{
 
     async createMenuAssetAndSign(menu, credential){
         const sender = cryptography.getAddressAndPublicKeyFromPassphrase(credential.passphrase);
-
+        
         var accountNonce = await this.getAccountNonce(sender.address);                
         
         const tx = await transactions.signTransaction(
             menuSchema,
             {
                 moduleID: 2000,
-                assetID: 1020,
+                assetID: 1060,
                 nonce: BigInt(accountNonce),
-                fee: BigInt(0),
+                fee: BigInt(2002000),
                 senderPublicKey: sender.publicKey,
                 asset: {
-                    items: menu,
+                    items: JSON.stringify(menu),
                     recipientAddress: sender.address
                 },
             },
@@ -344,7 +356,7 @@ function initiateTest(){
     });
     
     var credential = {passphrase: "rabbit logic scrap relief leg cheap region latin coffee walnut drum quality"};
-
+/*
     var profileRequest = { username: "user1", name: "User test", deliveryAddress: "Delivery address", phone: "Phone number" };    
 
     client.createProfileAssetAndSign(profileRequest, credential).then(function(response){
@@ -360,8 +372,8 @@ function initiateTest(){
         console.log("Error creating profile transaction", e);
     });
 
-    var food1 = {name: "Black Pasta", foodType: 1, quantity: 1, price:5, observation: ""};
-    var food2 = {name: "Black Pasta", foodType: 1, quantity: 1, price:5, observation: ""};
+    var food1 = {name: "Black Pasta", foodType: 1, quantity: 1, price:0.1, observation: ""};
+    var food2 = {name: "Black Pasta", foodType: 1, quantity: 1, price:0.1, observation: ""};
     var orderRequest = { items:[food1, food2], 
         username: "user1", deliveryAddress: "Delivery address", phone: "Phone number"};
     
@@ -377,6 +389,92 @@ function initiateTest(){
         });        
     }).catch(function(e){
         console.log("Error creating food transaction", e);
+    });
+    */
+    var menu = [{
+        "img": "images/ostras-in-natura.jpg",
+        "name": "oysters entrance",
+        "type": 1,
+        "price": 50,
+        "category": 1,
+        "discount": 1,
+        "description": "12 fresh oysters served in a plate"
+      },
+      {
+        "img": "images/moulmari.jpg",
+        "name": "cooked moules entrance",
+        "type": 2,
+        "price": 40,
+        "category": 1,
+        "discount": 1,
+        "description": "Several cooked fresh moules à la creme"
+      },
+      {
+        "img": "images/vanilla_icecream_strawberry_syrup.jpg",
+        "name": "vanilla ice cream dessert",
+        "type": 3,
+        "price": 10,
+        "category": 3,
+        "discount": 1,
+        "description": "vanilla ice cream with strawberry syrup"
+      },
+      {
+        "img": "images/ribs_on_the_barbie.jpg",
+        "name": "Ribs on the barbecue + vanilla ice cream dessert",
+        "type": 4,
+        "price": 50,
+        "category": 2,
+        "discount": 0.3,
+        "description": "10 baked ribs on the barbecue sauce + vanilla ice cream with strawberry syrup"
+      },
+      {
+        "img": "images/oysters_gratines_aux_fromages.jpg",
+        "name": "oysters with baked cheese entrance",
+        "type": 5,
+        "price": 70,
+        "category": 1,
+        "discount": 1,
+        "description": "12 fresh oysters with baked cheeses served in a plate"
+      },
+      {
+        "img": "images/baked-oysters-plus-ribs.jpg",
+        "name": "oysters with baked cheese entrance + ribs on the barbecue + vanilla ice cream dessert",
+        "type": 6,
+        "price": 120,
+        "category": 2,
+        "discount": 0.3,
+        "description": "12 fresh oysters with baked cheeses served in a plate + 10 baked ribs on the barbecue sauce + vanilla ice cream with strawberry syrup"
+      },
+      {
+        "img": "images/heineken_can.jpg",
+        "name": "Heineken beer can",
+        "type": 7,
+        "price": 3,
+        "category": 4,
+        "discount": 1,
+        "description": "Heineken beer can"
+      },
+      {
+        "img": "images/bottle_water.jpg",
+        "name": "Bottle of water",
+        "type": 8,
+        "price": 2,
+        "category": 4,
+        "discount": 1,
+        "description": "Bottle of water"
+      }];
+
+    var restaurantCredential = {passphrase: "scorpion abstract adapt fish goddess cage seed must benefit same witness property"};
+    client.createMenuAssetAndSign(menu, restaurantCredential).then(function(response){
+        console.log("transaction created", response);
+
+        client.sendTransaction(response).then(function(tx){
+            console.log("menu transaction sent", tx);
+        }).catch(function(e){
+            console.log("Error sending menu transaction", e);
+        });
+    }).catch(function(e){
+        console.log("Error creating menu transaction", e);
     });
 
     client.setNewBlockEventSubscriber();

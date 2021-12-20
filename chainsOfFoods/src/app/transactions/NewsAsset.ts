@@ -38,21 +38,22 @@ export class NewsAsset extends BaseAsset {
                 'Restaurant menu should include food and/or beverages. Please include at least some item: "asset.items"');            
         }
 
-        for (var index=0; index < asset.items.length; index ++){
+        var items = JSON.parse(asset.items);
+        for (var index=0; index < items.length; index ++){
 
-            if (!asset.items[index].title || typeof asset.items[index].title !== 'string' || asset.items[index].title > 50){
+            if (!items[index].title || typeof items[index].title !== 'string' || items[index].title.length > 50){
                 throw  new Error(
                         'Invalid "name" defined on transaction "asset.items[index].name . Should be included a string value no longer than 50 characters"'
                     );                
             }
     
-            if (!asset.items[index].description || typeof asset.items[index].description !== 'string' || asset.items[index].description.length > 160){
+            if (!items[index].description || typeof items[index].description !== 'string' || items[index].description.length > 160){
                 throw new Error(
                         'Invalid "description" defined on transaction "asset.items[index].description. Should be included a string value no longer than 160 characters"'
                 );
             }
     
-            if (!asset.items[index].text || asset.items[index].text > 2000 ){
+            if (!items[index].text || items[index].text.length > 2000 ){
                 throw new Error(
                         'Invalid "text" defined on transaction "asset.items[index].text" . Should be included a string value no longer than 2000 characters'
                     );                
@@ -60,29 +61,21 @@ export class NewsAsset extends BaseAsset {
         }                
     }
 
-    async apply({ asset, stateStore, reducerHandler, transaction }) {  
+    async apply({ stateStore, reducerHandler, transaction }) {  
         const senderAddress = transaction.senderAddress;
-
-        const restaurantAddress = asset.recipientAddress;
-        const restaurantAccount = await stateStore.account.get(restaurantAddress);
-
-        if (senderAddress.toString() != restaurantAddress.toString()){            
-            throw new Error(
-                'Invalid "sender" "recipient", should be the same. sender: '.concat(senderAddress.toString()).concat(' recipient:').concat(restaurantAddress.toString()));
-        }
+        const senderAccount = await stateStore.account.get(senderAddress);               
         
-        await stateStore.account.set(restaurantAddress, restaurantAccount);
+        await stateStore.account.set(senderAddress, senderAccount);
         await reducerHandler.invoke("token:debit", {
-            address: restaurantAddress,
+            address: senderAddress,
             amount: NewsAsset.FEE()
         });
-
-        const sidechainAddress = this.sidechainAddress();
-        const sidechainOwnerAccount = await stateStore.account.get(sidechainAddress);                
         
-        await stateStore.account.set(sidechainAddress, sidechainOwnerAccount);
+        const sidechainOwnerAccount = await stateStore.account.get(this.sidechainAddress());                
+        
+        await stateStore.account.set(this.sidechainAddress(), sidechainOwnerAccount);
         await reducerHandler.invoke("token:credit", {
-            address: sidechainAddress,
+            address: this.sidechainAddress(),
             amount: NewsAsset.FEE()
         });        
     }    

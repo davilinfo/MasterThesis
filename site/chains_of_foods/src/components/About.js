@@ -17,7 +17,7 @@ function About(){
                     <div className="box-icon-inner decorate-triangle"><span className="icon-xl restaurant-icon-30"></span></div>
                     <div className="box-icon-caption">
                     <h4><a href="#">Friendly Team</a></h4>
-                    <p>Morbi tristique senectus et netus et malesuada fames ac turpis.</p>
+                    <p>Commited in deliver the best dishes for your pleasure.</p>
                     </div>
                 </div>
                 </div>
@@ -26,7 +26,7 @@ function About(){
                     <div className="box-icon-inner decorate-circle"><span className="icon-xl restaurant-icon-11"></span></div>
                     <div className="box-icon-caption">
                     <h4><a href="#">Fresh Food</a></h4>
-                    <p>Cum resistentia mori, omnes elevatuses imperium plac.</p>
+                    <p>We cook with the best fresh and organic ingredients.</p>
                     </div>
                 </div>
                 </div>
@@ -35,7 +35,7 @@ function About(){
                     <div className="box-icon-inner decorate-rectangle"><span className="icon-xl restaurant-icon-36"></span></div>
                     <div className="box-icon-caption">
                     <h4><a href="#">Quality Cuisine</a></h4>
-                    <p>Cum consilium accelerare, omnes absolutioes quaestio fatalis.</p>
+                    <p>Our recipes are unique or adaptation from great ones.</p>
                     </div>
                 </div>
                 </div>
@@ -44,7 +44,7 @@ function About(){
                     <div className="box-icon-inner decorate-circle"><span className="icon-xl restaurant-icon-27"></span></div>
                     <div className="box-icon-caption">
                     <h4><a href="#">Best Service</a></h4>
-                    <p>Cum onus studere, omnes consiliumes amor plac.</p>
+                    <p>We monitor the ingredients utilized for cooking our best dishes. We allow each online food request to be tracked and preserve the customer sensitive information safely.</p>
                     </div>
                 </div>
                 </div>
@@ -53,7 +53,7 @@ function About(){
                     <div className="box-icon-inner decorate-triangle"><span className="icon-xl restaurant-icon-34"></span></div>
                     <div className="box-icon-caption">
                     <h4><a href="#">Diverse Menu</a></h4>
-                    <p>Cum demolitione persuadere, omnes devatioes captis.</p>
+                    <p>Variety of amazing dishes is our especiality. From Pacific Salmon until Octopus from Atlantic sea.</p>
                     </div>
                 </div>
                 </div>
@@ -62,7 +62,7 @@ function About(){
                     <div className="box-icon-inner decorate-rectangle"><span className="icon-xl restaurant-icon-26"></span></div>
                     <div className="box-icon-caption">
                     <h4><a href="#">Affordable Prices</a></h4>
-                    <p>Mirabilis, gratis devatios mechanice contactus de neuter, primus vigil.</p>
+                    <p>We have the advantage to offer competitive rates because of digital coins, no intermediaries, no extra taxes.</p>
                     </div>
                 </div>
                 </div>
@@ -77,19 +77,11 @@ function About(){
                 <div className="item">
                     <div className="testimonials-modern">
                     <div className="testimonials-modern-text">
-                        <p>A falsis, hibrida peritus fiscina. Devatio de fortis era, talem abaculus! Urbs germanus abnoba est. Pol, a bene exemplar, victrix! Peritus verpas ducunt ad byssus. Cum historia persuadere, omnes decores.</p>
+                        <p>The effort to create a unique environment that offers a singular experience to allow any customer to request food online using a digital coin safely is fantastic.</p>
                     </div>
                     <div className="testimonials-modern-name">Davi Alves</div>
                     </div>
-                </div>
-                <div className="item">
-                    <div className="testimonials-modern">
-                    <div className="testimonials-modern-text">
-                        <p>Silvas cadunt in magnum antverpia! Ubi est grandis gabalium? Trabem sapienter ducunt ad dexter hydra. Devatios sunt assimilatios de alter ignigena. Est ferox lapsus, cesaris. Cum abactus tolerare, omnes.</p>
-                    </div>
-                    <div className="testimonials-modern-name"> </div>
-                    </div>
-                </div>                
+                </div>                              
             </div>
                 
             </div>
