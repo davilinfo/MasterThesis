@@ -275,6 +275,30 @@ class ApiHelper{
         return tx;
     }
 
+    async createNewsAssetAndSign(news, credential){
+        const sender = cryptography.getAddressAndPublicKeyFromPassphrase(credential.passphrase);
+        
+        var accountNonce = await this.getAccountNonce(sender.address);                
+        
+        const tx = await transactions.signTransaction(
+            newsSchema,
+            {
+                moduleID: 2000,
+                assetID: 1080,
+                nonce: BigInt(accountNonce),
+                fee: BigInt(0),
+                senderPublicKey: sender.publicKey,
+                asset: {
+                    items: JSON.stringify(news),
+                    recipientAddress: sender.address
+                },
+            },
+            Buffer.from(networkIdentifier, "hex"),
+            credential.passphrase);
+    
+        return tx;
+    }
+
     async createProfileAssetAndSign(userProfile, credential){
         const sender = cryptography.getAddressAndPublicKeyFromPassphrase(credential.passphrase);
 
@@ -478,6 +502,25 @@ function initiateTest(){
     }).catch(function(e){
         console.log("Error creating menu transaction", e);
     });    
+
+    var delegateCredential = {passphrase: "vault issue acid early emotion dress sword inform scorpion journey bracket flip"};
+    var news = [{
+        "title": "News from restaurant sidechain",
+        "description": "Restaurant sidechain offers only 1% fees for each food transaction",
+        "text": "The brand new restaurant sidechain offers a new solution for restaurants based in blockchain technology"
+    }];
+
+    client.createNewsAssetAndSign(news, delegateCredential).then(function(response){
+        console.log("transaction created", response);
+
+        client.sendTransaction(response).then(function(tx){
+            console.log("news transaction sent", tx);
+        }).catch(function(e){
+            console.log("Error sending news transaction", e);
+        });
+    }).catch(function(e){
+        console.log("Error creating news transaction", e);
+    });      
 
     client.setNewBlockEventSubscriber();
 
