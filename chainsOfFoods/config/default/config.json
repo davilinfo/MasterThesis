@@ -39,6 +39,11 @@
 				"moduleID": 2000,
 				"assetID": 1060,
 				"baseFee": "0"
+			},
+			{
+				"moduleID": 2000,
+				"assetID": 1080,
+				"baseFee": "0"
 			}
 		],
 		"rewards": {
