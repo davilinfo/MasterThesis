@@ -1,4 +1,4 @@
-//cliente
+//clientes
 [
  {
   "passphrase": "rabbit logic scrap relief leg cheap region latin coffee walnut drum quality",
@@ -6,6 +6,9 @@
   "publicKey": "16e9e0e42056b9623d96a9ac414f184b9e154fb76a7ca9696f436e990ca4a75c",
   "binaryAddress": "ac6df241082d630bb60b834f091d210d0a529343",
   "address": "lskqyegpu33mqyuw9u5u9nurn4xxkmmmpdc8fhk5j"
+ },
+ {
+  "passphrase": "safe secret dentist color file ball town joy dad tilt foot asthma"
  }
 ]
 
@@ -27,3 +30,5 @@ witness want space high scan crystal machine wave mimic movie paper work
 one first east business glue away borrow fluid soccer kick jealous clog
 
 swallow huge foot wealth window stable enact ribbon genre title exile bamboo
+
+fox crush later puzzle truck occur know arrange disagree arm snack movie

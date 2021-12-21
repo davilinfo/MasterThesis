@@ -3,7 +3,7 @@ const NewAccount = require('../create_account_helper');
 const { cryptography, transactions } = require( '@liskhq/lisk-client');
 const accounts = {
     "genesis": {
-      "passphrase": "keen alarm cabbage inherit order tired ankle witness oyster beach purchase false"
+      "passphrase": "fox crush later puzzle truck occur know arrange disagree arm snack movie"
     }
 };
 
