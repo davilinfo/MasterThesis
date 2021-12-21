@@ -16,14 +16,29 @@
 	"genesisConfig": {
 		"blockTime": 10,
 		"communityIdentifier": "sdk",
-		"maxPayloadLength": 15360,
+		"maxPayloadLength": 30360,
 		"bftThreshold": 68,
-		"minFeePerByte": 1000,
+		"minFeePerByte": 0,
 		"baseFees": [
 			{
 				"moduleID": 5,
 				"assetID": 0,
 				"baseFee": "1000000000"
+			},
+			{
+				"moduleID": 2000,
+				"assetID": 1040,
+				"baseFee": "0"
+			},
+			{
+				"moduleID": 2000,
+				"assetID": 1020,
+				"baseFee": "0"
+			},
+			{
+				"moduleID": 2000,
+				"assetID": 1060,
+				"baseFee": "0"
 			}
 		],
 		"rewards": {
@@ -31,7 +46,7 @@
 			"offset": 2160,
 			"distance": 3000000
 		},
-		"minRemainingBalance": "5000000",
+		"minRemainingBalance": "500000",
 		"activeDelegates": 101,
 		"standbyDelegates": 2,
 		"delegateListRoundOffset": 2
