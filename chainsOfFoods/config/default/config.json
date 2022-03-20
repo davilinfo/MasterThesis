@@ -11517,7 +11517,7 @@
 		"httpApi": {
 			"port": 4000,
 			"host": "0.0.0.0",
-			"whiteList": [0],
+			"whiteList": [],
 			"cors": {
 				"origin": "*",
 				"methods": ["GET", "POST", "PUT"]
