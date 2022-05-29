@@ -18,7 +18,7 @@ function FormWallet({onSubmit}){
             <form onSubmit={handleSubmit}>
                 <h3>For generating a new wallet address press the button</h3>
                 <div>
-                    <button type='submit'>Generate</button>          
+                    <button className='button' type='submit'>Generate</button>          
                 </div>
             </form> 
         </div>

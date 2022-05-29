@@ -62,7 +62,7 @@ function About(){
                     <div className="box-icon-inner decorate-rectangle"><span className="icon-xl restaurant-icon-26"></span></div>
                     <div className="box-icon-caption">
                     <h4><a href="#">Affordable Prices</a></h4>
-                    <p>We have the advantage to offer competitive rates because of digital coins, no intermediaries, no extra taxes.</p>
+                    <p>We have the advantage to offer competitive rates because of cryptocurrency, no intermediaries, no extra taxes.</p>
                     </div>
                 </div>
                 </div>
@@ -77,7 +77,7 @@ function About(){
                 <div className="item">
                     <div className="testimonials-modern">
                     <div className="testimonials-modern-text">
-                        <p>The effort to create a unique environment that offers a singular experience to allow any customer to request food online using a digital coin safely is fantastic.</p>
+                        <p>The effort to create a unique environment that offers a singular experience to allow any customer to request food online using a cryptocurrency safely is fantastic.</p>
                     </div>
                     <div className="testimonials-modern-name">Davi Alves</div>
                     </div>

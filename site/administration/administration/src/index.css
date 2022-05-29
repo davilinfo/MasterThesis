@@ -24,3 +24,14 @@ code {
 .important{
   font-weight: bold;
 }
+
+.button{
+  border-radius: 15%;
+  background-color: whitesmoke;
+  height: 30px;
+}
+
+.sidechain-logo {
+  height: 40vmin;
+  pointer-events: none;
+}

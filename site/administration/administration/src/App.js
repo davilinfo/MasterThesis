@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import sidechain_logo from './images/admin.png';
 import './App.css';
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
@@ -56,12 +56,33 @@ function App(props) {
     <div className="App">
       
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={sidechain_logo} className='sidechain-logo' alt="sidechain logo" />
           <p>
-            Welcome to Restaurant wallet generation.
+            Welcome. This is the first step to join a restaurant into the Sidechain of Restaurants.
+            At glance, the restaurant sidechain is commum blockchain composed with machines that run
+             the same protocol to allow restaurants serve clients and clients pay restaurants utilizing
+             the blockchain technology. This reduce payment fees for restaurants and clients, also in this
+             sidechain any client sensitive information is protected with secure cryptography.
           </p>      
 
-          <FormWallet onSubmit={handleSubmit}></FormWallet>          
+          <p>
+            Now, how to join the sidechain of restaurants? The first step is to generate a restaurant digital wallet.
+            The wallet allows restaurant connect into sidechain and also receive and transfer any cryptocurrency 
+            from its client. Please, go and click on Generate button to generate safely your first wallet.
+          </p>
+
+          <FormWallet onSubmit={handleSubmit}></FormWallet>
+
+          <p>
+            Secondly, you need to connect to a sidechain node. For that follow the <span> </span>  
+            <a className='App-link' href='https://sidechain.liskrestaurant.com'>Sidechain nodes page</a>
+          </p>
+          
+          <p>
+            FInally, to interact with the sidechain network download the library that allows a restaurant to
+            utilize blockchain technology for generating a restaurant menu, create food transactions,
+            create user profile, send news and more.
+          </p>
         </header>              
                 
       <div id='result'></div>
