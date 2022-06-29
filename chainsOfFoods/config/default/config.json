@@ -58,7 +58,7 @@
 		"delegateListRoundOffset": 2
 	},
 	"forging": {
-		"force": true,
+		"force": false,
 		"waitThreshold": 2,
 		"delegates": [
 			{
@@ -11500,7 +11500,7 @@
 	"network": {
 		"seedPeers": [
 			{
-				"ip": "127.0.0.1",
+				"ip": "188.166.91.251",
 				"port": 5000
 			}
 		],
