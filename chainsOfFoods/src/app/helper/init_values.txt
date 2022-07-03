@@ -1,0 +1,3 @@
+lisk transaction:create 2 0 100000000 --asset='{"amount":100000000,"recipientAddress":"f1d032b78527703f4ea400ac2b86f103d49e7548","data":"send token"}'
+lisk transaction:create 2 0 100000000 --asset='{"amount":1000000000,"recipientAddress":"7028f454dc39d59368e040b1fa7b018d8d14f894","data":"send token"}'
+lisk transaction:create 2 0 100000000 --asset='{"amount":100000000,"recipientAddress":"ac6df241082d630bb60b834f091d210d0a529343","data":"send token"}'
