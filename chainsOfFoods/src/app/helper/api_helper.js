@@ -375,17 +375,17 @@ function initiateTest(){
         console.log(data);
     });
 
-    client.getTransactionsSchemas().then(function(data){
+    client.getAccountNonce(cryptography.getAddressFromPassphrase("fox crush later puzzle truck occur know arrange disagree arm snack movie")).then(function(data){
+        console.log(data);
+    });
+
+    /*client.getTransactionsSchemas().then(function(data){
         console.log("getTransactions", data);
     });
     
     client.getAccountFromAddress("7028f454dc39d59368e040b1fa7b018d8d14f894").then(function(data){
         console.log(data);
-    });
-
-    client.getAccountNonce("ac6df241082d630bb60b834f091d210d0a529343").then(function(data){
-        console.log(data);
-    });
+    });    
 
     client.getAccountFromHexAddres().then(function(data){
         console.log(data);
@@ -540,7 +540,7 @@ function initiateTest(){
 
     client.setNewBlockEventSubscriber();
 
-    client.setNewTransactionEventSubscriber();
+    client.setNewTransactionEventSubscriber();*/
 }
 
 initiateTest();

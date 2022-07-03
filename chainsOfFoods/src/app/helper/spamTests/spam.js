@@ -7,14 +7,14 @@ const accounts = {
     }
 };
 
-var accountFee = 0.0021;
+var accountFee = 0.010;
 var totalAccount = 64;
 let listCredentials = Array(0);
 var count = 0;
 
 class SpamTest{
 
-    api = new ApiHelper('ws://localhost:8080/ws');
+    api = new ApiHelper('ws://178.62.225.24:8080/ws');
 
     async createAccount (nonce) {
         const account = new NewAccount();
@@ -29,7 +29,7 @@ class SpamTest{
             fee: BigInt(transactions.convertLSKToBeddows(accountFee.toString())),
             nonce: BigInt(nonce),
             asset: {
-                amount: BigInt(120000000),
+                amount: BigInt(14000000),
                 recipientAddress: address,
                 data: 'ok',
             },
@@ -41,15 +41,15 @@ class SpamTest{
     }    
 
     async preResult () {        
-        while (count < totalAccount) {
-            const accountNonce = await this.api.getAccountNonce(cryptography.getAddressFromPassphrase(accounts.genesis.passphrase));
+        const accountNonce = await this.api.getAccountNonce(cryptography.getAddressFromPassphrase(accounts.genesis.passphrase));
+        while (count < totalAccount) {            
             console.log('account nonce:'.concat(accountNonce.toString()));        
             const nonce = parseInt(accountNonce.toString()) + count;
             console.log('transaction nonce:'.concat(nonce.toString()));
             var credential = {};
             credential = await this.createAccount(nonce);
             listCredentials.push(credential);
-            accountFee = accountFee + 0.001;
+            accountFee = accountFee + 0.02;
             accountFee = parseFloat(accountFee.toPrecision(3));
             console.log(accountFee);
             count++;
@@ -70,7 +70,7 @@ class SpamTest{
         console.log("accounts: ".concat(listCredentials.length.toString()));
         
         while (listCredentials.length-1 >= 0){
-            var transactionFee = 0.015;
+            
             var actualCredential = listCredentials.pop();
             console.log(actualCredential);
             console.log("executed accounts:".concat(countAccounts.toString()));
@@ -87,9 +87,7 @@ class SpamTest{
                     const response = await this.api.sendTransaction(newTx);
                     console.log(response);
                     countTransactions++;
-                    transactionFee = transactionFee + 0.001;
-                    transactionFee = parseFloat(transactionFee.toPrecision(2));
-                    console.log(transactionFee);
+                    
                 }catch (e){
                     console.log(e);
                 }
