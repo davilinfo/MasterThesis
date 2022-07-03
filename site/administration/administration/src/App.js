@@ -79,7 +79,7 @@ function App(props) {
           </p>
           
           <p>
-            FInally, to interact with the sidechain network download the library that allows a restaurant to
+            Finally, to interact with the sidechain network download the library that allows a restaurant to
             utilize blockchain technology for generating a restaurant menu, create food transactions,
             create user profile, send news and more.
           </p>

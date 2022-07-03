@@ -375,7 +375,7 @@ function initiateTest(){
         console.log(data);
     });
 
-    client.getTransactions().then(function(data){
+    client.getTransactionsSchemas().then(function(data){
         console.log("getTransactions", data);
     });
     
@@ -391,7 +391,7 @@ function initiateTest(){
         console.log(data);
     });
 
-    client.getBlockByHeight(200).then(function(data){
+    client.getBlockByHeight(1).then(function(data){
         console.log(data);
     });
         
