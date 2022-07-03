@@ -14,7 +14,7 @@ var count = 0;
 
 class SpamTest{
 
-    api = new ApiHelper('ws://178.62.225.24:8080/ws');
+    api = new ApiHelper('ws://localhost:8080/ws');
 
     async createAccount (nonce) {
         const account = new NewAccount();
