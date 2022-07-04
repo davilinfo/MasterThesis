@@ -1,0 +1,1 @@
+importing a backup allow to consult the blockchain blocks and its transactions in the blockchain

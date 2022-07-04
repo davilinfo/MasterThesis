@@ -1,0 +1,7 @@
+Goal: creates 64 accounts, each account creates 1 food tx. All transactions sent to London node n4
+
+block 1575 = 68 accounts tx
+block 1579 = 59 food tx
+block 1580 = 5 food tx
+
+
