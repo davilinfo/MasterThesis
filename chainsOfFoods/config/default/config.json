@@ -58,7 +58,7 @@
 		"delegateListRoundOffset": 2
 	},
 	"forging": {
-		"force": true,
+		"force": false,
 		"waitThreshold": 2,
 		"delegates": [
 			{
@@ -2295,7 +2295,7 @@
 	},
 	"transactionPool": {
 		"maxTransactions": 4096,
-		"maxTransactionsPerAccount": 64,
+		"maxTransactionsPerAccount": 200,
 		"transactionExpiryTime": 10800000,
 		"minEntranceFeePriority": "0",
 		"minReplacementFeeDifference": "10"
