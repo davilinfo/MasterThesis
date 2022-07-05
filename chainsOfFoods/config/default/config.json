@@ -5,7 +5,7 @@
 	"rootPath": "~/.lisk",
 	"logger": {
 		"fileLogLevel": "info",
-		"consoleLogLevel": "debug",
+		"consoleLogLevel": "info",
 		"logFileName": "lisk.log"
 	},
 	"rpc": {
