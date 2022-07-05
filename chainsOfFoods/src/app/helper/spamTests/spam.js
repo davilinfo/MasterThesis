@@ -41,8 +41,8 @@ class SpamTest{
     }    
 
     async preResult () {        
-        while (count < totalAccount) {
-            const accountNonce = await this.api.getAccountNonce(cryptography.getAddressFromPassphrase(accounts.genesis.passphrase));
+        const accountNonce = await this.api.getAccountNonce(cryptography.getAddressFromPassphrase(accounts.genesis.passphrase));
+        while (count < totalAccount) {            
             console.log('account nonce:'.concat(accountNonce.toString()));        
             const nonce = parseInt(accountNonce.toString()) + count;
             console.log('transaction nonce:'.concat(nonce.toString()));
