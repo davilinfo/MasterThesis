@@ -8,7 +8,7 @@ const accounts = {
 };
 
 var accountFee = 0.0021;
-var totalAccount = 64;
+var totalAccount = 200;
 let listCredentials = Array(0);
 var count = 0;
 
@@ -41,15 +41,15 @@ class SpamTest{
     }    
 
     async preResult () {        
-        while (count < totalAccount) {
-            const accountNonce = await this.api.getAccountNonce(cryptography.getAddressFromPassphrase(accounts.genesis.passphrase));
+        const accountNonce = await this.api.getAccountNonce(cryptography.getAddressFromPassphrase(accounts.genesis.passphrase));
+        while (count < totalAccount) {            
             console.log('account nonce:'.concat(accountNonce.toString()));        
             const nonce = parseInt(accountNonce.toString()) + count;
             console.log('transaction nonce:'.concat(nonce.toString()));
             var credential = {};
             credential = await this.createAccount(nonce);
             listCredentials.push(credential);
-            accountFee = accountFee + 0.001;
+            accountFee = accountFee + 0.01;
             accountFee = parseFloat(accountFee.toPrecision(3));
             console.log(accountFee);
             count++;
