@@ -3,12 +3,12 @@ const NewAccount = require('../create_account_helper');
 const { cryptography, transactions } = require( '@liskhq/lisk-client');
 const accounts = {
     "genesis": {
-      "passphrase": "fox crush later puzzle truck occur know arrange disagree arm snack movie"
+      "passphrase": "warm agree asthma walk drill eagle auto same coconut young aspect business"
     }
 };
 
-var accountFee = 0.010;
-var totalAccount = 200;
+var accountFee = 0.0021;
+var totalAccount = 150;
 let listCredentials = Array(0);
 var count = 0;
 
@@ -40,7 +40,8 @@ class SpamTest{
         return newCredential;
     }    
 
-    async preResult () {        
+    async preResult () {      
+        console.time("accounts ");  
         const accountNonce = await this.api.getAccountNonce(cryptography.getAddressFromPassphrase(accounts.genesis.passphrase));
         while (count < totalAccount) {            
             console.log('account nonce:'.concat(accountNonce.toString()));        
@@ -49,16 +50,19 @@ class SpamTest{
             var credential = {};
             credential = await this.createAccount(nonce);
             listCredentials.push(credential);
-            accountFee = accountFee + 0.02;
+            accountFee = accountFee + 0.01;
             accountFee = parseFloat(accountFee.toPrecision(3));
             console.log(accountFee);
             count++;
         }
         console.log("concluded accounts preparation");
         console.log("preparing to spam transactions");
+        console.timeEnd("accounts ");
 
         var objTimeout = setTimeout(async () => {
+            console.time("transactions creation ");
             await this.waitToExecuteTransactions();
+            console.timeEnd("transactions creation ");
             }, 30000);
 
         objTimeout.ref();
@@ -70,7 +74,7 @@ class SpamTest{
         console.log("accounts: ".concat(listCredentials.length.toString()));
         
         while (listCredentials.length-1 >= 0){
-            
+            var transactionFee = 0.015;
             var actualCredential = listCredentials.pop();
             console.log(actualCredential);
             console.log("executed accounts:".concat(countAccounts.toString()));
@@ -87,7 +91,9 @@ class SpamTest{
                     const response = await this.api.sendTransaction(newTx);
                     console.log(response);
                     countTransactions++;
-                    
+                    transactionFee = transactionFee + 0.001;
+                    transactionFee = parseFloat(transactionFee.toPrecision(2));
+                    console.log(transactionFee);
                 }catch (e){
                     console.log(e);
                 }
