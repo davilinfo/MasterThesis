@@ -49,7 +49,7 @@ class SpamTest{
             var credential = {};
             credential = await this.createAccount(nonce);
             listCredentials.push(credential);
-            accountFee = accountFee + 0.001;
+            accountFee = accountFee + 0.01;
             accountFee = parseFloat(accountFee.toPrecision(3));
             console.log(accountFee);
             count++;
