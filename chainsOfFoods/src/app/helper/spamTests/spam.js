@@ -8,7 +8,7 @@ const accounts = {
 };
 
 var accountFee = 0.0021;
-var totalAccount = 64;
+var totalAccount = 200;
 let listCredentials = Array(0);
 var count = 0;
 
