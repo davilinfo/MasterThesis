@@ -3,7 +3,7 @@ const NewAccount = require('../create_account_helper');
 const { cryptography, transactions } = require( '@liskhq/lisk-client');
 const accounts = {
     "genesis": {
-      "passphrase": "fox crush later puzzle truck occur know arrange disagree arm snack movie"
+      "passphrase": "cost enjoy night endorse crash belt wheat solid fence snack digital jeans"
     }
 };
 
@@ -29,7 +29,7 @@ class SpamTest{
             fee: BigInt(transactions.convertLSKToBeddows(accountFee.toString())),
             nonce: BigInt(nonce),
             asset: {
-                amount: BigInt(120000000),
+                amount: BigInt(14000000),
                 recipientAddress: address,
                 data: 'ok',
             },
@@ -40,7 +40,8 @@ class SpamTest{
         return newCredential;
     }    
 
-    async preResult () {        
+    async preResult () {      
+        console.time("accounts ");  
         const accountNonce = await this.api.getAccountNonce(cryptography.getAddressFromPassphrase(accounts.genesis.passphrase));
         while (count < totalAccount) {            
             console.log('account nonce:'.concat(accountNonce.toString()));        
@@ -56,9 +57,12 @@ class SpamTest{
         }
         console.log("concluded accounts preparation");
         console.log("preparing to spam transactions");
+        console.timeEnd("accounts ");
 
         var objTimeout = setTimeout(async () => {
+            console.time("transactions creation ");
             await this.waitToExecuteTransactions();
+            console.timeEnd("transactions creation ");
             }, 30000);
 
         objTimeout.ref();
