@@ -379,7 +379,7 @@ function initiateTest(){
         console.log(data);
     });
 
-    /*client.getTransactionsSchemas().then(function(data){
+    client.getTransactionsSchemas().then(function(data){
         console.log("getTransactions", data);
     });
     
@@ -540,9 +540,9 @@ function initiateTest(){
 
     client.setNewBlockEventSubscriber();
 
-    client.setNewTransactionEventSubscriber();*/
+    client.setNewTransactionEventSubscriber();
 }
 
-initiateTest();
+//initiateTest();
 
 module.exports = ApiHelper;
