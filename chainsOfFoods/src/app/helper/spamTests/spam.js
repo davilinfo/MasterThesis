@@ -3,7 +3,7 @@ const NewAccount = require('../create_account_helper');
 const { cryptography, transactions } = require( '@liskhq/lisk-client');
 const accounts = {
     "genesis": {
-      "passphrase": "fox crush later puzzle truck occur know arrange disagree arm snack movie"
+      "passphrase": "cost enjoy night endorse crash belt wheat solid fence snack digital jeans"
     }
 };
 
@@ -14,7 +14,7 @@ var count = 0;
 
 class SpamTest{
 
-    api = new ApiHelper('ws://localhost:8080/ws');
+    api = new ApiHelper('ws://172.19.77.39:8080/ws');
 
     async createAccount (nonce) {
         const account = new NewAccount();
@@ -29,7 +29,7 @@ class SpamTest{
             fee: BigInt(transactions.convertLSKToBeddows(accountFee.toString())),
             nonce: BigInt(nonce),
             asset: {
-                amount: BigInt(120000000),
+                amount: BigInt(14000000),
                 recipientAddress: address,
                 data: 'ok',
             },
@@ -38,12 +38,13 @@ class SpamTest{
         console.log(await client.transaction.send(tx));
 
         return newCredential;
-    }    
+    }
 
-    async preResult () {        
+    async preResult () {
+        console.time("accounts ");
         const accountNonce = await this.api.getAccountNonce(cryptography.getAddressFromPassphrase(accounts.genesis.passphrase));
-        while (count < totalAccount) {            
-            console.log('account nonce:'.concat(accountNonce.toString()));        
+        while (count < totalAccount) {
+            console.log('account nonce:'.concat(accountNonce.toString()));
             const nonce = parseInt(accountNonce.toString()) + count;
             console.log('transaction nonce:'.concat(nonce.toString()));
             var credential = {};
@@ -56,9 +57,12 @@ class SpamTest{
         }
         console.log("concluded accounts preparation");
         console.log("preparing to spam transactions");
+        console.timeEnd("accounts ");
 
         var objTimeout = setTimeout(async () => {
+            console.time("transactions creation ");
             await this.waitToExecuteTransactions();
+            console.timeEnd("transactions creation ");
             }, 30000);
 
         objTimeout.ref();
@@ -68,21 +72,21 @@ class SpamTest{
         var countTransactions = 0;
         var countAccounts = 1;
         console.log("accounts: ".concat(listCredentials.length.toString()));
-        
+
         while (listCredentials.length-1 >= 0){
             var transactionFee = 0.015;
             var actualCredential = listCredentials.pop();
             console.log(actualCredential);
             console.log("executed accounts:".concat(countAccounts.toString()));
 
-            var food1 = {name: "Black Pasta", foodType: 1, quantity: 1, price:0.1, observation: ""};    
-            var orderRequest = { items:[food1], 
+            var food1 = {name: "Black Pasta", foodType: 1, quantity: 1, price:0.1, observation: ""};
+            var orderRequest = { items:[food1],
             username: "davi", deliveryAddress: "Avenue Sete de Setembro, 2022, Appartament 1401, cep 40080-004", phone: "71997035287"};
             var restaurant = {publicKey: "248e8cbd593f375d38b1b19d670116cbb13a5be7c107a0c6e164e57de7d0efb4",
             address:"lsk7zk83qbjnn6abdnz3v2gkf2xyeby4fpk7kod9r"}
 
             while (countTransactions < 1){
-                try{                    
+                try{
                     var newTx = await this.api.createFoodAssetAndSign(orderRequest, actualCredential, restaurant);
                     const response = await this.api.sendTransaction(newTx);
                     console.log(response);
