@@ -1,0 +1,12 @@
+150 accounts creation 3301ms
+block 296 102
+block 297 51
+block 298 1
+
+
+150 transactions creation 3352ms
+block 299 30
+block 300 30
+block 301 30
+block 302 30
+block 303 30
