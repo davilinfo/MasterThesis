@@ -6,7 +6,7 @@ LICENSE
 .DS_Store
 data/
 .idea
-logs/
+#logs/
 
 .gitkeep
 

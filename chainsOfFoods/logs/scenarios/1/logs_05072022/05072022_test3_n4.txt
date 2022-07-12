@@ -1,0 +1,7 @@
+150 accounts created in 3489.776ms
+block 1754 154
+
+150 transactions created in 3185.185ms
+block 1757 59
+block 1758 59
+block 1759 32

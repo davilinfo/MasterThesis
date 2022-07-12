@@ -1,0 +1,6 @@
+Goal: creates 64 accounts, each account creates 1 food tx. All transactions sent to Brazilian node n2
+
+block 949 = 64 accounts tx
+block 953 = 59 food tx
+block 954 = 5 food tx
+

@@ -1,0 +1,7 @@
+Goal: creates 64 accounts, each account creates 1 food tx. All transactions sent to Amsterdam node n3
+
+block 1643 = 64 accounts tx
+block 1646 = 59 food tx
+block 1647 = 5 food tx
+
+

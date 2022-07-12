@@ -75,6 +75,7 @@ var profileSchema = {
     }
 };
 const networkIdentifier = "68bc1b08c5ee6218d58df4909116e35a4dda0bf723f018b6c315dba9851ea4de";
+const server = { host: "http://localhost:4000" };
 
 class ApiHelper{
              
@@ -199,6 +200,21 @@ class ApiHelper{
         const result = await client.transaction.send(transaction);
 
         return result;
+    }
+
+    async getMenuTransaction(){
+        var url = server.host.concat("/api/node/transactions?limit=50");
+
+        var response = await fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return response;
     }
 
     async createFoodAssetAndSign(orderRequest, credential, restaurant){
@@ -359,23 +375,23 @@ function initiateTest(){
         console.log(data);
     });
 
-    client.getTransactions().then(function(data){
+    client.getAccountNonce(cryptography.getAddressFromPassphrase("fox crush later puzzle truck occur know arrange disagree arm snack movie")).then(function(data){
+        console.log(data);
+    });
+
+    client.getTransactionsSchemas().then(function(data){
         console.log("getTransactions", data);
     });
     
     client.getAccountFromAddress("7028f454dc39d59368e040b1fa7b018d8d14f894").then(function(data){
         console.log(data);
-    });
-
-    client.getAccountNonce("ac6df241082d630bb60b834f091d210d0a529343").then(function(data){
-        console.log(data);
-    });
+    });    
 
     client.getAccountFromHexAddres().then(function(data){
         console.log(data);
     });
 
-    client.getBlockByHeight(66068).then(function(data){
+    client.getBlockByHeight(1).then(function(data){
         console.log(data);
     });
         
@@ -527,6 +543,6 @@ function initiateTest(){
     client.setNewTransactionEventSubscriber();
 }
 
-initiateTest();
+//initiateTest();
 
 module.exports = ApiHelper;

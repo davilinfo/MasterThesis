@@ -1,0 +1,8 @@
+110 accounts creation 1569.235
+
+block 1676 114 tx (110 accounts, 1 news, 2 menu, 1 food)
+
+110 transactions creation 1629.559
+
+block 1679 59 tx
+block 1680 51 tx
