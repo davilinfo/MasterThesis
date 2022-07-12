@@ -543,6 +543,6 @@ function initiateTest(){
     client.setNewTransactionEventSubscriber();
 }
 
-initiateTest();
+//initiateTest();
 
 module.exports = ApiHelper;
