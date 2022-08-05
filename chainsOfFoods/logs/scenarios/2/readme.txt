@@ -1,9 +1,7 @@
-test goal: decrease block time with nodes in different regions and datacenters
+Scenario 2 goal: decrease block size
 
 test parameters: 
-block time: 5s
-block size: 30360kb
-n accounts (users): 200
-n transactions 200
-n nodes: 4
-n delegate accounts: 103
+block size 25360kb
+block time 10s
+n accounts 200, 150, 110, 64
+n transactions 200, 150, 110, 64
