@@ -1,9 +1,0 @@
-200 accounts creation 2020.792ms
-block 1489 91
-block 1490 113
-
-200 transactions creation 1928.827ms
-block 1492 59
-block 1493 59
-block 1494 59
-block 1495 23
