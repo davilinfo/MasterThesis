@@ -1,0 +1,51 @@
+{
+	"meta": {
+		"count": 3,
+		"limit": 100,
+		"offset": 0
+	},
+	"data": [
+		{
+			"networkIdentifier": "68bc1b08c5ee6218d58df4909116e35a4dda0bf723f018b6c315dba9851ea4de",
+			"nonce": "2c4601d5fc7ebfe3",
+			"networkVersion": "3.0",
+			"options": {
+				"height": 715,
+				"maxHeightPrevoted": 645,
+				"blockVersion": 2,
+				"lastBlockID": "1ba9c99bf6573f6249454919e25596e4e2b941bd76a9f066ef1aaf01753bec45"
+			},
+			"ipAddress": "177.54.149.103",
+			"port": 5000,
+			"peerId": "177.54.149.103:5000"
+		},
+		{
+			"networkIdentifier": "68bc1b08c5ee6218d58df4909116e35a4dda0bf723f018b6c315dba9851ea4de",
+			"nonce": "5053cdeb86ae756e",
+			"networkVersion": "3.0",
+			"options": {
+				"height": 732,
+				"maxHeightPrevoted": 656,
+				"blockVersion": 2,
+				"lastBlockID": "38fc66519cedd2eb504b4ea9df5265222312b14b05800eb06e64b3678f97f454"
+			},
+			"ipAddress": "46.101.56.166",
+			"port": 5000,
+			"peerId": "46.101.56.166:5000"
+		},
+		{
+			"networkIdentifier": "68bc1b08c5ee6218d58df4909116e35a4dda0bf723f018b6c315dba9851ea4de",
+			"nonce": "b5304351b36fb55e",
+			"networkVersion": "3.0",
+			"options": {
+				"height": 732,
+				"maxHeightPrevoted": 656,
+				"blockVersion": 2,
+				"lastBlockID": "38fc66519cedd2eb504b4ea9df5265222312b14b05800eb06e64b3678f97f454"
+			},
+			"ipAddress": "188.166.32.237",
+			"port": 5000,
+			"peerId": "188.166.32.237:5000"
+		}
+	]
+}
