@@ -1,0 +1,26 @@
+Result of consulting block at height 101858, 101859, 101860, 101861, 101862
+
+block 102152 1 transactions  http://www.liskrestaurant.com:4000/api/blocks?height=102152
+block 102153 23 transactions http://www.liskrestaurant.com:4000/api/blocks?height=102153
+block 102154 25 transactions http://www.liskrestaurant.com:4000/api/blocks?height=102154
+block 102155 25 transactions http://www.liskrestaurant.com:4000/api/blocks?height=102155
+block 102156 24 transactions http://www.liskrestaurant.com:4000/api/blocks?height=102156
+block 102157 1 transactions http://www.liskrestaurant.com:4000/api/blocks?height=102157
+
+curl http://localhost:4000/api/blocks?height=102152
+{"meta":{"offset":0,"limit":10},"data":[{"id":"4139913432727856955","version":1,"timestamp":198036760,"height":102152,"numberOfTransactions":1,"totalAmount":"100000000","totalFee":"10000000","reward":"500000000","payloadLength":1055,"payloadHash":"5fc464903a709e8b09783d7474b9df120eae56c16a8697e4f00c71d210297523","generatorPublicKey":"19ffdf99dee16e4be2db4b0e000b56ab3a4e10bee9f457d8988f75ff7a79fc00","blockSignature":"1703621da31549485a01508c2b86aa3c6133ee3ffcd10e9ea17c1699687b93866251e6273cd1f90e4c7e7ef81cdaec5ce7a53d84da11428b5f488488ac2b3e04","confirmations":58,"totalForged":"510000000","generatorAddress":"3654804916322462690L","previousBlockId":"13598190553645130146"}],"links":{}}
+
+curl http://localhost:4000/api/blocks?height=102153
+{"meta":{"offset":0,"limit":10},"data":[{"id":"16472827138199082265","version":1,"timestamp":198036770,"height":102153,"numberOfTransactions":23,"totalAmount":"2300000000","totalFee":"230000000","reward":"500000000","payloadLength":24265,"payloadHash":"00fd0d8065959e39d4b2ddcf66cfed94157a6f240b56b72b6334b6284ae99d23","generatorPublicKey":"e6d075e3e396673c853210f74f8fe6db5e814c304bb9cd7f362018881a21f76c","blockSignature":"26d6f264cbfd79198fafdbfe6d2e86bde3b746a057b140daf1108952a2e9cd4920e4b8267486d9f512716b03c84549fdb92cc0e63c787b74716331333917d50e","confirmations":59,"totalForged":"730000000","generatorAddress":"13227119536266737242L","previousBlockId":"4139913432727856955"}],"links":{}}
+
+curl http://localhost:4000/api/blocks?height=102154
+{"meta":{"offset":0,"limit":10},"data":[{"id":"304798483834374147","version":1,"timestamp":198036780,"height":102154,"numberOfTransactions":25,"totalAmount":"2500000000","totalFee":"250000000","reward":"500000000","payloadLength":26375,"payloadHash":"6271da9d685589db18693c8786ea88587be31577ca51e1c659963418195a744b","generatorPublicKey":"a10ed9c59dac2c4b8264dc34f2d318719fb5f20ecdd8d6be2d7abfe32294f20d","blockSignature":"a63d6d870afcca5121478c3ada32f3f5255d5ec9b70efc2a819f7aee8a0c556068ee426b4c0bef415f442a95cc1606031995e2e5aeb562856617839467b4940f","confirmations":60,"totalForged":"750000000","generatorAddress":"2460251951231579923L","previousBlockId":"16472827138199082265"}],"links":{}}
+
+curl http://localhost:4000/api/blocks?height=102155
+{"meta":{"offset":0,"limit":10},"data":[{"id":"10331096978159608969","version":1,"timestamp":198036790,"height":102155,"numberOfTransactions":25,"totalAmount":"2500000000","totalFee":"250000000","reward":"500000000","payloadLength":26375,"payloadHash":"afa60417e35ddb13b24973eb1a37ce9c81ddc66e72904ab7681287bff0794714","generatorPublicKey":"82174ee408161186e650427032f4cfb2496f429b4157da78888cbcea39c387fc","blockSignature":"ace027fd9732f5d8d3ff47435bc3d84af62fb191c7b2088b623311212b417469306c3d9d8cb84a6d773e53160d3f8ee71adadcf111a134b962d86e064717fa0a","confirmations":61,"totalForged":"750000000","generatorAddress":"16807489144327319524L","previousBlockId":"304798483834374147"}],"links":{}}
+
+curl http://localhost:4000/api/blocks?height=102156
+{"meta":{"offset":0,"limit":10},"data":[{"id":"10445620100466558875","version":1,"timestamp":198036800,"height":102156,"numberOfTransactions":24,"totalAmount":"2400000000","totalFee":"240000000","reward":"500000000","payloadLength":25320,"payloadHash":"73b6c83034b4cb485703d4e9f1fd4fbae0732afb776e38d2559956c54e4cbae7","generatorPublicKey":"e42bfabc4a61f02131760af5f2fa0311007932a819a508da25f2ce6af2468156","blockSignature":"be71649a2409c1403be5554de58d491e1599534e105e9ded27a4a1d44de344fc617fd59b0a490f2398c7915e70d307a315716a22f440978ad239d66ed0522b00","confirmations":63,"totalForged":"740000000","generatorAddress":"15692920659979620367L","previousBlockId":"10331096978159608969"}],"links":{}}
+
+curl http://localhost:4000/api/blocks?height=102157
+{"meta":{"offset":0,"limit":10},"data":[{"id":"10922393972569466437","version":1,"timestamp":198036810,"height":102157,"numberOfTransactions":1,"totalAmount":"100000000","totalFee":"10000000","reward":"500000000","payloadLength":1055,"payloadHash":"5085b3e0782a0bb0d1b4170e508486957256e3904640c409b8bdfc0b5692cda0","generatorPublicKey":"5f6cc5a8aac752d37c676b0d46a798f7625e37dfa1e96091983274e04ab7ffe2","blockSignature":"cd77bcd6db50c76c474c8978aec265fc7f3f355ae52f02f3830795d8f46df8c321f18ec505996796f2deb7e77d36c0df659694ead6a31217df3dbba2558b260b","confirmations":69,"totalForged":"510000000","generatorAddress":"2037513790649430470L","previousBlockId":"10445620100466558875"}],"links":{}}
