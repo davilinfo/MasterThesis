@@ -6,14 +6,14 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-#site
-site
+# Ignore site folder
+site/
 
-#forger_lisk
-forger_lisk
+# Ignore forger_lisk folder
+forger_lisk/
 
-#forger_verifier
-forger_verifier
+# Ignore forger_verifier folder
+forger_verifier/
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
