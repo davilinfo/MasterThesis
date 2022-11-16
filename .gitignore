@@ -1,3 +1,10 @@
+# Ignore site folder
+site
+# Ignore forger_lisk folder
+forger_lisk
+# Ignore forger_verifier folder
+forger_verifier
+
 # Logs
 #logs
 *.log
@@ -5,15 +12,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
-# Ignore site folder
-site/
-
-# Ignore forger_lisk folder
-forger_lisk/
-
-# Ignore forger_verifier folder
-forger_verifier/
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
