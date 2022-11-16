@@ -104,10 +104,10 @@ dist
 .tern-port
 
 #site
-.site/
+site/
 
 #forger_lisk
-.forger_lisk/
+forger_lisk/
 
 #forger_verifier
-.forger_verifier/
+forger_verifier/
