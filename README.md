@@ -1,2 +1,2 @@
-# master_thesys
+# master_thesis
 Master thesis UFBA
