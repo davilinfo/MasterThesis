@@ -107,7 +107,7 @@ dist
 site/
 
 #forger_lisk
-forger_lisk/
+forger_lisk/**
 
 #forger_verifier
 forger_verifier/

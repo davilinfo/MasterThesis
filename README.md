@@ -1,2 +1,2 @@
 # master_thesys
-Master thesys UFBA
+Master thesis UFBA
