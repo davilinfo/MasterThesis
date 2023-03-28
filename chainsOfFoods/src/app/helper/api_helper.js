@@ -217,8 +217,7 @@ class ApiHelper{
         return response;
     }
 
-    async createFoodAssetAndSign(orderRequest, credential, restaurant){
-        /*incluir validação de tipo de pedido através de consulta à menu asset (por definir)*/
+    async createFoodAssetAndSign(orderRequest, credential, restaurant){       
         var recipientAddress = cryptography.getAddressFromBase32Address(restaurant.address);
 
         const sender = cryptography.getAddressAndPublicKeyFromPassphrase(credential.passphrase);
@@ -307,6 +306,30 @@ class ApiHelper{
                 asset: {
                     items: JSON.stringify(news),
                     recipientAddress: sender.address
+                },
+            },
+            Buffer.from(networkIdentifier, "hex"),
+            credential.passphrase);
+    
+        return tx;
+    }
+
+    async createNewsAssetAndSign(news, credential, recipientAddress){
+        const sender = cryptography.getAddressAndPublicKeyFromPassphrase(credential.passphrase);
+        
+        var accountNonce = await this.getAccountNonce(sender.address);                
+        
+        const tx = await transactions.signTransaction(
+            newsSchema,
+            {
+                moduleID: 2000,
+                assetID: 1080,
+                nonce: BigInt(accountNonce),
+                fee: BigInt(0),
+                senderPublicKey: sender.publicKey,
+                asset: {
+                    items: JSON.stringify(news),
+                    recipientAddress: recipientAddress
                 },
             },
             Buffer.from(networkIdentifier, "hex"),
