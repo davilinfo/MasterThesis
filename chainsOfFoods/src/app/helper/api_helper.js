@@ -314,8 +314,9 @@ class ApiHelper{
         return tx;
     }
 
-    async createNewsAssetAndSign(news, credential, recipientAddress){
+    async createNewsAssetAndSignTo(news, credential, lskAddress){
         const sender = cryptography.getAddressAndPublicKeyFromPassphrase(credential.passphrase);
+        var recipientAddress = cryptography.getAddressFromBase32Address(lskAddress);
         
         var accountNonce = await this.getAccountNonce(sender.address);                
         
@@ -548,8 +549,25 @@ function initiateTest(){
         "description": "Restaurant sidechain offers only 1% fees for each food transaction",
         "text": "The brand new restaurant sidechain offers a new solution for restaurants based in blockchain technology"
     }];
+    var news2 = [{
+        "title": "News type 2 from restaurant sidechain",
+        "description": "Restaurant sidechain offers only 1% fees for each food transaction",
+        "text": "The brand new restaurant sidechain offers a new solution for restaurants based in blockchain technology"
+    }];
+        
+    client.createNewsAssetAndSignTo(news2, delegateCredential, restaurant.address).then(function(response){
+        console.log("transaction created", response);
 
-    client.createNewsAssetAndSign(news, delegateCredential).then(function(response){
+        client.sendTransaction(response).then(function(tx){
+            console.log("news transaction type 2 sent", tx);
+        }).catch(function(e){
+            console.log("Error sending news type 2 transaction", e);
+        });
+    }).catch(function(e){
+        console.log("Error creating news type 2 transaction", e);
+    });
+
+    /*client.createNewsAssetAndSign(news, delegateCredential).then(function(response){
         console.log("transaction created", response);
 
         client.sendTransaction(response).then(function(tx){
@@ -559,7 +577,7 @@ function initiateTest(){
         });
     }).catch(function(e){
         console.log("Error creating news transaction", e);
-    });      
+    });*/      
 
     client.setNewBlockEventSubscriber();
 
