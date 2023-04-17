@@ -1070,6 +1070,7 @@ a[href*='tel'], a[href*='mailto'] {
 }
 
 .product-featured-figure {
+	max-width: 350px;
 	position: relative;
 	overflow: hidden;
 }
@@ -5435,7 +5436,7 @@ html [class*='section-'].section-bottom-0 {
 	section.section-lg:first-of-type,
 	section.section-xl:first-of-type,
 	section.section-xxl:first-of-type {
-		padding-top: 40px;
+		padding-top: 20px;
 	}
 }
 
@@ -5459,7 +5460,7 @@ html [class*='section-'].section-bottom-0 {
 
 @media (min-width: 992px) {
 	.section-md {
-		padding: 80px 0 90px;
+		padding: 40px 0 90px;
 	}
 	.section-lg {
 		padding: 100px 0;
@@ -5474,7 +5475,7 @@ html [class*='section-'].section-bottom-0 {
 
 @media (min-width: 1200px) {
 	.section-lg {
-		padding: 115px 0;
+		padding: 45px 0;
 	}
 	.section-xl {
 		padding: 135px 0;

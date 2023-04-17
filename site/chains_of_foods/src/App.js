@@ -21,6 +21,18 @@ function App() {
       
       var foods = JSON.parse(result.asset.items);            
       
+      foods = foods.filter(meals=>meals.category===2 || meals.category===3).sort(function compare(a, b){
+        console.log(a);
+        console.log(b);
+        if (a.category > b.category){
+          return 1;
+        }
+        if (a.category < b.category){
+          return -1;
+        }
+        return 0;
+      });
+
       setFoods(foods);      
     }
 
@@ -41,7 +53,7 @@ function App() {
         </div>
         <div className="row row-20 row-lg-30">
           {
-            foods.filter(meals=>meals.category===2).map(food=>(
+            foods.map(food=>(
               <FoodItemImage key={food.type} food={food}></FoodItemImage>
               )
             )

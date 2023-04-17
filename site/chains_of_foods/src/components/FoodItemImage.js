@@ -7,7 +7,7 @@ function FoodItemImage(props){
         <div className="col-md-6 col-lg-4 wow-outer">
             <div className="wow fadeInUp">
             <div className="product-featured">
-                <div className="product-featured-figure"><img src={food.img} alt="" width="370" height="395"/>
+                <div className="product-featured-figure"><img src={food.img} alt="" width="350"/>
                 <div className="product-featured-button"><a className="button button-primary" href="#">order now</a></div>
                 </div>
                 <div className="product-featured-caption">
