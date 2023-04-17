@@ -1,10 +1,3 @@
-# Ignore site folder
-site
-# Ignore forger_lisk folder
-forger_lisk
-# Ignore forger_verifier folder
-forger_verifier
-
 # Logs
 #logs
 *.log
