@@ -387,4 +387,4 @@ class ApiHelper{
     }
 }
 
-module.exports = ApiHelper;
+export default ApiHelper;

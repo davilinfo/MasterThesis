@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FoodItem from './components/FoodItem';
 import FoodItemImage from './components/FoodItemImage';
+import Utils from './utils/utils';
 
 import './css/bootstrap.css';
 import './css/fonts.css';
@@ -14,16 +15,14 @@ function App() {
   useEffect(()=>{
     async function loadFoods(){
       console.log('loadFoods');
-      var config = new Config();
+      var config = new Config.default();
       
-      var api = new ApiHelper(config.nodeWsAddress);
+      var api = new ApiHelper.default(config.nodeWsAddress);
       var result = await api.getCustomTransactionByid(config.menuTransactionId, api.menuSchema);
       
       var foods = JSON.parse(result.asset.items);            
       
-      foods = foods.filter(meals=>meals.category===2 || meals.category===3).sort(function compare(a, b){
-        console.log(a);
-        console.log(b);
+      foods = foods.filter(meals=>meals.category===2 || meals.category===3 || meals.category===4).sort(function compare(a, b){        
         if (a.category > b.category){
           return 1;
         }
@@ -53,7 +52,7 @@ function App() {
         </div>
         <div className="row row-20 row-lg-30">
           {
-            foods.map(food=>(
+            foods.filter(meals=> meals.category===2 || meals.category===3).map(food=>(
               <FoodItemImage key={food.type} food={food}></FoodItemImage>
               )
             )
