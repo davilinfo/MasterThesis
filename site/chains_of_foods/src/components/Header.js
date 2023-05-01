@@ -1,9 +1,21 @@
-import React from "react";
+import React, {useContext} from "react";
+import { NavLink } from "react-router-dom";
+import { loadBasketPopup, BasketDispatchContext, BasketStateContext } from "../context/basket";
 import '../css/bootstrap.css';
 import '../css/fonts.css';
 import '../css/style.css';
 
-function Header() {
+function Header(props) {
+  const {items: basketItems, isBasketOpen} = useContext(BasketStateContext);
+  const basketDispatch = useContext(BasketDispatchContext);
+
+  const basketQuantity = basketItems.length;
+  const basketTotal = basketItems.map((item)=> item.food.price * item.quantity).reduce((prev,current)=> prev+current,0);
+  const handleBasketButton = (event)=>{
+    event.preventDefault();
+  return loadBasketPopup(basketDispatch);
+};
+
   return (            
     <header className="page-header">
         <div class="rd-navbar-wrap">
@@ -12,24 +24,49 @@ function Header() {
               <div class="rd-navbar-main">                
                     <div className="rd-navbar-panel">                   
                     <button className="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>                  
-                    <div className="rd-navbar-brand"><a href="/"><img className="brand-logo-light" src="images/logo-default1-140x57.png" alt="" width="140" height="57" srcset="images/logo-default-280x113.png 2x"/></a></div>
-                    </div>
-                    <div className="rd-navbar-main-element">
-                    <div className="rd-navbar-nav-wrap">  
-                    {/*                 
-                        <ul className="rd-navbar-nav">
-                        <li className="rd-nav-item"><a className="rd-nav-link" href="/">Home</a>
-                        </li>
-                        <li className="rd-nav-item"><a className="rd-nav-link" href="/About">About</a>
-                        </li>                      
-                        <li className="rd-nav-item"><a className="rd-nav-link" href="/Contact">Contacts</a>
-                        </li>
-                        </ul><a className="button button-white button-sm" href="#">order now</a>
-                    */}
-                    </div>
-                    </div><a className="button button-white button-sm" href="#">order now</a>
+                    <div className="rd-navbar-brand"><a href="/"><img className="brand-logo-light" src="images/logo-default1-140x57.png" alt="" width="140" height="57"/></a></div>
+                    </div>  
+
+                    <div className="rd-navbar-nav-wrap">
+                      <ul className="rd-navbar-nav">
+                        <li className="rd-nav-item"><NavLink exact className="rd-nav-link" to="/">Home</NavLink></li>
+                        <li className="rd-nav-item"><NavLink exact className="rd-nav-link" to="/Contact">Contacts</NavLink></li>
+                        <li className="rd-nav-item"><NavLink exact className="rd-nav-link" to="/About">About</NavLink></li>
+                      </ul>
+                    </div>                                                            
+                     
+                    <div className="basket">
+                      <div className="basket-info">
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td>Quantity</td>
+                              <td>:</td>
+                              <td>
+                                <strong>{basketQuantity}</strong>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Sub Total</td>
+                              <td>:</td>
+                              <td>
+                                <strong>{basketTotal}</strong>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <a className="basket-icon" href="#" onClick={handleBasketButton}>
+                        <img                            
+                          src="images/shopping_basket.jpg" width="30"
+                          alt="Basket"
+                        />                        
+                      </a>
+                      
+                    </div>                    
+                                      
                 </div>
-                </div>
+              </div>
             </nav>
         </div>
     </header> 

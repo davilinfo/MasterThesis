@@ -1,23 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import Header from './components/Header';
-import About from './components/About';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
+import App from './App';
+import About from './components/About';
+import Contact from './components/Contact';
+import BasketProvider from './context/basket';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Basket from './components/Basket';
 
-const routing = (
-  <Router>        
-      <Header/>        
-      <Switch>
-          <Route exact path="/" component={App} />
-          <Route path="/About" component={About} />
-          <Route path="/Contact" component={Contact} />
-      </Switch>
-      <Footer/>        
-  </Router>
+const routing = (    
+  <BasketProvider>
+      <Router>
+        <Header/>   
+        <Switch>
+            <Route exact path="/" component={App} />
+            <Route path="/About" component={About}/>
+            <Route path="/Contact" component={Contact} />
+            <Route path="/Basket" component={Basket} />
+        </Switch>
+        <Footer/>
+      </Router>
+  </BasketProvider>
 );
 
 ReactDOM.render(routing, document.getElementById('root'));

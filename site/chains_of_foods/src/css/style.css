@@ -117,6 +117,22 @@ html p a:hover {
 	text-decoration: none;
 }
 
+.invisible {
+	display: none;
+}
+
+/* Basket */
+.basket-info{
+	position: absolute;
+	right: 80px;
+	color: white;	
+	text-align: left;
+}
+
+.basket-total{
+	position:absolute;
+	right: 10px;
+}
 /*
 * Typography
 */

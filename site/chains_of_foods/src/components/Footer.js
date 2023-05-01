@@ -10,13 +10,14 @@ function Footer() {
         <div className="container wow-outer">
           <div className="wow fadeIn">
             <div className="row row-60">
-              <div className="col-12"><a href="/"><img src="images/logo-default1-140x57.png" alt="" width="140" height="57" srcset="images/logo-default-280x113.png 2x"/></a></div>
+              <div className="col-12"><a href="/"><img src="images/logo-default1-140x57.png" alt="" width="140" height="57"/></a></div>
               <div className="col-12">
                 <ul className="footer-minimal-nav">                  
-                  <li><a href="#">Blog</a></li>
-                  <li><NavLink exact activeclassName="rd-nav-link" to="/Contact">Contacts</NavLink></li>
-                  <li><a href="#">Gallery</a></li>
-                  <li><NavLink exact activeclassName="rd-nav-link" to="/About">About</NavLink></li>
+                  {/*<li><a href="#">Blog</a></li>*/}
+                  <li><NavLink exact className="rd-nav-link" to="/">Home</NavLink></li>
+                  <li><NavLink exact className="rd-nav-link" to="/Contact">Contacts</NavLink></li>
+                  {/*<li><a href="#">Gallery</a></li>*/}
+                  <li><NavLink exact className="rd-nav-link" to="/About">About</NavLink></li>
                 </ul>
               </div>
               <div className="col-12">

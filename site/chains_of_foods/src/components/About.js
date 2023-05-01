@@ -87,7 +87,7 @@ function About(){
             </div>
             </div>
         </section>  
-        <section className="section section-lg section-inset-1 bg-gray-1 pt-lg-0">
+        <section className="section section-lg section-inset-1 bg-gray-1 pt-lg-0 invisible">
           <div className="container">
             <div className="row row-50 justify-content-xl-between align-items-lg-center">
               <div className="col-lg-6 wow fadeInLeft">
