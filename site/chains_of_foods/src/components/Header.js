@@ -27,7 +27,7 @@ function Header(props) {
                     <div className="rd-navbar-brand"><a href="/"><img className="brand-logo-light" src="images/logo-default1-140x57.png" alt="" width="140" height="57"/></a></div>
                     </div>  
 
-                    <div className="rd-navbar-nav-wrap">
+                    <div className="rd-navbar-nav-wrap display-media">
                       <ul className="rd-navbar-nav">
                         <li className="rd-nav-item"><NavLink exact className="rd-nav-link" to="/">Home</NavLink></li>
                         <li className="rd-nav-item"><NavLink exact className="rd-nav-link" to="/Contact">Contacts</NavLink></li>

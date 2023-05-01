@@ -2493,6 +2493,9 @@ img {
 }
 
 @media (max-width: 991.98px) {
+	.display-media {
+		display: none;
+	}
 	.table-custom th {
 		padding-top: 20px;
 		padding-bottom: 20px;
@@ -4145,6 +4148,9 @@ ul.blog-post-meta li .icon {
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
+	.display-media {
+		display: none;
+	}
 	.block-aside {
 		max-width: inherit;
 		columns: 2;
@@ -4715,6 +4721,9 @@ ul.blog-post-meta li .icon {
 }
 
 @media (min-width: 1200px) {
+	.display-media {
+		display: block;
+	}
 	.footer-classic {
 		padding: 125px 0;
 	}
