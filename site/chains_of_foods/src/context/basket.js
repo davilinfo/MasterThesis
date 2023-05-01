@@ -22,7 +22,7 @@ const reducer = (state, action) => {
             let basketItems = null;
             if (existsItemInBasket){
                 const items = state.items.map((item)=>{
-                    if (item.food.type == id){
+                    if (item.food.type === id){
                         return {
                             ...item,
                             quantity: item.quantity + 1
@@ -32,20 +32,20 @@ const reducer = (state, action) => {
                 });
                 basketItems = [...items];
             }else{
-                basketItems = [action.payload.basketItem];
+                basketItems = [...state.items, action.payload.basketItem];
             }
             return {
                 ...state,
                 items: basketItems
             };
         case "REMOVE_FROM_BASKET":
-            console.log(action.payload.basketItem);
+            console.log("basketItemId",action.payload.basketItemId);
             return {
                 ...state,
-                items: state.items.length > 0  && action.payload.basketItem ? state.items.filter((item)=>
-                item.food.type != action.payload.basketItem.food.type) : []
+                items: state.items.filter((item)=> item.food.type !== action.payload.basketItemId)
             };
         case "CLEAR_ALL":
+            console.log("basketItemIdclear",action.payload.basketItemId);
             return {
                 ...state,
                 initialState
@@ -95,8 +95,7 @@ const BasketProvider = ({children})=> {
         items: persistedBasketItems || []
     };
     const [state, dispatch] = useReducer(reducer, persistedBasketState);
-    useEffect(()=>{
-        console.log("dispatch", dispatch);
+    useEffect(()=>{        
         setPersistedBasketItems(state.items);
     }, [JSON.stringify(state.items)]);
     return (

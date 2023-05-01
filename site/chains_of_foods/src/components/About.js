@@ -16,7 +16,7 @@ function About(){
                 <div className="box-icon-modern">
                     <div className="box-icon-inner decorate-triangle"><span className="icon-xl restaurant-icon-30"></span></div>
                     <div className="box-icon-caption">
-                    <h4><a href="#">Friendly Team</a></h4>
+                    <h4><a href="/">Friendly Team</a></h4>
                     <p>Commited in deliver the best dishes for your pleasure.</p>
                     </div>
                 </div>
@@ -25,7 +25,7 @@ function About(){
                 <div className="box-icon-modern">
                     <div className="box-icon-inner decorate-circle"><span className="icon-xl restaurant-icon-11"></span></div>
                     <div className="box-icon-caption">
-                    <h4><a href="#">Fresh Food</a></h4>
+                    <h4><a href="/">Fresh Food</a></h4>
                     <p>We cook with the best fresh and organic ingredients.</p>
                     </div>
                 </div>
@@ -34,7 +34,7 @@ function About(){
                 <div className="box-icon-modern">
                     <div className="box-icon-inner decorate-rectangle"><span className="icon-xl restaurant-icon-36"></span></div>
                     <div className="box-icon-caption">
-                    <h4><a href="#">Quality Cuisine</a></h4>
+                    <h4><a href="/">Quality Cuisine</a></h4>
                     <p>Our recipes are unique or adaptation from great ones.</p>
                     </div>
                 </div>
@@ -43,7 +43,7 @@ function About(){
                 <div className="box-icon-modern">
                     <div className="box-icon-inner decorate-circle"><span className="icon-xl restaurant-icon-27"></span></div>
                     <div className="box-icon-caption">
-                    <h4><a href="#">Best Service</a></h4>
+                    <h4><a href="/">Best Service</a></h4>
                     <p>We monitor the ingredients utilized for cooking our best dishes. We allow each online food request to be tracked and preserve the customer sensitive information safely.</p>
                     </div>
                 </div>
@@ -52,7 +52,7 @@ function About(){
                 <div className="box-icon-modern">
                     <div className="box-icon-inner decorate-triangle"><span className="icon-xl restaurant-icon-34"></span></div>
                     <div className="box-icon-caption">
-                    <h4><a href="#">Diverse Menu</a></h4>
+                    <h4><a href="/">Diverse Menu</a></h4>
                     <p>Variety of amazing dishes is our especiality. From Pacific Salmon until Octopus from Atlantic sea.</p>
                     </div>
                 </div>
@@ -61,7 +61,7 @@ function About(){
                 <div className="box-icon-modern">
                     <div className="box-icon-inner decorate-rectangle"><span className="icon-xl restaurant-icon-26"></span></div>
                     <div className="box-icon-caption">
-                    <h4><a href="#">Affordable Prices</a></h4>
+                    <h4><a href="/">Affordable Prices</a></h4>
                     <p>We have the advantage to offer competitive rates because of cryptocurrency, no intermediaries, no extra taxes.</p>
                     </div>
                 </div>

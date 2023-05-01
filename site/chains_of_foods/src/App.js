@@ -63,10 +63,10 @@ function App() {
               <div className="wow fadeInUp">
                 <div className="product-featured">
                   <div className="product-featured-figure"><img src="images/product-2-370x395.jpg" alt="" width="370" height="395"/>
-                    <div className="product-featured-button"><a className="button button-primary" href="#">order now</a></div>
+                    <div className="product-featured-button"><button className="button button-primary">order now</button></div>
                   </div>
                   <div className="product-featured-caption">
-                    <h4><a className="product-featured-title" href="#">Black Pasta</a></h4>
+                    <h4><button className="product-featured-title">Black Pasta</button></h4>
                     <p className="big">$13</p>
                   </div>
                 </div>

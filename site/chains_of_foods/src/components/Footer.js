@@ -22,11 +22,11 @@ function Footer() {
               </div>
               <div className="col-12">
                 <ul className="social-list">
-                  <li><a className="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-facebook" href="#"></a></li>
-                  <li><a className="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-instagram" href="#"></a></li>
-                  <li><a className="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-twitter" href="#"></a></li>
-                  <li><a className="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-youtube-play" href="#"></a></li>
-                  <li><a className="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-pinterest-p" href="#"></a></li>
+                  <li><a className="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-facebook" href="/Contact"></a></li>
+                  <li><a className="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-instagram" href="/Contact"></a></li>
+                  <li><a className="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-twitter" href="/Contact"></a></li>
+                  <li><a className="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-youtube-play" href="/Contact"></a></li>
+                  <li><a className="icon icon-sm icon-circle icon-circle-md icon-bg-white fa-pinterest-p" href="/Contact"></a></li>
                 </ul>
               </div>
             </div>

@@ -16,7 +16,7 @@ function Contact(){
                         <div className="box-icon-classNameic">
                             <div className="box-icon-inner decorate-triangle"><span className="icon-xl linearicons-phone-incoming"></span></div>
                             <div className="box-icon-caption">
-                            <h4><a href="tel:#">55-71-99703-5287</a></h4>
+                            <h4><a href="/Contact">55-71-99703-5287</a></h4>
                             <p>You can call us anytime</p>
                             </div>
                         </div>
@@ -25,7 +25,7 @@ function Contact(){
                         <div className="box-icon-classNameic">
                             <div className="box-icon-inner decorate-circle"><span className="icon-xl linearicons-map2"></span></div>
                             <div className="box-icon-caption">
-                            <h4><a href="#">address</a></h4>
+                            <h4><a href="/Contact">address</a></h4>
                             </div>
                         </div>
                         </div>
@@ -33,8 +33,8 @@ function Contact(){
                         <div className="box-icon-classNameic">
                             <div className="box-icon-inner decorate-rectangle"><span className="icon-xl linearicons-paper-plane"></span></div>
                             <div className="box-icon-caption">
-                            <h4><a href="mailto:#">davinet@live.com</a></h4>
-                            <h4><a href="mailto:#">davilinfo@gmail.com</a></h4>
+                            <h4><a href="mailto:davinet@live.com">davinet@live.com</a></h4>
+                            <h4><a href="mailto:davilinfo@gmail.com">davilinfo@gmail.com</a></h4>
                             <p>Feel free to email us your questions</p>
                             </div>
                         </div>
