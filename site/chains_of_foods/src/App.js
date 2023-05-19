@@ -59,7 +59,7 @@ function App() {
                 )
               )
             }
-            <div className="col-md-6 col-lg-4 wow-outer">
+            {/*<div className="col-md-6 col-lg-4 wow-outer">
               <div className="wow fadeInUp">
                 <div className="product-featured">
                   <div className="product-featured-figure"><img src="images/product-2-370x395.jpg" alt="" width="370" height="395"/>
@@ -71,7 +71,7 @@ function App() {
                   </div>
                 </div>
               </div>
-            </div>
+          </div>*/}
             
           </div>
         </div>

@@ -175,6 +175,61 @@ html p a:hover {
 	position: absolute;
 	right: 0px;
 }
+
+.order-container{
+	display: flex;
+	margin-top: 150px;
+}
+
+.order-address{
+	position: relative;
+	width: 60%;
+
+	.address-form{
+		position: relative;
+		text-align: center;
+	}
+
+	.input{
+		width: 350px;
+	}
+
+	.textarea{
+		position: relative;
+		width: 350px;
+		rows:3;
+	}
+	.passphrase{
+		width: 350px;
+	}
+
+	.span-passphrase{
+		font-weight: bold;
+	}
+}
+
+.order-resume{
+	position: relative;
+	margin-top: 20px;
+	width: 40%;
+	margin-left: 20px;
+}
+
+.order-items{
+	position: inherit;	
+	margin-top: 20px;
+}
+.order-result{
+	position: relative;
+	text-align: left;
+	margin-left: 20px;
+	width: 40px;
+}
+.order-transaction-id{
+	position: relative;
+	text-align: justify;
+	color: #135DEC;
+}
 /*
 * Typography
 */

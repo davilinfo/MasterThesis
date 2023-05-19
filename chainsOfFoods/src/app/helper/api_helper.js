@@ -394,7 +394,7 @@ class ApiHelper{
 
 function initiateTest(){
     var client = new ApiHelper('ws://localhost:8080/ws');
-
+/*
     client.getTransactionsFromPool().then(function(data){
         console.log(data);
     });
@@ -418,9 +418,9 @@ function initiateTest(){
     client.getBlockByHeight(1).then(function(data){
         console.log(data);
     });
-        
+  */      
     var credential = {passphrase: "rabbit logic scrap relief leg cheap region latin coffee walnut drum quality"};
-    
+    /*
     var profileRequest = { username: "user1", name: "User test", deliveryAddress: "Delivery address", phone: "Phone number" };    
 
     client.createProfileAssetAndSign(profileRequest, credential).then(function(response){
@@ -435,7 +435,7 @@ function initiateTest(){
     }).catch(function(e){
         console.log("Error creating profile transaction", e);
     });        
-    
+    */
     var food1 = {name: "Black Pasta", foodType: 1, quantity: 1, price:0.1, observation: ""};
     var food2 = {name: "Black Pasta", foodType: 1, quantity: 1, price:0.1, observation: ""};
     var orderRequest = { items:[food1, food2], 
@@ -456,7 +456,7 @@ function initiateTest(){
     }).catch(function(e){
         console.log("Error creating food transaction", e);
     });
-                    
+             /*       
     var menu = [{
         "img": "images/ostras-in-natura.jpg",
         "name": "oysters entrance",
@@ -566,7 +566,7 @@ function initiateTest(){
     }).catch(function(e){
         console.log("Error creating news type 2 transaction", e);
     });
-
+*/
     /*client.createNewsAssetAndSign(news, delegateCredential).then(function(response){
         console.log("transaction created", response);
 
@@ -584,6 +584,6 @@ function initiateTest(){
     client.setNewTransactionEventSubscriber();
 }
 
-//initiateTest();
+initiateTest();
 
 module.exports = ApiHelper;

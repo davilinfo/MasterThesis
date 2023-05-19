@@ -19,9 +19,10 @@ const BasketPopUp = () =>{
         return removeFromBasket(dispatch, itemId);              
     }
 
-    const proceedCheckout = () => {
+    const proceedPayment = () => {
+        console.log('proceed to payment');
         loadBasketPopup(dispatch);
-        history.push("/checkout");
+        history.push("/Payment");
     }
 
     return (
@@ -47,8 +48,8 @@ const BasketPopUp = () =>{
                 })}
             </ul>
             <div>
-                <button type="button" onClick={()=>proceedCheckout}>
-                    Proceed to checkout
+                <button onClick={()=>proceedPayment()}>
+                    Proceed to payment
                 </button>
             </div>
         </div>

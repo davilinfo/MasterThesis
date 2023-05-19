@@ -55,8 +55,7 @@ const reducer = (state, action) => {
     }
 }
 
-export const loadBasketPopup = (dispatch)=>{
-    console.log("dispatch", dispatch);
+export const loadBasketPopup = (dispatch)=>{    
     return dispatch({
         type: "LOAD_BASKET_POPUP"
     }); 

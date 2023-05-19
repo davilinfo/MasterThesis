@@ -8,6 +8,7 @@ import Contact from './components/Contact';
 import BasketProvider from './context/basket';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Payment from './components/Payment';
 
 const routing = (    
   <BasketProvider>
@@ -16,7 +17,8 @@ const routing = (
         <Switch>
             <Route exact path="/" component={App} />
             <Route path="/About" component={About}/>
-            <Route path="/Contact" component={Contact} />           
+            <Route path="/Contact" component={Contact} />     
+            <Route path="/Payment" component={Payment} />              
         </Switch>
         <Footer/>
       </Router>

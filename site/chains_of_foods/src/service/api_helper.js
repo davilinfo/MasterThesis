@@ -1,34 +1,6 @@
 const { apiClient, codec, cryptography, transactions } = require( '@liskhq/lisk-client');
 const { BigIntHelper } = require('../utils/biginthelper');
 
-const schema = {
-    $id: 'lisk/food/transaction',
-    type: 'object',
-    required: ["items", "price", "restaurantData", "restaurantNonce", "recipientAddress"],
-    properties: {            
-        items: {
-            dataType: 'string',
-            fieldNumber: 1
-        },
-        price:{
-            dataType: 'uint64',
-            fieldNumber: 2
-        },
-        restaurantData: {
-            dataType: 'string',
-            fieldNumber: 3
-        },
-        restaurantNonce: {
-            dataType: 'string',
-            fieldNumber: 4
-        },
-        recipientAddress: {
-            dataType: "bytes",
-            fieldNumber: 5
-        }	  
-    }
-};
-
 var newsSchema = {
     $id: 'lisk/news/transaction',
     type: 'object',
@@ -69,6 +41,34 @@ const server = { host: "http://localhost:4000" };
 
 class ApiHelper{
              
+    schema = {
+        $id: 'lisk/food/transaction',
+        type: 'object',
+        required: ["items", "price", "restaurantData", "restaurantNonce", "recipientAddress"],
+        properties: {            
+            items: {
+                dataType: 'string',
+                fieldNumber: 1
+            },
+            price:{
+                dataType: 'uint64',
+                fieldNumber: 2
+            },
+            restaurantData: {
+                dataType: 'string',
+                fieldNumber: 3
+            },
+            restaurantNonce: {
+                dataType: 'string',
+                fieldNumber: 4
+            },
+            recipientAddress: {
+                dataType: "bytes",
+                fieldNumber: 5
+            }	  
+        }
+    };
+
     menuSchema = {
         $id: 'lisk/menu/transaction',
         type: 'object',
@@ -97,22 +97,19 @@ class ApiHelper{
 
     async getAccountFromAddress (address){
         const client = await this.getClient();
-        const schema = await client.invoke('app:getSchema');
-        const account = await client.invoke('app:getAccount', {
-            address,
-        });
-                
-        return codec.codec.decodeJSON(schema.account, Buffer.from(account, 'hex'));
+                        
+        return await client.account.get(address);
     };
 
-    async getAccountFromHexAddres(){
+    async getAccountFromHexAddres(address){
         const client = await this.getClient();             
                 
-        return await client.account.get(cryptography.getAddressFromBase32Address('lskfn3cm9jmph2cftqpzvevwxwyz864jh63yg784b'));
+        return await client.account.get(cryptography.getAddressFromBase32Address(address));
     }
 
     async getAccountNonce (address) {
-        var account = await this.getAccountFromAddress(address);        
+        var account = await this.getAccountFromAddress(address);   
+        console.log("account", account);     
         const sequence = account.sequence;
         return Number(sequence.nonce);
     };
@@ -212,13 +209,16 @@ class ApiHelper{
         return response;
     }
 
-    async createFoodAssetAndSign(orderRequest, credential, restaurant){       
+    async createFoodAssetAndSign(orderRequest, credential, restaurant){     
+        console.log("service creating meal request");  
         var recipientAddress = cryptography.getAddressFromBase32Address(restaurant.address);
 
         const sender = cryptography.getAddressAndPublicKeyFromPassphrase(credential.passphrase);
         
+        console.log("service account nonce");
         var accountNonce = await this.getAccountNonce(sender.address);        
 
+        console.log("service order price");
         var orderPrice = 0;
         
         var items = orderRequest.items;
@@ -229,6 +229,9 @@ class ApiHelper{
         });        
 
         console.log("price", orderPrice);
+        console.log("price big int", BigIntHelper(transactions.convertLSKToBeddows(orderPrice.toString())));
+        console.log("nonce", accountNonce);
+        console.log("nonce big int", BigIntHelper(accountNonce));
 
         var restaurantData = cryptography.encryptMessageWithPassphrase(
             orderRequest.deliveryAddress
@@ -240,7 +243,7 @@ class ApiHelper{
             restaurant.publicKey);
         
         const tx = await transactions.signTransaction(
-            schema,
+            this.schema,
             {
                 moduleID: 2000,
                 assetID: 1040,
