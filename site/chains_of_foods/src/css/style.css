@@ -183,7 +183,6 @@ html p a:hover {
 
 .order-address{
 	position: relative;
-	width: 60%;
 
 	.address-form{
 		position: relative;
@@ -215,7 +214,6 @@ html p a:hover {
 .order-resume{
 	position: relative;
 	margin-top: 20px;
-	width: 40%;
 	margin-left: 20px;
 }
 
@@ -2449,6 +2447,9 @@ img {
 @media (max-width: 575.98px) {
 	.box-image-position {
 		width: 70.6%;
+	}
+	.order-container{
+		display: block;
 	}
 }
 
