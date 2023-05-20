@@ -1,7 +1,6 @@
-import React, {useContext,useState, useEffect} from 'react';
+import React, {useContext,useState} from 'react';
 import { BasketStateContext } from '../context/basket';
 import FormOrder from './FormOrder';
-import { passphrase } from '@liskhq/lisk-client';
 
 const ApiHelper = require('../service/api_helper');
 const Config = require('../service/config');
@@ -16,6 +15,11 @@ const Payment = (props) => {
     async function handleSubmit(data){        
         var config = new Config.default();      
         var api = new ApiHelper.default(config.nodeWsAddress);
+
+        if (window.localStorage.length === 0){
+            alert("Empty basket. Please select a meal first");   
+            return;         
+        }
 
         console.log("initiating customer meal request");                
         
@@ -47,11 +51,22 @@ const Payment = (props) => {
                 
             api.sendTransaction(response).then(function(tx){
                 console.log("food transaction sent", tx);
+                                
+                setTransaction("Transaction: ".concat(tx.transactionId));
                 
-                setTransaction("Transaction: " .concat( tx.transactionId));
+                window.document.forms[0].querySelectorAll("input").forEach(element => {
+                   element.value = ""; 
+                });
+                window.document.forms[0].querySelectorAll("textarea").forEach(element => {
+                    element.value = ""; 
+                 });
+
+                 alert("Transaction sent to the blockchain: ".concat(tx.transactionId));
+                 window.localStorage.clear();
+                 window.document.location="/";
             }).catch(function(e){
                 console.log("Error sending food transaction", e);
-                setTransaction("Transaction error: " .concat( e));
+                setTransaction("Transaction error: ".concat(e));
             });
                    
         }).catch(function(e){

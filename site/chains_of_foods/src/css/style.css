@@ -206,6 +206,10 @@ html p a:hover {
 	.span-passphrase{
 		font-weight: bold;
 	}
+
+	.radio-label{
+		margin-right: 10px ;
+	}
 }
 
 .order-resume{

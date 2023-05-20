@@ -40,13 +40,24 @@ function FormOrder({onSubmit}){
                     <textarea className="textarea" id="deliveryaddress" name="deliveryaddress" required onChange={e=> setDeliveryAddress(e.target.value)}/>
                 </div>
                 <div>
+                    <label>Payment options</label>
+                </div>
+                <div>
+                    <input type="radio" id="LSK" name="paymentoption" value="LSK" defaultChecked></input>
+                    <label className="radio-label" for="LSK">LSK</label>
+                    <input type="radio" id="credit" name="paymentoption" value="Credit card" disabled></input>
+                    <label className="radio-label" for="credit">Credit card</label>
+                    <input type="radio" id="debit" name="paymentoption" value="Debit card" disabled></input>
+                    <label className="radio-label" for="debit">Debit card</label>
+                </div>
+                <div>
                     <label>Your Lisk Passphrase</label>
                 </div>
                 <div>
                     <input type="password" className="passphrase" id="passphrase" name="passphrase" required onChange={e=> setPassphrase(e.target.value)}/>
                 </div>
                 <div>
-                    <label><span className="span-passphrase">copy this passphrase:</span> safe secret dentist color file ball town joy dad tilt foot asthma</label>
+                    <label><span className="span-passphrase">copy this passphrase:</span>safe secret dentist color file ball town joy dad tilt foot asthma</label>
                 </div>
                 <div>
                     <button type="submit">Order</button>

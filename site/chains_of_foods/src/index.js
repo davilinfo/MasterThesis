@@ -18,7 +18,7 @@ const routing = (
             <Route exact path="/" component={App} />
             <Route path="/About" component={About}/>
             <Route path="/Contact" component={Contact} />     
-            <Route path="/Payment" component={Payment} />              
+            <Route path="/Payment" component={Payment} />                                 
         </Switch>
         <Footer/>
       </Router>
