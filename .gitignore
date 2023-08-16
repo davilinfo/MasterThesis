@@ -47,6 +47,10 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 
+# PHP folders
+src/bat/
+bat/
+
 # TypeScript cache
 *.tsbuildinfo
 
@@ -105,3 +109,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+#PHP files
+.php
+*.php
