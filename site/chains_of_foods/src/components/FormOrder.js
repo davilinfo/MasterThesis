@@ -7,6 +7,12 @@ function FormOrder({onSubmit}){
     const [phone, setPhone] = useState('');
     const [deliveryaddress, setDeliveryAddress] = useState('');    
 
+    async function cleanTransactionResult(e){
+        window.document.querySelectorAll(".order-transaction-id").forEach(element => {
+            element.textContent = "";
+         });
+    }
+
     async function handleSubmit(e){
         e.preventDefault();        
 
@@ -20,7 +26,7 @@ function FormOrder({onSubmit}){
 
     return (        
         <div className="address-form">                
-            <form onSubmit={handleSubmit}>                    
+            <form onSubmit={handleSubmit} onChange={cleanTransactionResult}>                    
                 <div>
                     <label>Your Name</label>
                 </div>
