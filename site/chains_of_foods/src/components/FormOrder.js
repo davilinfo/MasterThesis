@@ -66,7 +66,7 @@ function FormOrder({onSubmit}){
                     <label><span className="span-passphrase">copy this passphrase:</span>safe secret dentist color file ball town joy dad tilt foot asthma</label>
                 </div>
                 <div>
-                    <button type="submit">Order</button>
+                    <button type="submit" onClick={cleanTransactionResult}>Order</button>
                 </div>
             </form>
         </div>        
