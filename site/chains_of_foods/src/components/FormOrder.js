@@ -28,10 +28,10 @@ function FormOrder({onSubmit}){
         <div className="address-form">                
             <form onSubmit={handleSubmit} onChange={cleanTransactionResult}>                    
                 <div>
-                    <label>Your Name</label>
+                    <label>Your Name {username}</label>
                 </div>
                 <div>
-                    <input type="text" className="input" id="username" name="username" required onChange={e=> setUsername(e.target.value)}/>
+                    <input type="text" className="input" id="username" name="username" required onChange={e=> setUsername(e.target.value)}/>                    
                 </div>
                 <div>
                     <label>Your phone</label>

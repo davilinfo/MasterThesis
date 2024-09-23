@@ -194,19 +194,20 @@ class ApiHelper{
         return result;
     }
 
-    async getMenuTransaction(){
-        var url = server.host.concat("/api/node/transactions?limit=50");
+    async getMenuTransaction(blockHeight){
+        var url = server.host.concat("/api/blocks?height="+blockHeight);
 
-        var response = await fetch(url, {
+        let data;
+        await fetch(url, {
             method: 'GET',
             mode: 'cors',
             cache: 'no-cache',
             headers: {
                 'Content-Type': 'application/json'
             }
-        });
-
-        return response;
+        }).then(res=> res.json().then(response => { data = response}));
+        console.log("response", data?.data[0]?.payload[0]);
+        return  data?.data[0]?.payload[0];
     }
 
     async createFoodAssetAndSign(orderRequest, credential, restaurant){     
