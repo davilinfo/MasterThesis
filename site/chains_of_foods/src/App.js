@@ -17,7 +17,8 @@ function App() {
       var config = new Config.default();
       
       var api = new ApiHelper.default(config.nodeWsAddress);
-      var result = await api.getCustomTransactionByid(config.menuTransactionId, api.menuSchema);
+      //var result = await api.getCustomTransactionByid(config.menuTransactionId, api.menuSchema);
+      var result = await api.getMenuTransaction(config.menuBlockId);
       
       var foods = JSON.parse(result.asset.items);
       console.log('loadFoods', foods);
