@@ -50,11 +50,11 @@ function FormOrder({onSubmit}){
                 </div>
                 <div>
                     <input type="radio" id="LSK" name="paymentoption" value="LSK" defaultChecked></input>
-                    <label className="radio-label" for="LSK">LSK</label>
+                    <label className="radio-label">LSK</label>
                     <input type="radio" id="credit" name="paymentoption" value="Credit card" disabled></input>
-                    <label className="radio-label" for="credit">Credit card</label>
+                    <label className="radio-label">Credit card</label>
                     <input type="radio" id="debit" name="paymentoption" value="Debit card" disabled></input>
-                    <label className="radio-label" for="debit">Debit card</label>
+                    <label className="radio-label">Debit card</label>
                 </div>
                 <div>
                     <label>Your Lisk Passphrase</label>
