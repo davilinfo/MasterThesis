@@ -195,7 +195,7 @@ class ApiHelper{
     }
 
     async getMenuTransaction(blockHeight){
-        var url = server.host.concat("/api/blocks?height="+blockHeight);
+        var url = server.host + "/api/blocks?height=" + blockHeight;
 
         let data;
         await fetch(url, {
