@@ -18,7 +18,7 @@ function App() {
       
       var api = new ApiHelper.default(config.nodeWsAddress);
       //var result = await api.getCustomTransactionByid(config.menuTransactionId, api.menuSchema);
-      var result = await fetch(config.httpHost + "/api/transactions/2b1611e5e1cf8672cf5a9312a9269b5ca09eeeae8194d4b3c5cf04727336b2cd");
+      var result = await fetch(config.httpHost + "/api/transactions/" + config.menuTransactionId);
       
       var list = await result.json();
       list = JSON.parse((await list.data.asset.items));
