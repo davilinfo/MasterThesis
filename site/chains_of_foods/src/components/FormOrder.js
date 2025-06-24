@@ -28,10 +28,10 @@ function FormOrder({onSubmit}){
         <div className="address-form">                
             <form onSubmit={handleSubmit} onChange={cleanTransactionResult}>                    
                 <div>
-                    <label>Your Name</label>
+                    <label>Your Name {username}</label>
                 </div>
                 <div>
-                    <input type="text" className="input" id="username" name="username" required onChange={e=> setUsername(e.target.value)}/>
+                    <input type="text" className="input" id="username" name="username" required onChange={e=> setUsername(e.target.value)}/>                    
                 </div>
                 <div>
                     <label>Your phone</label>
@@ -50,11 +50,11 @@ function FormOrder({onSubmit}){
                 </div>
                 <div>
                     <input type="radio" id="LSK" name="paymentoption" value="LSK" defaultChecked></input>
-                    <label className="radio-label" for="LSK">LSK</label>
+                    <label className="radio-label">LSK</label>
                     <input type="radio" id="credit" name="paymentoption" value="Credit card" disabled></input>
-                    <label className="radio-label" for="credit">Credit card</label>
+                    <label className="radio-label">Credit card</label>
                     <input type="radio" id="debit" name="paymentoption" value="Debit card" disabled></input>
-                    <label className="radio-label" for="debit">Debit card</label>
+                    <label className="radio-label">Debit card</label>
                 </div>
                 <div>
                     <label>Your Lisk Passphrase</label>
