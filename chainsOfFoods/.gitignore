@@ -14,7 +14,7 @@ npm-shrinkwrap.json
 
 # Dependency directories
 tsconfig.tsbuildinfo
-#node_modules/
+node_modules/
 
 # Docs
 docs/jsdoc/
