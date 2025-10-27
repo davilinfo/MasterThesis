@@ -15,7 +15,7 @@ const Payment = (props) => {
     async function handleSubmit(data){        
         var config = new Config.default();      
         var api = new ApiHelper.default(config.nodeWsAddress);
-
+        
         if (window.localStorage.length === 0){
             alert("Empty basket. Please select a meal first");   
             return;         
@@ -66,11 +66,16 @@ const Payment = (props) => {
                  window.document.location="/";
             }).catch(function(e){
                 console.log("Error sending food transaction", e);
-                setTransaction("Transaction error: ".concat(e));
+                window.document.querySelectorAll(".order-transaction-id").forEach(element => {
+                    element.textContent = "Transaction error: ".concat(e);
+                 });
             });
                    
         }).catch(function(e){
-            console.log("Error creating food transaction", e);
+            console.log("Error in food transaction", e);
+            window.document.querySelectorAll(".order-transaction-id").forEach(element => {
+                element.textContent = "Transaction error: ".concat(e);
+             });            
         });
     }
 

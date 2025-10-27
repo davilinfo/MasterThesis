@@ -1,0 +1,13 @@
+# Node modules
+node_modules/
+
+# Build
+build/
+
+# PHP folders
+src/bat/
+bat/
+
+#PHP files
+.php
+*.php

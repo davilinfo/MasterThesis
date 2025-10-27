@@ -35,7 +35,7 @@ export class NewsAsset extends BaseAsset {
 
         if (!asset.items){
             throw new Error(
-                'Restaurant menu should include food and/or beverages. Please include at least some item: "asset.items"');            
+                'Please include at least a news: "asset.items"');            
         }
 
         var items = JSON.parse(asset.items);
