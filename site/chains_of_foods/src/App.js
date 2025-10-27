@@ -18,12 +18,13 @@ function App() {
       
       var api = new ApiHelper.default(config.nodeWsAddress);
       //var result = await api.getCustomTransactionByid(config.menuTransactionId, api.menuSchema);
-      var result = await api.getMenuTransaction(config.menuBlockId);
+      var result = await fetch(config.httpHost + "/api/transactions/" + config.menuTransactionId);
       
-      var foods = JSON.parse(result.asset.items);
-      console.log('loadFoods', foods);
-      
-      foods = foods.filter(meals=>meals.category===2 || meals.category===3 || meals.category===4).sort(function compare(a, b){        
+      var list = await result.json();
+      list = JSON.parse((await list.data.asset.items));
+      console.log('loadFoods', list);
+
+      var filteredList = list.filter(meals=>meals.category===2 || meals.category===3 || meals.category===4).sort(function compare(a, b){        
         if (a.category > b.category){
           return 1;
         }
@@ -32,8 +33,8 @@ function App() {
         }
         return 0;
       });
-
-      setFoods(foods);      
+      console.log('loadFoods filtered', filteredList);
+      setFoods(filteredList);      
     }
 
     loadFoods();
