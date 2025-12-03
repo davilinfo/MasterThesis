@@ -435,7 +435,7 @@ function initiateTest(){
     }).catch(function(e){
         console.log("Error creating profile transaction", e);
     });        
-    */
+    
     var food1 = {name: "Black Pasta", foodType: 1, quantity: 1, price:0.1, observation: ""};
     var food2 = {name: "Black Pasta", foodType: 1, quantity: 1, price:0.1, observation: ""};
     var orderRequest = { items:[food1, food2], 
@@ -455,75 +455,120 @@ function initiateTest(){
         });        
     }).catch(function(e){
         console.log("Error creating food transaction", e);
-    });
-             /*       
+    });*/
+                    
     var menu = [{
-        "img": "images/ostras-in-natura.jpg",
-        "name": "oysters entrance",
+        "img": "images/PestoItalian/ravioli-w-bolgnese.jpg",
+        "name": "Ravioli",
         "type": 1,
-        "price": 50,
-        "category": 1,
+        "price": 8,
+        "category": 2,
         "discount": 1,
-        "description": "12 fresh oysters served in a plate"
+        "description": "Traditional ravioli"
     },
     {
-        "img": "images/moulmari.jpg",
-        "name": "cooked moules entrance",
+        "img": "images/PestoItalian/filetto_di_manzo_9a87cb047d2b8cf0895b74b402c5326f.jpg",
+        "name": "Filetto di Manzo",
         "type": 2,
-        "price": 40,
-        "category": 1,
+        "price": 26,
+	"category": 2,
         "discount": 1,
-        "description": "Several cooked fresh moules à la creme"
+        "description": "Filetto di manzo with wine and grilled potatoes"
     },
     {
-        "img": "images/vanilla_icecream_strawberry_syrup.jpg",
-        "name": "vanilla ice cream dessert",
+        "img": "images/PestoItalian/osso_buco_16153_1474765828_0.jpg",
+        "name": "Osso Buco",
         "type": 3,
-        "price": 10,
+        "price": 25.89,
+        "category": 2,
+        "discount": 1,
+        "description": "Osso Buco is one of the Italian greats - slow cooked veal in a white wine tomato sauce. Meltingly tender, this is both hearty and luxurious."
+    },
+    {
+        "img": "images/PestoItalian/pappardelle_511948416afabb46ef35c6da9888e008.jpg",
+        "name": "Pappardelle Mimmo",
+        "type": 4,
+        "price": 16.89,
+        "category": 2,
+        "discount": 1,
+        "description": "This delicious dish tops long, wide pasta with scallops, lobster, asparagus, butter, sage and truffle oil to cater every palate."
+    },
+    {
+        "img": "images/PestoItalian/chocolate_and_pistacho.jpg",
+        "name": "Chocolate and Pistacho",
+        "type": 5,
+        "price": 4.89,
         "category": 3,
         "discount": 1,
-        "description": "vanilla ice cream with strawberry syrup"
+        "description": "At Pesto, we vary these wonderful nutty biscotti, while also dipping them in melted dark chocolate for an extra layer of flavor."
     },
     {
-        "img": "images/ribs_on_the_barbie.jpg",
-        "name": "Ribs on the barbecue + vanilla ice cream dessert",
-        "type": 4,
-        "price": 50,
-        "category": 2,
-        "discount": 0.3,
-        "description": "10 baked ribs on the barbecue sauce + vanilla ice cream with strawberry syrup"
-    },
-    {
-        "img": "images/oysters_gratines_aux_fromages.jpg",
-        "name": "oysters with baked cheese entrance",
-        "type": 5,
-        "price": 70,
-        "category": 1,
-        "discount": 1,
-        "description": "12 fresh oysters with baked cheeses served in a plate"
-    },
-    {
-        "img": "images/baked-oysters-plus-ribs.jpg",
-        "name": "oysters with baked cheese entrance + ribs on the barbecue + vanilla ice cream dessert",
+        "img": "images/PestoItalian/delicious-sicilian-cannoli-cannoli-exquisite-traditional-dessert-sicilian-cuisine-filled-ricotta-candied-143895374.jpg",
+        "name": "Cannoli",
         "type": 6,
-        "price": 120,
-        "category": 2,
-        "discount": 0.3,
-        "description": "12 fresh oysters with baked cheeses served in a plate + 10 baked ribs on the barbecue sauce + vanilla ice cream with strawberry syrup"
+        "price": 6.89,
+        "category": 3,
+        "discount": 1,
+        "description": "Trio tower of cannoli filled with smooth ricotta, sugar & cinnamon, with chocolate & raspberry sauces. Single cannoli is also available."
     },
     {
-        "img": "images/heineken_can.jpg",
+	"img": "images/PestoItalian/tiramisu-613039736-612x612.jpg",
+	"name": "Tiramisu",
+	"type": 7,
+	"price": 6.89,
+	"category": 3,
+	"discount": 1,
+	"description": "A Pesto’s favorite - classNameic Italian dessert made with lady fingers, Mascarpone cheese & espresso. Perfect for both kids and adults."
+    },
+    {
+	"img": "images/PestoItalian/gelato_istockphoto-467157359-612x612.jpg",
+	"name": "Gelato",
+	"type": 8,
+	"price": 4,
+	"category": 3,
+	"discount": 1,
+	"description": "Our gelato"
+    },
+    {
+	"img": "images/PestoItalian/aperol_spritz-689301542-612x612.jpg",
+	"name": "Aperol Spritz",
+	"type": 10,
+	"price": 10.89,
+	"category": 4,
+	"discount": 1,
+	"description": "The most popular drink in Venice: refreshing, easygoing &…happy! Perfect to be sipped as an “Aperitivo” just before dinner - delightful!"
+    },
+    {
+	"img": "images/PestoItalian/negroni_955791476-612x612.jpg",
+	"name": "Negroni",
+	"type": 11,
+	"price": 9.89,
+	"category": 4,
+	"discount": 1,
+	"description": "Reward yourself with a moment of relaxation & pure pleasure while enjoying the full flavour & simplicity of a Negroni, an iconic Italian cocktail."
+    },
+    {
+	"img": "images/PestoItalian/negroni_sbagliato.jpg",
+	"name": "Negroni Sbagliato",
+	"type": 12,
+	"price": 11.89,
+	"category": 4,
+	"discount": 1,
+	"description": "A cocktail for those who prefer more delicate flavours but nonetheless want a drink full of taste & personality."
+    },
+    {
+        "img": "images/PestoItalian/heineken_can.jpg",
         "name": "Heineken beer can",
-        "type": 7,
+        "type": 13,
         "price": 3,
         "category": 4,
         "discount": 1,
         "description": "Heineken beer can"
     },
     {
-        "img": "images/bottle_water.jpg",
+        "img": "images/PestoItalian/bottle_water.jpg",
         "name": "Bottle of water",
-        "type": 8,
+        "type": 14,
         "price": 2,
         "category": 4,
         "discount": 1,
@@ -542,7 +587,7 @@ function initiateTest(){
     }).catch(function(e){
         console.log("Error creating menu transaction", e);
     });    
-
+/*
     var delegateCredential = {passphrase: "vault issue acid early emotion dress sword inform scorpion journey bracket flip"};
     var news = [{
         "title": "News from restaurant sidechain",

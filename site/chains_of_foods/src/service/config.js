@@ -1,8 +1,8 @@
 class Config{        
-    nodeWsAddress = 'ws://localhost:8080/ws';   
-    httpHost= 'http://localhost:4000'; 
-    menuTransactionId = '2b1611e5e1cf8672cf5a9312a9269b5ca09eeeae8194d4b3c5cf04727336b2cd';
-    menuBlockId = 4525;
+    nodeWsAddress = 'wss://liskrestaurant.com:8443/ws';   
+    httpHost= 'https://liskrestaurant.com:4443'; 
+    menuTransactionId = '073f6e942e53613d3a0f29fb7179a18de976164a298b0eba44cbff5284e80447';
+    menuBlockId = 7648;
     restaurantPublicKey = '248e8cbd593f375d38b1b19d670116cbb13a5be7c107a0c6e164e57de7d0efb4';
     restaurantAddress = 'lsk7zk83qbjnn6abdnz3v2gkf2xyeby4fpk7kod9r';
 }    
