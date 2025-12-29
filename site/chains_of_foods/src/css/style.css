@@ -3695,6 +3695,9 @@ textarea.form-input {
 	.rd-form-inline .form-button .button {
 		width: 100%;
 	}
+	.crypto-box {
+		display: none;
+	}
 }
 
 .rd-form-inline .form-button .button {
@@ -4263,6 +4266,9 @@ ul.blog-post-meta li .icon {
 		display: inline-block;
 		width: 100%;
 	}
+	.crypto-box {
+		display: parent;
+	}
 }
 
 .block-aside-title {
@@ -4616,6 +4622,9 @@ ul.blog-post-meta li .icon {
 @media (max-width: 991.98px) {
 	.breadcrumbs-custom-title {
 		font-size: 26px;
+	}
+	.crypto-box {
+		display: parent;
 	}
 }
 
@@ -5542,6 +5551,9 @@ h3 + .group-xl {
 @media (min-width: 576px) and (max-width: 767.98px) {
 	.section-inset-1 {
 		padding-top: 100px;
+	}
+	.crypto-box{ 
+		display: none;
 	}
 }
 

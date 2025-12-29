@@ -37,19 +37,22 @@ function App() {
       });
       console.log('loadFoods filtered', filteredList);
       setFoods(filteredList);      
-    }
+    }    
 
-    async function loadTopCryptos(){
-	fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false')
+    loadFoods();    
+  }, []);
+
+  async function loadTopCryptos(){
+	    fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false')
       .then((response) => response.json())
       .then((json) => {console.log(json); setCrypto(json);})
       .catch((error)=> console.log(error));
       ;
     }
 
-    loadFoods();
-    loadTopCryptos();
-  }, []);
+  setInterval(() => {
+      loadTopCryptos();
+    }, 60000); // update every minute    
 
   return (
     
@@ -62,16 +65,17 @@ function App() {
               <div className="wow slideInDown">
                 <h2>Featured Offers</h2>
                 <p className="text-opacity-80">We offer a great variety of  the best Italian dishes to our visitors and guests. Below are some of our most popular main dishes and desserts.</p>
-              </div>
-	      <div className='crypto-box'>
-		{crypto &&
-  		crypto.map((coin) => (
-          		<div key={coin.id} >
-            		{coin.name} - ${coin.current_price}
-		        </div>
-	        ))}
+              </div>              
             </div>
-          </div>
+            <div className='crypto-box'>
+              {crypto &&
+              crypto.map((coin) => (
+                <div key={coin.id} >
+                  {coin.name} - ${coin.current_price}
+                </div>
+              ))}
+            </div>            
+          </div>          
           <div className="row row-20 row-lg-30">
             {
               foods.filter(meals=> meals.category===2 || meals.category===3).map(food=>(

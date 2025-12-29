@@ -1,12 +1,12 @@
 .crypto-box {
   position: absolute;
   right: 0;
-  top: 0;
+  top: 120px;
   width: 180px;
-  font-size: 0.85rem;
+  font-size: 10px;
   text-align: right;
-  background: #ffffff;
+  background: parent;
   padding: 10px;
   border-radius: 6px;      /* deixa mais elegante */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* sombra suave */
+  //box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* sombra suave */
 }
