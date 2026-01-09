@@ -69,22 +69,28 @@ function About(){
             </div>
             </div>
         </section>
+        <section className="section section-lg bg-white">
+            <div className="container">
+            <h3>Curiosity</h3>
+            <div className="testmonials-modern-text"><p className="text-opacity-80">Congratulations. Do you know why a pizza at the cover of my book? <a target="_blank" href="https://www.youtube.com/watch?v=tWU3O3X5kKE">Bitcoin Pizza Day</a></p></div>
+            </div>
+        </section>
         <section className="parallax-container" data-parallax-img="images/parallax-img-4.jpg">
             <div className="parallax-content section-xl context-dark text-center bg-dark-filter bg-dark-filter-2">
-            <div className="container">
-                <h2>Testimonials</h2>                
-                <div className="slick-slider carousel-parent slick-style-1" data-arrows="true" data-loop="false" data-dots="false" data-swipe="true" data-items="1" data-child="#child-carousel" data-for="#child-carousel">
-                <div className="item">
-                    <div className="testimonials-modern">
-                    <div className="testimonials-modern-text">
-                        <p>The effort to create a unique environment that offers a singular experience to allow any customer to request food online using a cryptocurrency safely is fantastic.</p>
+                <div className="container">
+                    <h2>Testimonials</h2>                
+                    <div className="slick-slider carousel-parent slick-style-1" data-arrows="true" data-loop="false" data-dots="false" data-swipe="true" data-items="1" data-child="#child-carousel" data-for="#child-carousel">
+                        <div className="item">
+                            <div className="testimonials-modern">
+                            <div className="testimonials-modern-text">
+                                <p>The effort to create a unique environment that offers a singular experience to allow any customer to request food online using a cryptocurrency safely is fantastic.</p>
+                            </div>
+                            <div className="testimonials-modern-name">Davi Alves</div>
+                            </div>
+                        </div>                              
                     </div>
-                    <div className="testimonials-modern-name">Davi Alves</div>
-                    </div>
-                </div>                              
-            </div>
-                
-            </div>
+                    
+                </div>
             </div>
         </section>  
         <section className="section section-lg section-inset-1 bg-gray-1 pt-lg-0 invisible">
