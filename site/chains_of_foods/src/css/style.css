@@ -3698,6 +3698,9 @@ textarea.form-input {
 	.crypto-box {
 		display: none;
 	}
+	.book-box {
+		display: none;
+	}
 }
 
 .rd-form-inline .form-button .button {
@@ -4269,6 +4272,9 @@ ul.blog-post-meta li .icon {
 	.crypto-box {
 		display: parent;
 	}
+	.book-box {
+		display: parent;
+	}
 }
 
 .block-aside-title {
@@ -4624,6 +4630,9 @@ ul.blog-post-meta li .icon {
 		font-size: 26px;
 	}
 	.crypto-box {
+		display: parent;
+	}
+	.book-box {
 		display: parent;
 	}
 }
@@ -5553,6 +5562,9 @@ h3 + .group-xl {
 		padding-top: 100px;
 	}
 	.crypto-box{ 
+		display: none;
+	}
+	.book-box {
 		display: none;
 	}
 }

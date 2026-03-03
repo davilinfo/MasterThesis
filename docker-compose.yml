@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  chains_of_foods:
+    build:
+      context: ./site/chains_of_foods
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"    # map container's nginx port to host 3000
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped

@@ -10,3 +10,10 @@
   border-radius: 6px;      /* deixa mais elegante */
   //box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* sombra suave */
 }
+
+.book-box{
+  width: 150px;
+  font-size:10px;
+  text-align: left;
+  background: parent;
+}

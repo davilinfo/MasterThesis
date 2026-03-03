@@ -69,6 +69,11 @@ function App() {
                 <p className="text-opacity-80">We offer a great variety of  the best Italian dishes to our visitors and guests. Below are some of our most popular main dishes and desserts.</p>
               </div>              
             </div>
+            <div className="book-box">
+              <a target="blank" href="https://a.co/d/0cYqloU6">
+                My book is now available on Amazon!
+              </a>
+            </div>
             <div className='crypto-box'>
               {crypto &&
               crypto.map((coin) => (

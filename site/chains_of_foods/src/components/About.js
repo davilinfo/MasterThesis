@@ -1,4 +1,5 @@
 import React from 'react';
+import Book from './Book';
 
 import '../css/bootstrap.css';
 import '../css/fonts.css';
@@ -71,9 +72,12 @@ function About(){
         </section>
         <section className="section section-lg bg-white">
             <div className="container">
-            <h3>Curiosity</h3>
-            <div className="testmonials-modern-text"><p className="text-opacity-80">Congratulations. Do you know why a pizza at the cover of my book? <a target="_blank" href="https://www.youtube.com/watch?v=tWU3O3X5kKE">Bitcoin Pizza Day</a></p></div>
-            </div>
+                <h3>Curiosity</h3>
+                <div className="testmonials-modern-text"><p className="text-opacity-80">Congratulations. Do you know why a pizza at the cover of my book? <a target="_blank" href="https://www.youtube.com/watch?v=tWU3O3X5kKE">Bitcoin Pizza Day</a></p></div>
+                <div className='book-box'>
+                    <Book/>
+                </div>
+            </div>  
         </section>
         <section className="parallax-container" data-parallax-img="images/parallax-img-4.jpg">
             <div className="parallax-content section-xl context-dark text-center bg-dark-filter bg-dark-filter-2">
