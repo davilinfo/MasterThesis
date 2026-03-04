@@ -73,7 +73,9 @@ function About(){
         <section className="section section-lg bg-white">
             <div className="container">
                 <h3>Curiosity</h3>
-                <div className="testmonials-modern-text"><p className="text-opacity-80">Congratulations. Do you know why a pizza at the cover of my book? <a target="_blank" href="https://www.youtube.com/watch?v=tWU3O3X5kKE">Bitcoin Pizza Day</a></p></div>
+                <div className="testmonials-modern-text"><p className="text-opacity-80">Congratulations. Do you know why a pizza at the cover of my book? <a target="_blank" href="https://www.youtube.com/watch?v=tWU3O3X5kKE">Bitcoin Pizza Day</a></p></div>               
+                <div className="testmonials-modern-text"><p className="text-opacity-80">Would you like to know the motivation and relation behind Bitcoin creation and 2008 global financial crisis? <a target="_blank" href="https://www.youtube.com/watch?v=fj9VuMlxyHc">Bitcoin 2008</a></p></div>
+                <div className="testmonials-modern-text"><p className="text-opacity-80">What is Bitcoin, what does it do? <a target="_blank" href="https://www.youtube.com/watch?v=5JDrK7sP3gA">A perspective of Bitcoin</a></p></div>                
                 <div className='book-box'>
                     <Book/>
                 </div>
