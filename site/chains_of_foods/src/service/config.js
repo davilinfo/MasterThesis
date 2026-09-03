@@ -1,6 +1,6 @@
 class Config{        
-    nodeWsAddress = 'wss://liskrestaurant.com:8443/ws';   
-    httpHost= 'https://liskrestaurant.com:4443'; 
+    nodeWsAddress = 'wss://www.liskrestaurant.com:8443/ws';   
+    httpHost= 'https://www.liskrestaurant.com:4443'; 
     menuTransactionId = '2b1611e5e1cf8672cf5a9312a9269b5ca09eeeae8194d4b3c5cf04727336b2cd';
     menuBlockId = 4525;
     restaurantPublicKey = '248e8cbd593f375d38b1b19d670116cbb13a5be7c107a0c6e164e57de7d0efb4';
